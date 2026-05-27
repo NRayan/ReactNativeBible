@@ -10,4 +10,5 @@ export const themes: Record<ThemeMode, Theme> = {
 };
 
 export { typography, spacing };
+export { iconSize } from './iconSize';
 export * from './types';

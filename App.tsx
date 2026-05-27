@@ -1,21 +1,21 @@
-import { StatusBar, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StatusBar, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AppPlayground } from './AppPlayground';
+import { DEV_CONFIG } from './config';
 import { Navigation } from './src/navigation';
-import "./global.css"
 
-function App() {
+export function App() {
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle="dark-content" />
-      <Navigation />
+    <View style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <StatusBar barStyle="dark-content" />
 
-       <View className="flex-1 items-center justify-center bg-white">
-        <Text className="text-xl font-bold text-blue-500">
-          Welcome to Nativewind!
-        </Text>
+        {DEV_CONFIG.playground ? <AppPlayground /> : <Navigation />}
+
+      </SafeAreaProvider>
     </View>
-    </SafeAreaProvider>
   );
 }
-
-export default App;

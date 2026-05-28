@@ -1,7 +1,7 @@
-import { Box } from "./Box";
-import { Icon, TablerIconName } from "./Icon";
-import { Separator } from "./Separator";
-import { Text } from "./Text";
+import { Box } from "../Box";
+import { Icon, TablerIconName } from "../Icon";
+import { Separator } from "../Separator";
+import { Text } from "../Text";
 
 type ChipProps = {
     icon: TablerIconName;

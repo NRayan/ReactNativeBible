@@ -1,5 +1,5 @@
-import { Box } from "./Box";
-import { Text } from "./Text";
+import { Box } from "../Box";
+import { Text } from "../Text";
 
 type BadgeProps={
     title: string;

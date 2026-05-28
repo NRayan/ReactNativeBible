@@ -1,5 +1,5 @@
 import { useThemeStore } from "@stores/theme";
-import { Box } from "./Box";
+import { Box } from "../Box";
 
 type SeparatorProps = {
     vertical?: boolean;

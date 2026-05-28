@@ -1,7 +1,7 @@
 import { TextInput } from "react-native";
 import { useThemeStore } from "@stores/theme";
-import { Box } from "./Box";
-import { Icon } from "./Icon";
+import { Box } from "../Box";
+import { Icon } from "../Icon";
 
 type SearchInputProps = {
     value: string;

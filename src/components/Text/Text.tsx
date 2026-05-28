@@ -3,22 +3,12 @@ import { Text as RNText, Platform } from "react-native";
 import type { TextStyle } from "react-native";
 import { useThemeStore } from "@stores/theme";
 import type { ColorTokens, TypographyTokens } from "@theme/types";
+import { variantDefaultColor } from "./Text.utils";
 
 type TextProps = {
-  variant?: keyof TypographyTokens;
-  color?: keyof ColorTokens;
+    variant?: keyof TypographyTokens;
+    color?: keyof ColorTokens;
 } & React.ComponentProps<typeof RNText>;
-
-const variantDefaultColor: Record<keyof TypographyTokens, keyof ColorTokens> = {
-    "screen-title": "text-primary",
-    "heading": "text-primary",
-    "section-label": "text-muted",
-    "body": "text-secondary",
-    "body-emphasis": "text-primary",
-    "caption": "text-disabled",
-    "code": "text-secondary",
-    "tab-label": "text-disabled",
-};
 
 export function Text({ variant = "body", color, style, ...rest }: TextProps) {
     const { theme: { colors, typography } } = useThemeStore();

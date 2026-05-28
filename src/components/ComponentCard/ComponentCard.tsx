@@ -1,9 +1,9 @@
 import React from "react";
-import { Box } from "./Box";
-import { Icon } from "./Icon";
-import { Text } from "./Text";
-import { Separator } from "./Separator";
-import { PressableBox } from "./PressableBox";
+import { Box } from "../Box";
+import { Icon } from "../Icon";
+import { Text } from "../Text";
+import { Separator } from "../Separator";
+import { PressableBox } from "../PressableBox";
 import { s } from "@theme/spacing";
 
 type ComponentCardProps = {

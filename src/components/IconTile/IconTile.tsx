@@ -1,8 +1,8 @@
 import { s } from "@theme/spacing";
 import { ColorTokens } from "@theme";
-import { Box } from "./Box";
-import { Icon, TablerIconName } from "./Icon";
-import { Text } from "./Text";
+import { Box } from "../Box";
+import { Icon, TablerIconName } from "../Icon";
+import { Text } from "../Text";
 
 type IconTileProps={
     icon?: TablerIconName;

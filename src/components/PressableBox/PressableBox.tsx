@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable } from "react-native";
 import { useThemeStore } from "@stores/theme";
-import { BoxProps, buildBoxStyle } from "./Box";
+import { BoxProps, buildBoxStyle } from "../Box";
 
 type PressableBoxProps = BoxProps & {
     onPress?: ()=> void;

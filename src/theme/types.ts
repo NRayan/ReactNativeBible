@@ -18,34 +18,38 @@ export type ColorTokens = {
 
 export type TypographyToken = {
   fontSize: number;
-  fontWeight: '400' | '500' | '600' | '700';
+  fontWeight: "400" | "500" | "600" | "700";
   letterSpacing?: number;
-  textTransform?: 'uppercase' | 'lowercase' | 'capitalize' | 'none';
+  textTransform?: "uppercase" | "lowercase" | "capitalize" | "none";
 };
 
 export type TypographyTokens = {
-  screenTitle: TypographyToken;
-  heading: TypographyToken;
-  sectionLabel: TypographyToken;
-  body: TypographyToken;
-  bodyEmphasis: TypographyToken;
-  caption: TypographyToken;
-  code: TypographyToken;
-  tabLabel: TypographyToken;
+  "screen-title": TypographyToken;
+  "heading": TypographyToken;
+  "section-label": TypographyToken;
+  "body": TypographyToken;
+  "body-emphasis": TypographyToken;
+  "caption": TypographyToken;
+  "code": TypographyToken;
+  "tab-label": TypographyToken;
 };
 
-export type SpacingTokens = {
+export type RadiusTokens = {
+  small: number;
+  default: number;
+  large: number;
+};
+
+export type SizeTokens = {
   borderWidth: number;
-  radiusSmall: number;
-  radiusDefault: number;
-  radiusLarge: number;
   touchTargetMin: number;
 };
 
 export type Theme = {
   colors: ColorTokens;
   typography: TypographyTokens;
-  spacing: SpacingTokens;
+  radius: RadiusTokens;
+  size: SizeTokens;
 };
 
-export type ThemeMode = 'dark' | 'light';
+export type ThemeMode = "dark" | "light";

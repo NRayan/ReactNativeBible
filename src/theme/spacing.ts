@@ -1,9 +1,16 @@
-import type { SpacingTokens } from './types';
+import type { RadiusTokens, SizeTokens } from "./types";
 
-export const spacing: SpacingTokens = {
-  borderWidth: 0.5,
-  radiusSmall: 6,
-  radiusDefault: 8,
-  radiusLarge: 10,
-  touchTargetMin: 44,
+export function s(value: number): number {
+    return value * 4;
+}
+
+export const radius: RadiusTokens = {
+    small: 6,
+    default: 8,
+    large: 10,
+};
+
+export const size: SizeTokens = {
+    borderWidth: 0.5,
+    touchTargetMin: 44,
 };

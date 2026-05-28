@@ -2,7 +2,6 @@
 
 ![React Native](https://img.shields.io/badge/React_Native-0.76-61dafb?style=flat&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6?style=flat&logo=typescript)
-![NativeWind](https://img.shields.io/badge/NativeWind-4.0-06b6d4?style=flat)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat)
 
 A free, open source reference app for intermediate and advanced React Native developers. All content is available offline — no backend, no authentication.
@@ -24,7 +23,6 @@ A free, open source reference app for intermediate and advanced React Native dev
 - React Navigation
 - Zustand
 - AsyncStorage
-- NativeWind
 - Jest
 
 ---

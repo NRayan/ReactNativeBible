@@ -1,9 +1,9 @@
 import React from "react";
 import type { FlexStyle, StyleProp, ViewStyle } from "react-native";
 import { View } from "react-native";
-import { useThemeStore } from "../stores/theme";
-import { s } from "../theme/spacing";
-import { ColorTokens, RadiusTokens } from "../theme";
+import { useThemeStore } from "@stores/theme";
+import { s } from "@theme/spacing";
+import { ColorTokens, RadiusTokens } from "@theme";
 
 export type BoxProps = {
   flex?: number;

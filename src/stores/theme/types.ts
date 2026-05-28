@@ -1,4 +1,4 @@
-import type { Theme, ThemeMode } from "../../theme/types";
+import type { Theme, ThemeMode } from "@theme/types";
 
 export type ThemeState = {
   mode: ThemeMode;

@@ -5,7 +5,9 @@
       "Bash(npm uninstall *)",
       "Bash(Remove-Item \"C:\\\\Projetos\\\\ReactNativeBible\\\\global.css\" -Force)",
       "Bash(Remove-Item \"C:\\\\Projetos\\\\ReactNativeBible\\\\tailwind.config.js\" -Force)",
-      "Bash(python -c \"import sys,json; p=json.load\\(sys.stdin\\); print\\(json.dumps\\(p.get\\('eslintConfig', 'not found'\\), indent=2\\)\\)\")"
+      "Bash(python -c \"import sys,json; p=json.load\\(sys.stdin\\); print\\(json.dumps\\(p.get\\('eslintConfig', 'not found'\\), indent=2\\)\\)\")",
+      "Bash(Get-ChildItem src *)",
+      "Bash(Select-Object -ExpandProperty Name)"
     ]
   }
 }

@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { LearnScreen } from "../features/learn/screens/LearnScreen";
-import { ComponentsScreen } from "../features/components/screens/ComponentsScreen";
-import { SettingsScreen } from "../features/settings/screens/SettingsScreen";
+import { LearnScreen } from "@features/learn/screens/LearnScreen";
+import { ComponentsScreen } from "@features/components/screens/ComponentsScreen";
+import { SettingsScreen } from "@features/settings/screens/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
 

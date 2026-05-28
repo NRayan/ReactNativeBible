@@ -1,6 +1,6 @@
-import { Pressable, Text } from "react-native";
-import { Box } from "./src/components";
-import { useThemeStore } from "./src/stores/theme";
+import { Pressable } from "react-native";
+import { Box, Text } from "@components";
+import { useThemeStore } from "@stores/theme";
 
 export function AppPlayground() {
     const { setMode, mode } = useThemeStore();
@@ -9,7 +9,7 @@ export function AppPlayground() {
             <Box flex={1} align='center' justify='center' bgColor='background'>
 
                 <Box px={2} py={4} bgColor='surface' rounded='default' border>
-                    <Text>AppPlayground</Text>
+                    <Text variant="heading">AppPlayground</Text>
                 </Box>
             </Box>
 

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { themes } from "../../theme";
+import { themes } from "@theme";
 import type { ThemeStore } from "./types";
 
 export const useThemeStore = create<ThemeStore>()(

@@ -1,13 +1,13 @@
 import React from "react";
 import { Text as RNText, Platform } from "react-native";
 import type { TextStyle } from "react-native";
-import { useThemeStore } from "../stores/theme";
-import type { ColorTokens, TypographyTokens } from "../theme/types";
+import { useThemeStore } from "@stores/theme";
+import type { ColorTokens, TypographyTokens } from "@theme/types";
 
-type TextProps = React.ComponentProps<typeof RNText> & {
+type TextProps = {
   variant?: keyof TypographyTokens;
   color?: keyof ColorTokens;
-};
+} & React.ComponentProps<typeof RNText>;
 
 const variantDefaultColor: Record<keyof TypographyTokens, keyof ColorTokens> = {
     "screen-title": "textPrimary",

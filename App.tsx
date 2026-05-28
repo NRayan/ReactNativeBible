@@ -2,7 +2,7 @@ import { StatusBar, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppPlayground } from "./AppPlayground";
 import { DEV_CONFIG } from "./config";
-import { Navigation } from "./src/navigation";
+import { Navigation } from "@navigation";
 
 export function App() {
 

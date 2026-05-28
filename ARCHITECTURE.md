@@ -18,7 +18,7 @@ src/
     settings/    ← theme, language
   components/    ← shared components
   navigation/
-  storage/
+  stores/
   content/       ← local JSON files
   theme/
 ```

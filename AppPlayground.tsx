@@ -1,16 +1,26 @@
 import { Pressable } from "react-native";
-import { Box, Text } from "@components";
+import { Box, Icon, Text } from "@components";
 import { useThemeStore } from "@stores/theme";
+import { size } from "@theme";
 
 export function AppPlayground() {
     const { setMode, mode } = useThemeStore();
     return (
         <>
-            <Box flex={1} align='center' justify='center' bgColor='background'>
+            <Box flex={1} align='center' justify='center' bgColor='background' gap={6}>
 
-                <Box px={2} py={4} bgColor='surface' rounded='default' border>
-                    <Text variant="heading">AppPlayground</Text>
+                <Box row px={2} py={.5} bgColor='surface' rounded='small' border>
+                    <Text variant="caption">string</Text>
                 </Box>
+
+                <Box justify="center" align="center" p={2} rounded="default" border>
+                    <Icon name="IconPokerChip" color="textMuted"/>
+                </Box>
+
+                <Box bgColor="accent" justify="center" align="center" h={size.touchTargetMin} w={size.touchTargetMin} rounded="default" border borderColor="accent">
+                    <Icon name="IconBolt" color="accentForeground"/>
+                </Box>
+
             </Box>
 
             <Box position='absolute' right={5} top={10} h={10} w={10} rounded='default' bgColor='accent'>

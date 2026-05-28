@@ -103,12 +103,12 @@ export function Box({
         ...(rowGap !== undefined && { rowGap: s(rowGap) }),
         ...(columnGap !== undefined && { columnGap: s(columnGap) }),
 
-        ...(w !== undefined && { width: s(w) }),
-        ...(h !== undefined && { height: s(h) }),
-        ...(minW !== undefined && { minWidth: s(minW) }),
-        ...(minH !== undefined && { minHeight: s(minH) }),
-        ...(maxW !== undefined && { maxWidth: s(maxW) }),
-        ...(maxH !== undefined && { maxHeight: s(maxH) }),
+        ...(w !== undefined && { width: w }),
+        ...(h !== undefined && { height: h }),
+        ...(minW !== undefined && { minWidth: minW }),
+        ...(minH !== undefined && { minHeight: minH }),
+        ...(maxW !== undefined && { maxWidth: maxW }),
+        ...(maxH !== undefined && { maxHeight: maxH }),
 
         ...(bgColor !== undefined && { backgroundColor: colors[bgColor] }),
         ...((borderColor !== undefined || border) && { borderColor: colors[borderColor ?? "border"] }),

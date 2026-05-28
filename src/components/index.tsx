@@ -1,4 +1,10 @@
 export { Box } from "./Box";
 export { Text } from "./Text";
 export { Icon } from "./Icon";
-export type { TablerIconName } from "./Icon";
+export { Badge } from "./Badge";
+export { IconTile } from "./IconTile";
+export { Button } from "./Button";
+export { Chip } from "./Chip";
+export { SearchInput } from "./SearchInput";
+export { ComponentCard } from "./ComponentCard";
+export { CodeBlock } from "./CodeBlock";

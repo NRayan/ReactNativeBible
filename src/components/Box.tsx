@@ -9,6 +9,7 @@ export type BoxProps = {
   flex?: number;
   row?: boolean;
   align?: FlexStyle["alignItems"];
+  alignSelf?: FlexStyle["alignSelf"];
   justify?: FlexStyle["justifyContent"];
   wrap?: FlexStyle["flexWrap"];
 
@@ -30,6 +31,8 @@ export type BoxProps = {
   rowGap?: number;
   columnGap?: number;
 
+  fullWidth?: boolean;
+  fullHeight?: boolean;
   w?: number;
   h?: number;
   minW?: number;
@@ -57,11 +60,13 @@ export function Box({
     flex,
     row,
     align,
+    alignSelf,
     justify,
     wrap,
     p, px, py, pt, pb, pl, pr,
     m, mx, my, mt, mb, ml, mr,
     gap, rowGap, columnGap,
+    fullWidth, fullHeight,
     w, h, minW, minH, maxW, maxH,
     bgColor,
     borderColor,
@@ -80,6 +85,7 @@ export function Box({
         ...(flex !== undefined && { flex }),
         ...(row && { flexDirection: "row" }),
         ...(align !== undefined && { alignItems: align }),
+        ...(alignSelf !== undefined && { alignSelf }),
         ...(justify !== undefined && { justifyContent: justify }),
         ...(wrap !== undefined && { flexWrap: wrap }),
 
@@ -103,6 +109,8 @@ export function Box({
         ...(rowGap !== undefined && { rowGap: s(rowGap) }),
         ...(columnGap !== undefined && { columnGap: s(columnGap) }),
 
+        ...(fullWidth && { width: "100%" }),
+        ...(fullHeight && { height: "100%" }),
         ...(w !== undefined && { width: w }),
         ...(h !== undefined && { height: h }),
         ...(minW !== undefined && { minWidth: minW }),

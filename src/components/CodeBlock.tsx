@@ -2,7 +2,7 @@ import hljs from "highlight.js/lib/core";
 import typescript from "highlight.js/lib/languages/typescript";
 
 import { ScrollView } from "react-native";
-import { Box, Text } from "./index";
+import { Box, Text, Separator } from "./index";
 
 hljs.registerLanguage("typescript", typescript);
 
@@ -59,12 +59,12 @@ export function CodeBlock({ code, language = "typescript" }: CodeBlockProps) {
     const tokens = parseTokens(result.value);
 
     return (
-        <Box bgColor="surface" border rounded="large">
+        <Box bgColor="surface" border rounded="large" fullWidth>
             <Box px={4} py={3}>
                 <Text variant="caption">{language.charAt(0).toUpperCase() + language.slice(1)}</Text>
             </Box>
             
-            <Box h={1} fullWidth bgColor="border"/>
+            <Separator />
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <Box p={4}>

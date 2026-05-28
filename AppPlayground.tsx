@@ -29,7 +29,7 @@ export function AppPlayground() {
     return (
         <>
             <Box flex={1} align='center' justify='center' bgColor='background' gap={6} py={8}>
-                <ScrollView style={{ flex: 1, width: "100%" }} contentContainerStyle={{ gap: 40, padding: 20 }}>
+                <ScrollView style={{ flex: 1, width: "100%" }} contentContainerStyle={{ gap: 40, padding: 20, alignItems: "flex-start" }}>
 
                     <Badge title="teste"/>
                     <IconTile icon="IconSunset2"/>

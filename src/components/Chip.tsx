@@ -10,7 +10,7 @@ type ChipProps = {
 
 export function Chip({ icon, title, subtitle }: ChipProps) {
     return (
-        <Box row align="center" bgColor="surface" rounded="default" border px={2} py={2} gap={2}>
+        <Box row align="center" bgColor="surface" rounded="default" border px={2} py={2} gap={2} alignSelf="flex-start">
             <Icon name={icon} size={16} color="text-disabled" />
             <Text variant="caption" color="text-muted">{title}</Text>
             {subtitle && (

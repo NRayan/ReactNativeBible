@@ -4,12 +4,12 @@ import { View } from "react-native";
 import { useThemeStore } from "@stores/theme";
 import { s } from "@theme/spacing";
 import { ColorTokens, RadiusTokens } from "@theme";
+import type { Theme } from "@theme/types";
 
 export type BoxProps = {
   flex?: number;
   row?: boolean;
   align?: FlexStyle["alignItems"];
-  alignSelf?: FlexStyle["alignSelf"];
   justify?: FlexStyle["justifyContent"];
   wrap?: FlexStyle["flexWrap"];
 
@@ -56,36 +56,23 @@ export type BoxProps = {
   children?: React.ReactNode;
 };
 
-export function Box({
-    flex,
-    row,
-    align,
-    alignSelf,
-    justify,
-    wrap,
-    p, px, py, pt, pb, pl, pr,
-    m, mx, my, mt, mb, ml, mr,
-    gap, rowGap, columnGap,
-    fullWidth, fullHeight,
-    w, h, minW, minH, maxW, maxH,
-    bgColor,
-    borderColor,
-    border,
-    rounded,
-    opacity,
-    position,
-    top, bottom, left, right,
-    style,
-    children,
-}: BoxProps) {
+export function buildBoxStyle(props: Omit<BoxProps, "style" | "children">, theme: Theme): ViewStyle {
+    const { colors, radius, size } = theme;
+    const {
+        flex, row, align, justify, wrap,
+        p, px, py, pt, pb, pl, pr,
+        m, mx, my, mt, mb, ml, mr,
+        gap, rowGap, columnGap,
+        fullWidth, fullHeight,
+        w, h, minW, minH, maxW, maxH,
+        bgColor, borderColor, border, rounded, opacity,
+        position, top, bottom, left, right,
+    } = props;
 
-    const { theme: { colors, radius, size } } = useThemeStore();
-
-    const computedStyle: ViewStyle = {
+    return {
         ...(flex !== undefined && { flex }),
         ...(row && { flexDirection: "row" }),
         ...(align !== undefined && { alignItems: align }),
-        ...(alignSelf !== undefined && { alignSelf }),
         ...(justify !== undefined && { justifyContent: justify }),
         ...(wrap !== undefined && { flexWrap: wrap }),
 
@@ -130,6 +117,10 @@ export function Box({
         ...(left !== undefined && { left: s(left) }),
         ...(right !== undefined && { right: s(right) }),
     };
+}
 
+export function Box({ style, children, ...props }: BoxProps) {
+    const { theme } = useThemeStore();
+    const computedStyle = buildBoxStyle(props, theme);
     return <View style={[computedStyle, style]}>{children}</View>;
 }

@@ -8,3 +8,5 @@ export { Chip } from "./Chip";
 export { SearchInput } from "./SearchInput";
 export { ComponentCard } from "./ComponentCard";
 export { CodeBlock } from "./CodeBlock";
+export { Separator } from "./Separator";
+export { PressableBox } from "./PressableBox";

@@ -5,6 +5,7 @@ import { Box } from "./Box";
 import { Icon } from "./Icon";
 import { Text } from "./Text";
 import { s } from "@theme/spacing";
+import { Separator } from "./Separator";
 
 type ComponentCardProps = {
     children: React.ReactNode;
@@ -25,21 +26,19 @@ export function ComponentCard({ children, title, subtitle, onPress }: ComponentC
                 borderColor: colors.border,
                 overflow: "hidden",
                 opacity: pressed ? 0.7 : 1,
+                width: "100%"
             })}
         >
             <Box bgColor="background" minH={s(26)} align="center" justify="center" p={4}>
                 {children}
             </Box>
+            <Separator/>
             <Box
                 row
                 align="center"
                 bgColor="surface"
                 px={3}
                 py={2.5}
-                style={{
-                    borderTopWidth: size["border-width"],
-                    borderTopColor: colors.border,
-                }}
             >
                 <Box flex={1}>
                     <Text variant="body-emphasis">{title}</Text>

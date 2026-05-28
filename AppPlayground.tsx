@@ -1,5 +1,5 @@
-import { Pressable, ScrollView } from "react-native";
-import { Badge, Box, Button, Chip, CodeBlock, ComponentCard, Icon, IconTile, SearchInput } from "@components";
+import { ScrollView } from "react-native";
+import { Badge, Box, Button, Chip, CodeBlock, ComponentCard, Icon, IconTile, PressableBox, SearchInput } from "@components";
 import { useThemeStore } from "@stores/theme";
 import { size } from "@theme";
 
@@ -52,11 +52,14 @@ export function AppPlayground() {
 
             </Box>
 
-            <Box position='absolute' right={5} top={12} h={size["touch-target-min"]} w={size["touch-target-min"]} rounded='default' bgColor='accent'>
-                <Pressable onPress={()=>setMode(mode === "dark" ? "light" : "dark")} style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                    <Icon name={mode === "dark" ? "IconSun" : "IconMoon"} color="accent-foreground"/>
-                </Pressable>
-            </Box>
+            <PressableBox 
+                onPress={()=>setMode(mode === "dark" ? "light" : "dark")}
+                position='absolute' right={5} top={12} 
+                justify="center" align="center"
+                h={size["touch-target-min"]} w={size["touch-target-min"]} 
+                rounded='default' bgColor='accent'>
+                <Icon name={mode === "dark" ? "IconSun" : "IconMoon"} color="accent-foreground"/>
+            </PressableBox>
         </>   
     );
 }

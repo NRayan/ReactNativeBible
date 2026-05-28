@@ -4,13 +4,15 @@ import { Box } from "./Box";
 type SeparatorProps = {
     vertical?: boolean;
     horizontal?: boolean;
+    thickness?: number;
 };
 
-export function Separator({ vertical }: SeparatorProps) {
+export function Separator({ vertical, thickness }: SeparatorProps) {
     const { theme: { size } } = useThemeStore();
+    const t = thickness ?? size["border-width"];
 
-    return vertical ? 
-        <Box fullHeight w={size["border-width"]} bgColor="border" />
-        : 
-        <Box fullWidth h={size["border-width"]} bgColor="border" />;
+    return vertical ?
+        <Box fullHeight w={t} bgColor="border" />
+        :
+        <Box fullWidth h={t} bgColor="border" />;
 }

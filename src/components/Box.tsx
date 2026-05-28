@@ -112,7 +112,7 @@ export function Box({
 
         ...(bgColor !== undefined && { backgroundColor: colors[bgColor] }),
         ...((borderColor !== undefined || border) && { borderColor: colors[borderColor ?? "border"] }),
-        ...(border && { borderWidth: size.borderWidth }),
+        ...(border && { borderWidth: size["border-width"] }),
         ...(rounded !== undefined && { borderRadius: radius[rounded] }),
         ...(opacity !== undefined && { opacity }),
 

@@ -14,11 +14,11 @@ export function AppPlayground() {
                 </Box>
 
                 <Box justify="center" align="center" p={2} rounded="default" border>
-                    <Icon name="IconPokerChip" color="textMuted"/>
+                    <Icon name="IconPokerChip" color="text-muted"/>
                 </Box>
 
-                <Box bgColor="accent" justify="center" align="center" h={size.touchTargetMin} w={size.touchTargetMin} rounded="default" border borderColor="accent">
-                    <Icon name="IconBolt" color="accentForeground"/>
+                <Box bgColor="accent" justify="center" align="center" h={size["touch-target-min"]} w={size["touch-target-min"]} rounded="default" border borderColor="accent">
+                    <Icon name="IconBolt" color="accent-foreground"/>
                 </Box>
 
             </Box>

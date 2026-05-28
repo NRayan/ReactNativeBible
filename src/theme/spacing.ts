@@ -5,12 +5,12 @@ export function s(value: number): number {
 }
 
 export const radius: RadiusTokens = {
-    small: 6,
-    default: 8,
-    large: 10,
+    "small": 6,
+    "default": 8,
+    "large": 10,
 };
 
 export const size: SizeTokens = {
-    borderWidth: 0.5,
-    touchTargetMin: 44,
+    "border-width": 0.5,
+    "touch-target-min": 44,
 };

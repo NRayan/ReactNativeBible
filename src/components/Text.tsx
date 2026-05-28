@@ -10,14 +10,14 @@ type TextProps = {
 } & React.ComponentProps<typeof RNText>;
 
 const variantDefaultColor: Record<keyof TypographyTokens, keyof ColorTokens> = {
-    "screen-title": "textPrimary",
-    "heading": "textPrimary",
-    "section-label": "textMuted",
-    "body": "textSecondary",
-    "body-emphasis": "textPrimary",
-    "caption": "textDisabled",
-    "code": "textSecondary",
-    "tab-label": "textDisabled",
+    "screen-title": "text-primary",
+    "heading": "text-primary",
+    "section-label": "text-muted",
+    "body": "text-secondary",
+    "body-emphasis": "text-primary",
+    "caption": "text-disabled",
+    "code": "text-secondary",
+    "tab-label": "text-disabled",
 };
 
 export function Text({ variant = "body", color, style, ...rest }: TextProps) {

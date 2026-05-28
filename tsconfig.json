@@ -4,28 +4,27 @@
   "exclude": ["**/node_modules", "**/Pods"],
   "compilerOptions": {
     "types": ["jest"],
-    "baseUrl": "src",
     "paths": {
-      "@components": ["components/index"],
-      "@components/*": ["components/*"],
+      "@components": ["./src/components/index"],
+      "@components/*": ["./src/components/*"],
 
-      "@content": ["content/index"],
-      "@content/*": ["content/*"],
+      "@content": ["./src/content/index"],
+      "@content/*": ["./src/content/*"],
 
-      "@features": ["features/index"],
-      "@features/*": ["features/*"],
+      "@features": ["./src/features/index"],
+      "@features/*": ["./src/features/*"],
 
-      "@navigation": ["navigation/index"],
-      "@navigation/*": ["navigation/*"],
+      "@navigation": ["./src/navigation/index"],
+      "@navigation/*": ["./src/navigation/*"],
 
-      "@storage": ["storage/index"],
-      "@storage/*": ["storage/*"],
+      "@storage": ["./src/storage/index"],
+      "@storage/*": ["./src/storage/*"],
 
-      "@stores": ["stores/index"],
-      "@stores/*": ["stores/*"],
+      "@stores": ["./src/stores/index"],
+      "@stores/*": ["./src/stores/*"],
 
-      "@theme": ["theme/index"],
-      "@theme/*": ["theme/*"]
+      "@theme": ["./src/theme/index"],
+      "@theme/*": ["./src/theme/*"]
     }
   }
 }

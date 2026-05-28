@@ -14,17 +14,19 @@ export function AppPlayground() {
                 </Box>
 
                 <Box justify="center" align="center" p={2} rounded="default" border>
-                    <Icon name="IconPokerChip" color="textMuted"/>
+                    <Icon name="IconPokerChip" color="text-muted"/>
                 </Box>
 
-                <Box bgColor="accent" justify="center" align="center" h={size.touchTargetMin} w={size.touchTargetMin} rounded="default" border borderColor="accent">
-                    <Icon name="IconBolt" color="accentForeground"/>
+                <Box bgColor="accent" justify="center" align="center" h={size["touch-target-min"]} w={size["touch-target-min"]} rounded="default" border borderColor="accent">
+                    <Icon name="IconBolt" color="accent-foreground"/>
                 </Box>
 
             </Box>
 
-            <Box position='absolute' right={5} top={10} h={10} w={10} rounded='default' bgColor='accent'>
-                <Pressable onPress={()=>setMode(mode === "dark" ? "light" : "dark")} style={{ flex: 1 }}/>
+            <Box position='absolute' right={5} top={12} h={size["touch-target-min"]} w={size["touch-target-min"]} rounded='default' bgColor='accent'>
+                <Pressable onPress={()=>setMode(mode === "dark" ? "light" : "dark")} style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <Icon name={mode === "dark" ? "IconSun" : "IconMoon"} color="accent-foreground"/>
+                </Pressable>
             </Box>
         </>   
     );

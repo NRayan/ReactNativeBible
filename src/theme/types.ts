@@ -1,19 +1,19 @@
 export type ColorTokens = {
-  background: string;
-  surface: string;
-  surfacePressed: string;
-  border: string;
-  textPrimary: string;
-  textSecondary: string;
-  textMuted: string;
-  textDisabled: string;
-  accent: string;
-  accentForeground: string;
-  success: string;
-  danger: string;
-  surfaceAccent: string;
-  surfaceSuccess: string;
-  surfaceDanger: string;
+  "background": string;
+  "surface": string;
+  "surface-pressed": string;
+  "border": string;
+  "text-primary": string;
+  "text-secondary": string;
+  "text-muted": string;
+  "text-disabled": string;
+  "accent": string;
+  "accent-foreground": string;
+  "success": string;
+  "danger": string;
+  "surface-accent": string;
+  "surface-success": string;
+  "surface-danger": string;
 };
 
 export type TypographyToken = {
@@ -35,14 +35,14 @@ export type TypographyTokens = {
 };
 
 export type RadiusTokens = {
-  small: number;
-  default: number;
-  large: number;
+  "small": number;
+  "default": number;
+  "large": number;
 };
 
 export type SizeTokens = {
-  borderWidth: number;
-  touchTargetMin: number;
+  "border-width": number;
+  "touch-target-min": number;
 };
 
 export type Theme = {

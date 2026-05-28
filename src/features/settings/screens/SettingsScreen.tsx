@@ -1,5 +1,9 @@
-import { View } from 'react-native';
+import { Box, Text } from "@components";
 
 export function SettingsScreen() {
-  return <View style={{flex:1,backgroundColor:"black"}}/>;
+    return (
+        <Box flex={1} bgColor="background" align="center" justify="center">
+            <Text>Settings</Text>
+        </Box>
+    );
 }

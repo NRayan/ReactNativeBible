@@ -8,7 +8,7 @@ type BadgeProps={
 export function Badge({ title }: BadgeProps)
 {
     return (
-        <Box px={2} py={.5} bgColor='surface' rounded='small' border>
+        <Box px={2} py={.5} bgColor='background' rounded='small' border>
             <Text variant="caption">{title}</Text>
         </Box>
     );

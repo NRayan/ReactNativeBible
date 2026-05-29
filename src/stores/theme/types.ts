@@ -7,6 +7,7 @@ export type ThemeState = {
 
 export type ThemeActions = {
   setMode: (mode: ThemeMode)=> void;
+  toggleTheme: ()=> void;
 };
 
 export type ThemeStore = ThemeState & ThemeActions;

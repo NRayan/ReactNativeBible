@@ -21,7 +21,7 @@ export function PressableBox({ onPress, onLongPress, disabled, style, children, 
             style={({ pressed }) => [
                 computedStyle,
                 style,
-                disabled ? { opacity: 0.4 } : pressed ? { opacity: 0.7 } : undefined,
+                disabled ? { opacity: 0.4 } : pressed && onPress ? { opacity: 0.7 } : undefined,
             ]}
         >
             {children}

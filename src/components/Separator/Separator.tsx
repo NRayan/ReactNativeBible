@@ -3,7 +3,6 @@ import { Box } from "../Box";
 
 type SeparatorProps = {
     vertical?: boolean;
-    horizontal?: boolean;
     thickness?: number;
 };
 

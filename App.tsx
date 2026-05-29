@@ -3,6 +3,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppPlayground } from "./AppPlayground";
 import { DEV_CONFIG } from "./config";
 import { Navigation } from "@navigation";
+import { Modal } from "@components/Modal";
 
 export function App() {
 
@@ -16,6 +17,7 @@ export function App() {
                         : 
                         <Navigation />
                 }
+                <Modal/>
             </SafeAreaProvider>
         </View>
     );

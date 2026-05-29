@@ -1,5 +1,5 @@
 import React from "react";
-import type { FlexStyle, StyleProp, ViewStyle } from "react-native";
+import type { DimensionValue, FlexStyle, StyleProp, ViewStyle } from "react-native";
 import { View } from "react-native";
 import { useThemeStore } from "@stores/theme";
 import { s } from "@theme/spacing";
@@ -7,53 +7,53 @@ import { ColorTokens, RadiusTokens } from "@theme";
 import type { Theme } from "@theme/types";
 
 export type BoxProps = {
-  flex?: number;
-  row?: boolean;
-  align?: FlexStyle["alignItems"];
-  justify?: FlexStyle["justifyContent"];
-  wrap?: FlexStyle["flexWrap"];
+    flex?: number;
+    row?: boolean;
+    align?: FlexStyle["alignItems"];
+    justify?: FlexStyle["justifyContent"];
+    wrap?: FlexStyle["flexWrap"];
 
-  p?: number;
-  px?: number;
-  py?: number;
-  pt?: number;
-  pb?: number;
-  pl?: number;
-  pr?: number;
-  m?: number;
-  mx?: number;
-  my?: number;
-  mt?: number;
-  mb?: number;
-  ml?: number;
-  mr?: number;
-  gap?: number;
-  rowGap?: number;
-  columnGap?: number;
+    p?: number;
+    px?: number;
+    py?: number;
+    pt?: number;
+    pb?: number;
+    pl?: number;
+    pr?: number;
+    m?: number;
+    mx?: number;
+    my?: number;
+    mt?: number;
+    mb?: number;
+    ml?: number;
+    mr?: number;
+    gap?: number;
+    rowGap?: number;
+    columnGap?: number;
 
-  fullWidth?: boolean;
-  fullHeight?: boolean;
-  w?: number;
-  h?: number;
-  minW?: number;
-  minH?: number;
-  maxW?: number;
-  maxH?: number;
+    fullWidth?: boolean;
+    fullHeight?: boolean;
+    w?: DimensionValue;
+    h?: DimensionValue;
+    minW?: DimensionValue;
+    minH?: DimensionValue;
+    maxW?: DimensionValue;
+    maxH?: DimensionValue;
 
-  bgColor?: keyof ColorTokens;
-  borderColor?: keyof ColorTokens;
-  border?: boolean;
-  rounded?: keyof RadiusTokens;
-  opacity?: number;
+    bgColor?: keyof ColorTokens;
+    borderColor?: keyof ColorTokens;
+    border?: boolean;
+    rounded?: keyof RadiusTokens;
+    opacity?: number;
 
-  position?: "absolute" | "relative";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
+    position?: "absolute" | "relative";
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
 
-  style?: StyleProp<ViewStyle>;
-  children?: React.ReactNode;
+    style?: StyleProp<ViewStyle>;
+    children?: React.ReactNode;
 };
 
 export function buildBoxStyle(props: Omit<BoxProps, "style" | "children">, theme: Theme): ViewStyle {

@@ -2,6 +2,8 @@ import { ScrollView } from "react-native";
 import { Badge, Box, Button, Chip, CodeBlock, ComponentCard, Icon, IconTile, PressableBox, SearchInput } from "@components";
 import { useThemeStore } from "@stores/theme";
 import { size } from "@theme";
+import { useModalStore } from "@stores/modal";
+import { LanguagePicker } from "@features/settings/components/LanguagePicker";
 
 const code = `import { useState } from 'react';
 import { View, Pressable } from 'react-native';
@@ -25,6 +27,12 @@ export function Counter({ initialValue = 0 }: CounterProps) {
 export function AppPlayground() {
 
     const { setMode, mode } = useThemeStore();
+    const { open } = useModalStore();
+    
+    function openModal()
+    {
+        open(<LanguagePicker selected="pt" onSelect={()=>null}/>);
+    }
 
     return (
         <>
@@ -47,6 +55,8 @@ export function AppPlayground() {
                     <ComponentCard onPress={()=>null} title="teste" subtitle="botao tal">
                         <Chip icon="IconMoon2" title="Under the hood"/>
                     </ComponentCard>
+
+                    <Button onPress={openModal}/>
 
                 </ScrollView>
 

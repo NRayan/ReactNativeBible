@@ -11,3 +11,4 @@ export { CodeBlock } from "./CodeBlock";
 export { Separator } from "./Separator";
 export { PressableBox } from "./PressableBox";
 export { Toolbar } from "./Toolbar";
+export { ModalContainer } from "./Modal";

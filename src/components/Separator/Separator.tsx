@@ -1,17 +1,17 @@
 import { useThemeStore } from "@stores/theme";
-import { Box } from "../Box";
+import { Box, BoxProps } from "../Box";
 
-type SeparatorProps = {
+type SeparatorProps = BoxProps & {
     vertical?: boolean;
     thickness?: number;
 };
 
-export function Separator({ vertical, thickness }: SeparatorProps) {
+export function Separator({ vertical, thickness, ...rest }: SeparatorProps) {
     const { theme: { size } } = useThemeStore();
     const t = thickness ?? size["border-width"];
 
     return vertical ?
-        <Box fullHeight w={t} bgColor="border" />
+        <Box fullHeight w={t} bgColor="border" {...rest} />
         :
-        <Box fullWidth h={t} bgColor="border" />;
+        <Box fullWidth h={t} bgColor="border" {...rest} />;
 }

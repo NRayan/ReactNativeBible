@@ -4,7 +4,6 @@ import { s } from "@theme/spacing";
 import { ScrollView, Switch } from "react-native";
 import { useSettings } from "../hooks/useSettings";
 import { useLanguageStore } from "@stores/language";
-import { useTranslation } from "react-i18next";
 
 type SettingsRowProps = { 
     children: React.ReactNode;
@@ -23,22 +22,20 @@ export function SettingsRow({ children, onPress, small }: SettingsRowProps) {
 export function SettingsScreen() {
     const { toggleTheme, mode } = useThemeStore();
     const { language } = useLanguageStore();
-    const { handleLanguagePress } = useSettings();
-    const { t } = useTranslation();
+    const { handleLanguagePress, strings } = useSettings();
 
     return (
         <Box flex={1} bgColor="background">
-            <Toolbar title={t("settings.title")} subtitle="React Native Bible"/>
-            {/* <Toolbar title="Settings" subtitle="React Native Bible"/> */}
+            <Toolbar title={strings.title} subtitle="React Native Bible"/>
             <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6) }}>
 
                 <Box gap={2}>
-                    <Text variant="section-label">Preferences</Text>
+                    <Text variant="section-label">{strings.preferences}</Text>
                     <Box bgColor="surface" fullWidth rounded="large">
                         <SettingsRow onPress={toggleTheme}>
                             <Box row align="center" gap={2} flex={1}>
                                 <IconTile icon="IconMoon" bgColor="background"/>
-                                <Text>Dark theme</Text>
+                                <Text>{strings.darkTheme}</Text>
                             </Box>
                             <Switch value={mode === "dark"} onValueChange={toggleTheme}/>
                         </SettingsRow>
@@ -46,10 +43,10 @@ export function SettingsScreen() {
                         <SettingsRow onPress={handleLanguagePress}>
                             <Box row align="center" gap={2} flex={1}>
                                 <IconTile icon="IconLanguage" bgColor="background"/>
-                                <Text>Language</Text>
+                                <Text>{strings.language}</Text>
                             </Box>
                             <Box row align="center" gap={2}>
-                                <Text variant="body-emphasis" color="text-muted">{language.label}</Text>
+                                <Text variant="caption" color="text-muted">{language.nativeLabel}</Text>
                                 <Icon name="IconChevronRight" size={16} color="text-disabled"/>
                             </Box>
                         </SettingsRow>
@@ -62,7 +59,7 @@ export function SettingsScreen() {
                         <SettingsRow onPress={()=>null}>
                             <Box row align="center" gap={2} flex={1}>
                                 <IconTile icon="IconStar" bgColor="background"/>
-                                <Text>Rate the app</Text>
+                                <Text>{strings.rateTheApp}</Text>
                             </Box>
                             <Icon name="IconChevronRight" size={16} color="text-disabled"/>
                         </SettingsRow>
@@ -70,7 +67,7 @@ export function SettingsScreen() {
                         <SettingsRow onPress={()=>null}>
                             <Box row align="center" gap={2} flex={1}>
                                 <IconTile icon="IconX" bgColor="background" color="danger"/>
-                                <Text color="danger">Close</Text>
+                                <Text color="danger">{strings.close}</Text>
                             </Box>
                         </SettingsRow>
                     </Box>
@@ -102,7 +99,7 @@ export function SettingsScreen() {
                 </Box>
 
                 <Box gap={2}>
-                    <Text variant="section-label">About</Text>
+                    <Text variant="section-label">{strings.about}</Text>
                     <Box bgColor="surface" fullWidth rounded="large">
                         <SettingsRow>
                             <Text flex={1}>React Native Bible</Text>

@@ -1,14 +1,13 @@
 export type Language = {
   code: "en" | "pt" | "es";
-  label: string;
   nativeLabel: string;
   flag: string;
 };
 
 export const languages: Language[] = [
-    { code: "pt", label: "Portuguese", nativeLabel: "Português (BR)", flag: "🇧🇷" },
-    { code: "es", label: "Spanish", nativeLabel: "Español", flag: "🇪🇸" },
-    { code: "en", label: "English", nativeLabel: "English", flag: "🇺🇸" },
+    { code: "pt", nativeLabel: "Português (BR)", flag: "🇧🇷" },
+    { code: "es", nativeLabel: "Español", flag: "🇪🇸" },
+    { code: "en", nativeLabel: "English", flag: "🇺🇸" },
 ];
 
 export type LanguageState = {

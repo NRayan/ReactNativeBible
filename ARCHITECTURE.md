@@ -66,6 +66,22 @@ function QuizScreen() {
 
 ---
 
+## Internationalisation (i18n)
+
+**Supported languages:** English (`en`), Portuguese (`pt`), Spanish (`es`)
+
+**Translation files:** `src/i18n/locales/{lang}.json`
+
+**Type safety:** `src/i18n/types.ts` declares `CustomTypeOptions` using `typeof en` as the source of truth. All translation keys are inferred from `en.json` — adding or renaming a key without updating all locales will surface as a TypeScript error.
+
+**Conventions:**
+- `common` — shared strings used across multiple screens (`close`, `cancel`, `save`, etc.)
+- Feature keys mirror the feature name (`settings.title`, `learn.sections`, etc.)
+- Technical terms and proper nouns are not translated (`Stack`, `React Native Bible`, version numbers)
+- `t()` is never called directly in screens — strings are resolved in the viewmodel hook and returned inside a `strings` object
+
+---
+
 ## Main libraries
 
 | Library | Usage |

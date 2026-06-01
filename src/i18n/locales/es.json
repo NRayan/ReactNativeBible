@@ -1,5 +1,19 @@
-{ 
-    "settings": { 
-        "title": "Configuración" 
-    } 
+{
+    "common": {
+        "close": "Cerrar"
+    },
+     "languages": {
+        "en": "Inglés",
+        "pt": "Portugués",
+        "es": "Español"
+    },
+    "settings": {
+        "title": "Configuración",
+        "preferences": "Preferencias",
+        "darkTheme": "Tema oscuro",
+        "language": "Idioma",
+        "selectLanguage": "Selecciona tu idioma preferido",
+        "rateTheApp": "Calificar la app",
+        "about": "Acerca de"
+    }
 }

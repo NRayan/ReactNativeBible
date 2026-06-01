@@ -73,7 +73,6 @@ function QuizScreen() {
 | React Navigation | Stack and tab navigation |
 | Zustand | Global state management |
 | AsyncStorage | On-device persistence |
-| NativeWind | Styling (Tailwind CSS for React Native) |
 | Jest | Unit tests |
 
 ---

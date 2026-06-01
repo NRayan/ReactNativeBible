@@ -4,6 +4,7 @@ import { s } from "@theme/spacing";
 import { ScrollView, Switch } from "react-native";
 import { useSettings } from "../hooks/useSettings";
 import { useLanguageStore } from "@stores/language";
+import { useTranslation } from "react-i18next";
 
 type SettingsRowProps = { 
     children: React.ReactNode;
@@ -23,10 +24,12 @@ export function SettingsScreen() {
     const { toggleTheme, mode } = useThemeStore();
     const { language } = useLanguageStore();
     const { handleLanguagePress } = useSettings();
+    const { t } = useTranslation();
 
     return (
         <Box flex={1} bgColor="background">
-            <Toolbar title="Settings" subtitle="React Native Bible"/>
+            <Toolbar title={t("settings.title")} subtitle="React Native Bible"/>
+            {/* <Toolbar title="Settings" subtitle="React Native Bible"/> */}
             <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6) }}>
 
                 <Box gap={2}>

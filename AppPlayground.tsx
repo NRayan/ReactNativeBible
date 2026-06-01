@@ -31,7 +31,7 @@ export function AppPlayground() {
     
     function openModal()
     {
-        open(<LanguagePicker selected="pt" onSelect={()=>null}/>);
+        open(<LanguagePicker />);
     }
 
     return (

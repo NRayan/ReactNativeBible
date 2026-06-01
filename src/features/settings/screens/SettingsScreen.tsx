@@ -2,6 +2,8 @@ import { Badge, Box, Icon, IconTile, PressableBox, Separator, Text, Toolbar } fr
 import { useThemeStore } from "@stores/theme";
 import { s } from "@theme/spacing";
 import { ScrollView, Switch } from "react-native";
+import { useSettings } from "../hooks/useSettings";
+import { useLanguageStore } from "@stores/language";
 
 type SettingsRowProps = { 
     children: React.ReactNode;
@@ -19,6 +21,8 @@ export function SettingsRow({ children, onPress, small }: SettingsRowProps) {
 
 export function SettingsScreen() {
     const { toggleTheme, mode } = useThemeStore();
+    const { language } = useLanguageStore();
+    const { handleLanguagePress } = useSettings();
 
     return (
         <Box flex={1} bgColor="background">
@@ -36,13 +40,13 @@ export function SettingsScreen() {
                             <Switch value={mode === "dark"} onValueChange={toggleTheme}/>
                         </SettingsRow>
                         <Separator />
-                        <SettingsRow onPress={()=>null}>
+                        <SettingsRow onPress={handleLanguagePress}>
                             <Box row align="center" gap={2} flex={1}>
                                 <IconTile icon="IconLanguage" bgColor="background"/>
                                 <Text>Language</Text>
                             </Box>
                             <Box row align="center" gap={2}>
-                                <Text variant="body-emphasis" color="text-muted">English</Text>
+                                <Text variant="body-emphasis" color="text-muted">{language.label}</Text>
                                 <Icon name="IconChevronRight" size={16} color="text-disabled"/>
                             </Box>
                         </SettingsRow>

@@ -1,19 +1,14 @@
 import React from "react";
 import { Box, Button, Icon, PressableBox, Separator, Text } from "@components";
 import { s } from "@theme/spacing";
+import { useLanguageStore } from "@stores/language";
+import { useModalStore } from "@stores/modal";
+import { languages } from "@stores/language/types";
 
-const languages = [
-    { code: "en", label: "English" },
-    { code: "pt", label: "Português" },
-    { code: "es", label: "Español" },
-];
+export function LanguagePicker() {
 
-type LanguagePickerProps = {
-    selected: string;
-    onSelect: (code: string)=> void;
-};
-
-export function LanguagePicker({ selected, onSelect }: LanguagePickerProps) {
+    const { language, setLanguage } = useLanguageStore();
+    const { close } = useModalStore();
 
     return (
         <Box w={"90%"} maxW={500} bgColor="surface" p={4} rounded="default">
@@ -26,24 +21,34 @@ export function LanguagePicker({ selected, onSelect }: LanguagePickerProps) {
 
             <Box>
                 {
-                    languages.map((lang) => (
-                        <Box key={lang.code}>
-                            <PressableBox
-                                row align="center" justify="space-between" h={s(14)}
-                                onPress={() => onSelect(lang.code)}
-                            >
-                                <Text variant="body" color="text-primary">{lang.label}</Text>
-                                {selected === lang.code && <Icon name="IconCheck" size={16} color="accent" /> }
-                            </PressableBox>
-                        </Box>
-                    ))
+                    languages.map((lang) => 
+                    {
+                        const selected = lang.code === language.code;
+
+                        return (
+                            <Box key={lang.code}>
+                                <PressableBox
+                                    row align="center" justify="space-between" h={s(14)} gap={3}
+                                    onPress={() => setLanguage(lang)}
+                                >
+                                    <Text variant="body" color="text-primary">{lang.flag}</Text>
+                                    <Box flex={1}>
+                                        <Text variant="body" color="text-primary">{lang.label}</Text>
+                                        <Text variant="caption" color="text-muted">{lang.nativeLabel}</Text>
+                                    </Box>
+                                    {selected && <Icon name="IconCheck" size={16} color="accent" /> }
+                                </PressableBox>
+                            </Box>
+                        );
+                    }
+                    )
                 }
             </Box>
 
             <Separator style={{ marginHorizontal: -s(4), width: "auto", alignSelf: "stretch" }}/>
 
             <Box mt={4}>
-                <Button variant="outline" title="Cancelar" onPress={()=>null}/>
+                <Button variant="outline" title="Cancelar" onPress={close}/>
             </Box>
         </Box>
     );

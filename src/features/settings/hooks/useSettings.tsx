@@ -1,6 +1,7 @@
 import { useModalStore } from "@stores/modal";
 import { LanguagePicker } from "../components/LanguagePicker";
 import { t } from "i18next";
+import { BackHandler } from "react-native";
 
 export function useSettings()
 {
@@ -9,6 +10,11 @@ export function useSettings()
     function handleLanguagePress()
     {
         open(<LanguagePicker />);
+    }
+
+    function handleCloseApp()
+    {
+        BackHandler.exitApp();
     }
 
     return {
@@ -21,6 +27,7 @@ export function useSettings()
             about: t("settings.about"),
             close: t("common.close"),
         },
-        handleLanguagePress
+        handleLanguagePress,
+        handleCloseApp,
     };
 }

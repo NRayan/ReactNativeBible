@@ -7,6 +7,7 @@ import { Icon } from "@components";
 import { LearnScreen } from "@features/learn/screens/LearnScreen";
 import { ComponentsScreen } from "@features/components/screens/ComponentsScreen";
 import { SettingsScreen } from "@features/settings/screens/SettingsScreen";
+import { useTranslation } from "react-i18next";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +24,7 @@ const SettingsIcon = makeTabIcon("IconSettings");
 export function Navigation() {
     const { theme: { colors, size, typography } } = useThemeStore();
     const { bottom } = useSafeAreaInsets();
+    const { t } = useTranslation();
 
     return (
         <NavigationContainer>
@@ -45,19 +47,19 @@ export function Navigation() {
                 }}
             >
                 <Tab.Screen
-                    name="Learn"
+                    name="learn"
                     component={LearnScreen}
-                    options={{ tabBarIcon: LearnIcon }}
+                    options={{ tabBarLabel: t("learn.title"), tabBarIcon: LearnIcon }}
                 />
                 <Tab.Screen
-                    name="Components"
+                    name="components"
                     component={ComponentsScreen}
-                    options={{ tabBarIcon: ComponentsIcon }}
+                    options={{ tabBarLabel: t("components.title"), tabBarIcon: ComponentsIcon }}
                 />
                 <Tab.Screen
-                    name="Settings"
+                    name="settings"
                     component={SettingsScreen}
-                    options={{ tabBarIcon: SettingsIcon }}
+                    options={{ tabBarLabel: t("settings.title"), tabBarIcon: SettingsIcon }}
                 />
             </Tab.Navigator>
         </NavigationContainer>

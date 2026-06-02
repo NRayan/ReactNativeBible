@@ -22,7 +22,7 @@ export function SettingsRow({ children, onPress, small }: SettingsRowProps) {
 export function SettingsScreen() {
     const { toggleTheme, mode } = useThemeStore();
     const { language } = useLanguageStore();
-    const { handleLanguagePress, strings } = useSettings();
+    const { handleLanguagePress, handleCloseApp, strings } = useSettings();
 
     return (
         <Box flex={1} bgColor="background">
@@ -64,7 +64,7 @@ export function SettingsScreen() {
                             <Icon name="IconChevronRight" size={16} color="text-disabled"/>
                         </SettingsRow>
                         <Separator />
-                        <SettingsRow onPress={()=>null}>
+                        <SettingsRow onPress={handleCloseApp}>
                             <Box row align="center" gap={2} flex={1}>
                                 <IconTile icon="IconX" bgColor="background" color="danger"/>
                                 <Text color="danger">{strings.close}</Text>

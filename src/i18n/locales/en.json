@@ -7,6 +7,12 @@
         "pt": "Portuguese",
         "es": "Spanish"
     },
+    "learn": {
+        "title": "Learn"
+    },
+    "components": {
+        "title": "Components"
+    },
     "settings": {
         "title": "Settings",
         "preferences": "Preferences",

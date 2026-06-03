@@ -1,9 +1,9 @@
-import { ScrollView } from "react-native";
-import { Badge, Box, Button, Chip, CodeBlock, ComponentCard, Icon, IconTile, PressableBox, SearchInput } from "@components";
+import { Badge, Box, Button, Chip, CodeBlock, Icon, IconTile, PressableBox, SearchInput } from "@components";
+import { LanguagePicker } from "@features/settings/components/LanguagePicker";
+import { useModalStore } from "@stores/modal";
 import { useThemeStore } from "@stores/theme";
 import { size } from "@theme";
-import { useModalStore } from "@stores/modal";
-import { LanguagePicker } from "@features/settings/components/LanguagePicker";
+import { ScrollView } from "react-native";
 
 const code = `import { useState } from 'react';
 import { View, Pressable } from 'react-native';
@@ -51,10 +51,6 @@ export function AppPlayground() {
                     <SearchInput value="" placeholder="search..." onValueChange={()=>null}/>
 
                     <CodeBlock code={code}/>
-
-                    <ComponentCard onPress={()=>null} title="teste" subtitle="botao tal">
-                        <Chip icon="IconMoon2" title="Under the hood"/>
-                    </ComponentCard>
 
                     <Button onPress={openModal}/>
 

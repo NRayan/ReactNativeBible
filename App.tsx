@@ -3,7 +3,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppPlayground } from "./AppPlayground";
 import { DEV_CONFIG } from "./config";
 import { Navigation } from "@navigation";
-import { Modal } from "@components/Modal";
+import { Modal } from "@components";
 import { useLanguageStore } from "@stores/language";
 import i18n from "./src/i18n";
 import { useEffect } from "react";

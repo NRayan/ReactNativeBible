@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useThemeStore } from "@stores/theme";
 import { Icon } from "@components";
 import { LearnScreen } from "@features/learn/screens/LearnScreen";
-import { ComponentsScreen } from "@features/components/screens/ComponentsScreen";
+import { ComponentsNavigator } from "./ComponentsNavigator";
 import { SettingsScreen } from "@features/settings/screens/SettingsScreen";
 import { useTranslation } from "react-i18next";
 
@@ -53,7 +53,7 @@ export function Navigation() {
                 />
                 <Tab.Screen
                     name="components"
-                    component={ComponentsScreen}
+                    component={ComponentsNavigator}
                     options={{ tabBarLabel: t("components.title"), tabBarIcon: ComponentsIcon }}
                 />
                 <Tab.Screen

@@ -1,4 +1,4 @@
-export type ComponentTag = "interaction" | "navigation" | "layout" | "feedback"
+import { ComponentTag } from "@features/components/constants";
 
 export type ComponentProp = {
   name: string

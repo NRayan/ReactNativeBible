@@ -3,12 +3,13 @@ import type { RNComponent } from "@features/components/types";
 import React from "react";
 
 type NativeComponentCardProps = {
-  component: RNComponent
+  component: RNComponent;
+  onPress: ()=> void;
 }
 
-export function NativeComponentCard({ component }: NativeComponentCardProps) {
+export function NativeComponentCard({ component, onPress }: NativeComponentCardProps) {
     return (
-        <PressableBox rounded="default" border style={{ overflow: "hidden" }} onPress={()=>null}>
+        <PressableBox rounded="default" border style={{ overflow: "hidden" }} onPress={onPress}>
             <Box h={120} bgColor="background" align="center" justify="center">
                 {component.previewComponent}
             </Box>

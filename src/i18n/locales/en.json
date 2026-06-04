@@ -11,7 +11,18 @@
         "title": "Learn"
     },
     "components": {
-        "title": "Components"
+        "title": "Components",
+        "props": "Main props",
+        "preview": "Preview",
+        "gotchas": "Gotchas",
+        "code": "Code",
+        "required": "Required",
+        "tags": {
+            "interaction": "Interaction",
+            "navigation": "Navigation",
+            "layout": "Layout",
+            "feedback": "Feedback"
+        }
     },
     "settings": {
         "title": "Settings",

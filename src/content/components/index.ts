@@ -1,5 +1,6 @@
-import type { ComponentTag, RNComponent } from "@content/components/types";
-import { button } from "@content/components/rnComponents/button";
+import type { RNComponent } from "@content/components/types";
+import { button } from "@content/components/componentProps/button";
+import { ComponentTag } from "@features/components/types";
 
 export type ComponentsContent = Record<ComponentTag, RNComponent[]>
 

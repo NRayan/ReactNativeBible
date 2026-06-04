@@ -11,28 +11,28 @@ type Props = NativeStackScreenProps<ComponentsStackParamList, "ComponentDetail">
 
 export function ComponentDetailScreen({ route }: Props) {
 
-    const { component, tag } = useComponentDetail({ component: route.params.component });
+    const { component, tag, strings } = useComponentDetail({ component: route.params.component });
 
     return (
         <Box flex={1} bgColor="background">
             <Toolbar title={component.name} showBackButton/>
             <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6), alignItems: "flex-start" }}>
-                <Chip icon={tag.icon} title={tag.title}/>
+                <Chip icon={tag.icon} title={strings.tagTitle}/>
                 <RichText variant="body" content={component.description}/>
 
                 <Box fullWidth gap={2}>
-                    <Text variant="section-label">Preview</Text>
+                    <Text variant="section-label">{strings.preview}</Text>
                     <Box h={120} fullWidth border rounded="default" justify="center" align="center" >
                         {component.previewComponent}
                     </Box>
                 </Box>
 
                 <Box fullWidth gap={2}>
-                    <Text variant="section-label">Main props</Text>
+                    <Text variant="section-label">{strings.props}</Text>
                     <Box fullWidth border bgColor="surface" rounded="large">
                         {component.props.map((prop, index)=>
                             <React.Fragment key={prop.name}>
-                                <PropDetailRow prop={prop} />
+                                <PropDetailRow prop={prop} requiredLabel={strings.required} />
                                 {index < component.props.length - 1 && <Separator/>}
                             </React.Fragment>
                         )}
@@ -40,7 +40,7 @@ export function ComponentDetailScreen({ route }: Props) {
                 </Box>
 
                 <Box fullWidth gap={2}>
-                    <Text variant="section-label">Gotchas</Text>
+                    <Text variant="section-label">{strings.gotchas}</Text>
                     {component.gotchas.map((gotcha, index)=>
                         <Box row key={index} px={3} py={2} gap={3} bgColor="surface" border rounded="default">
                             <Icon name="IconAlertTriangle" color="danger" size={16}/>
@@ -50,7 +50,7 @@ export function ComponentDetailScreen({ route }: Props) {
                 </Box>
 
                 <Box fullWidth gap={2}>
-                    <Text variant="section-label">Code</Text>
+                    <Text variant="section-label">{strings.code}</Text>
                     <CodeBlock code={component.codeSnippet}/>
                 </Box>
 
@@ -59,8 +59,8 @@ export function ComponentDetailScreen({ route }: Props) {
     );
 }
 
-type PropDetailRowProps={ prop: ComponentProp }
-function PropDetailRow({ prop }: PropDetailRowProps)
+type PropDetailRowProps = { prop: ComponentProp; requiredLabel: string }
+function PropDetailRow({ prop, requiredLabel }: PropDetailRowProps)
 {
     return(
         <Box row fullWidth gap={2} px={2} py={2} align="center">
@@ -72,7 +72,7 @@ function PropDetailRow({ prop }: PropDetailRowProps)
                 <Text variant="caption">{prop.description}</Text>
             </Box>
 
-            {prop.required && <Text variant="caption" color="danger">Required</Text>}
+            {prop.required && <Text variant="caption" color="danger">{requiredLabel}</Text>}
         </Box>
     );
 }

@@ -11,7 +11,18 @@
         "title": "Aprender"
     },
     "components": {
-        "title": "Componentes"
+        "title": "Componentes",
+        "props": "Props principais",
+        "preview": "Preview",
+        "gotchas": "Gotchas",
+        "code": "Código",
+        "required": "Obrigatório",
+        "tags": {
+            "interaction": "Interação",
+            "navigation": "Navegação",
+            "layout": "Layout",
+            "feedback": "Feedback"
+        }
     },
     "settings": {
         "title": "Configurações",

@@ -18,7 +18,7 @@ export function ComponentsScreen() {
             <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6) }}>
                 {
                     (Object.keys(components) as ComponentTag[]).map(key => (
-                        <Box key={key} gap={2}>
+                        <Box key={key} gap={4}>
                             <Text>{key}</Text>
                             {
                                 components[key].map(comp => (

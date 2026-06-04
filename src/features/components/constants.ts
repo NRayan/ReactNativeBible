@@ -1,6 +1,5 @@
 export const COMPONENT_TAGS = [
     { id: "interaction", icon: "IconPointer" },
-    { id: "navigation", icon: "IconRoute" },
     { id: "layout", icon: "IconLayout" },
     { id: "feedback", icon: "IconBell" },
 ] as const;

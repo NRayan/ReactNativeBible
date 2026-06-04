@@ -19,7 +19,6 @@
         "required": "Required",
         "tags": {
             "interaction": "Interaction",
-            "navigation": "Navigation",
             "layout": "Layout",
             "feedback": "Feedback"
         }

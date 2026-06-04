@@ -1,4 +1,143 @@
 {
+  "touchableopacity": {
+    "subtitle": "Un wrapper presionable que atenúa su contenido durante el toque animando la opacidad.",
+    "description": "`TouchableOpacity` es un wrapper presionable que atenúa su contenido al tocarlo animando la opacidad de un `Animated.View` interno. Es uno de los primitivos táctiles originales de React Native y aún se usa ampliamente, pero el equipo de React Native recomienda `Pressable` para nuevos proyectos.\n\nLa opacidad durante la pulsación se controla con `activeOpacity`, que tiene un valor por defecto de `0.2` — una atenuación muy fuerte. La mayoría de los diseños lo configuran en `0.7` u `0.8` para un feedback más sutil. Recuerda: un valor más bajo significa más transparente, no menos.\n\nComo la animación se ejecuta en un `Animated.View` que envuelve a tus hijos, agrega una capa a la jerarquía de vistas. Esto puede ocasionalmente causar comportamientos de layout inesperados — especialmente con hijos posicionados absolutamente o vistas superpuestas.",
+    "props": {
+      "onPress": "Se llama cuando el toque se completa.",
+      "activeOpacity": "Opacidad del wrapper durante la pulsación; por defecto es `0.2` — valores más bajos producen una atenuación más fuerte.",
+      "disabled": "Cuando es true, deshabilita la interacción de pulsación.",
+      "onLongPress": "Se llama cuando una pulsación se mantiene más de 500ms."
+    },
+    "gotchas": {
+      "gotcha1": "*Prefiere Pressable para nuevo código* — TouchableOpacity es la API más antigua; el equipo de React Native recomienda `Pressable` para nuevos desarrollos, ya que ofrece más control sobre el ciclo de pulsación.",
+      "gotcha2": "*activeOpacity por defecto es 0.2* — Esto es muy atenuado; la mayoría de los diseños usan `0.7`–`0.8` para un feedback más sutil. Recuerda: valor más bajo = más transparente.",
+      "gotcha3": "*El wrapper Animated.View afecta el layout* — El `Animated.View` interno agrega una capa a la jerarquía de vistas, lo que puede causar comportamientos de layout inesperados con hijos posicionados absolutamente o superpuestos."
+    }
+  },
+  "pressable": {
+    "subtitle": "Un wrapper primitivo para construir elementos interactivos con control completo del ciclo de pulsación.",
+    "description": "`Pressable` es el primitivo recomendado para construir elementos interactivos personalizados. Envuelve cualquier contenido y expone el ciclo completo de interacción táctil — `onPressIn`, `onPress`, `onPressOut` y `onLongPress` — sin imponer ningún estilo visual propio.\n\nTanto `style` como `children` pueden ser funciones que reciben `{ pressed }`, facilitando la aplicación de feedback visual directamente en el JSX sin estado externo. Esta es la forma preferida de atenuar, escalar o recolorear un elemento durante la pulsación.\n\nUsa `hitSlop` para expandir el área táctil más allá de los límites visibles — especialmente útil para iconos pequeños y layouts ajustados — y `android_ripple` para configurar el efecto ripple nativo en Android.",
+    "props": {
+      "onPress": "Se llama cuando la pulsación se completa (tras levantar el dedo).",
+      "onPressIn": "Se llama inmediatamente cuando el toque se inicia — útil para feedback instantáneo antes de que dispare `onPress`.",
+      "onLongPress": "Se llama cuando una pulsación dura más de 500ms; personaliza el umbral con `delayLongPress`.",
+      "hitSlop": "Expande el área de detección táctil más allá de los límites visuales; acepta un número o `{ top, bottom, left, right }`.",
+      "disabled": "Cuando es true, deshabilita todas las interacciones de pulsación.",
+      "android_ripple": "Solo Android — configura el efecto ripple nativo con `color`, `borderless` y `radius`."
+    },
+    "gotchas": {
+      "gotcha1": "*style y children pueden ser funciones* — Ambos aceptan `({ pressed }) => ...`, permitiendo aplicar feedback del estado de pulsación directamente en el JSX sin gestionar estado externo.",
+      "gotcha2": "*hitSlop vs pressRetentionOffset* — `hitSlop` define dónde puede comenzar una pulsación; `pressRetentionOffset` define hasta dónde puede moverse el dedo tras iniciar manteniéndose activo. Son conceptos distintos.",
+      "gotcha3": "*El área táctil no puede superar los límites del padre* — `hitSlop` no puede expandir el área activa más allá de la view padre; reestructura el layout si se necesita un área mayor cerca de un borde.",
+      "gotcha4": "*android_ripple foreground* — Si las views hijas tienen fondos o imágenes que cubren el ripple, agrega `foreground: true` a `android_ripple` para que el efecto se renderice encima."
+    }
+  },
+  "switch": {
+    "subtitle": "Un toggle booleano controlado para configuraciones de activar/desactivar.",
+    "description": "`Switch` es un toggle booleano controlado — el equivalente móvil de un checkbox. Como todos los inputs controlados en React Native, no gestiona su propio estado: debes actualizar el prop `value` en el callback `onValueChange`, o el switch volverá a su estado anterior tras cada toque.\n\nLos colores del track y del thumb pueden personalizarse de forma independiente. En iOS, `trackColor.false` solo tinta el borde del track cuando el switch está apagado — usa `ios_backgroundColor` para controlar el color de fondo completo en ese estado.\n\nPara accesibilidad, coloca un `Text` junto al `Switch` o usa el prop `accessibilityLabel` para que los lectores de pantalla puedan anunciar qué controla el toggle.",
+    "props": {
+      "value": "Estado actual del switch; `true` significa activado.",
+      "onValueChange": "Se llama con el nuevo booleano cuando el usuario activa el switch; debe actualizar `value` o el switch no responderá.",
+      "disabled": "Cuando es true, impide la interacción del usuario.",
+      "trackColor": "Colores personalizados del track para cada estado: `{ false: color, true: color }`.",
+      "thumbColor": "Color del thumb; en iOS, definir esto elimina la sombra nativa del grip.",
+      "ios_backgroundColor": "Solo iOS — color de fondo visible cuando el switch está apagado o deshabilitado; `trackColor` no rellena esta área en iOS."
+    },
+    "gotchas": {
+      "gotcha1": "*Debe ser totalmente controlado* — Si `value` no se actualiza en `onValueChange`, el toggle vuelve a su estado anterior tras cada toque. Siempre úsalo junto con un setter de estado.",
+      "gotcha2": "*thumbColor elimina la sombra en iOS* — Definir `thumbColor` en iOS elimina la sombra nativa del grip, haciéndolo diferente al estilo por defecto del sistema.",
+      "gotcha3": "*ios_backgroundColor vs trackColor en iOS* — `trackColor.false` solo tinta el borde del track cuando el switch está apagado; usa `ios_backgroundColor` para el fondo completo. Este prop no tiene efecto en Android."
+    }
+  },
+  "activityindicator": {
+    "subtitle": "Un spinner circular de carga que comunica actividad en segundo plano al usuario.",
+    "description": "`ActivityIndicator` renderiza el spinner de carga nativo de la plataforma. Es la forma estándar de comunicar que la app está trabajando — obteniendo datos, procesando una solicitud o esperando una respuesta.\n\nEl componente es totalmente controlado: muéstralo y ocúltalo alternando el prop `animating` en lugar de montarlo y desmontarlo condicionalmente. En iOS, `hidesWhenStopped` (por defecto `true`) oculta el spinner automáticamente cuando `animating` es `false`; en Android debes gestionar la visibilidad tú mismo.\n\nMantén los spinners contextuales — colócalos cerca del contenido que se está cargando en lugar de a pantalla completa, a menos que toda la interfaz esté bloqueada.",
+    "props": {
+      "animating": "Si debe mostrar el indicador (`true`) u ocultarlo (`false`); por defecto es `true`.",
+      "color": "Color del spinner; usa el color de acento del sistema en iOS y `#999999` en Android por defecto.",
+      "size": "Tamaño del indicador: `'small'` o `'large'`; en Android también acepta un número para tamaño personalizado.",
+      "hidesWhenStopped": "Solo iOS — oculta el spinner automáticamente cuando `animating` es `false`; no tiene efecto en Android."
+    },
+    "gotchas": {
+      "gotcha1": "*El color por defecto difiere entre plataformas* — iOS usa el color de acento del sistema; Android usa `#999999` por defecto. Pasa un `color` explícito para branding consistente entre plataformas.",
+      "gotcha2": "*hidesWhenStopped es solo para iOS* — Android ignora este prop por completo; controla la visibilidad alternando `animating` en lugar de depender del ocultado automático.",
+      "gotcha3": "*El tamaño numérico personalizado es solo para Android* — Pasar un número a `size` solo funciona en Android; en iOS solo se respetan `'small'` y `'large'`."
+    }
+  },
+  "image": {
+    "subtitle": "Muestra imágenes de URLs de red, assets locales y data URIs base64.",
+    "description": "`Image` muestra imágenes de URLs de red, assets locales (via `require()`) y URIs base64. Su API es intencionalmente compacta — las dimensiones y el comportamiento de redimensionamiento se controlan con el prop `style` y `resizeMode`.\n\nLas imágenes de red y las data URIs no tienen un tamaño intrínseco, por lo que React Native no puede inferir sus dimensiones de layout. Debes definir explícitamente `width` y `height` en el style; omitirlos hace que la imagen se colapse a cero y quede invisible.\n\nUsa `onLoad` para reaccionar cuando la imagen termina de cargar y `onError` para gestionar errores y mostrar un fallback. Para una experiencia de carga suave, proporciona un `defaultSource` (un asset local) para mostrar mientras se busca la imagen real.",
+    "props": {
+      "source": "Especifica la imagen: un objeto `{ uri }` para URLs de red o data URIs, o `require()` para assets locales.",
+      "resizeMode": "Controla cómo la imagen se escala cuando el frame no coincide con las dimensiones originales (`cover`, `contain`, `stretch`, `repeat`, `center`).",
+      "style": "Define dimensiones, border radius y otras propiedades visuales; `width` y `height` son obligatorios para imágenes de red.",
+      "onLoad": "Se dispara cuando la imagen termina de cargar con éxito; recibe las dimensiones reales de la fuente.",
+      "onError": "Se dispara cuando la imagen falla al cargar; úsalo para mostrar un fallback.",
+      "defaultSource": "Imagen placeholder mostrada mientras la fuente real carga; ignorada en builds de debug en Android."
+    },
+    "gotchas": {
+      "gotcha1": "*Las imágenes de red requieren dimensiones explícitas* — A diferencia del `<img>` web, las URLs remotas no llevan información de layout; omitir `width` y `height` en el style colapsa la imagen a cero.",
+      "gotcha2": "*GIF y WebP en Android* — Estos formatos no están soportados por defecto; agrega los módulos Fresco animated a `android/app/build.gradle` para habilitarlos.",
+      "gotcha3": "*defaultSource ignorado en builds de debug en Android* — El placeholder solo se muestra en builds de release en Android; prueba el comportamiento en una variante release.",
+      "gotcha4": "*blurRadius difiere entre plataformas* — iOS necesita valores superiores a 5 para producir un blur visible; el mismo valor se renderiza de forma muy diferente entre plataformas."
+    }
+  },
+  "textinput": {
+    "subtitle": "Un campo de texto que captura entrada del teclado con soporte para autocorrección, capitalización y tipos de teclado.",
+    "description": "`TextInput` es el componente fundamental para capturar texto en React Native. Se usa en modo controlado pasando `value` y `onChangeText`, que recibe el string actualizado con cada tecla presionada.\n\nEl comportamiento del teclado puede ajustarse con `keyboardType`, `autoCapitalize` y `autoCorrect`. Para contraseñas, usa `secureTextEntry`, que reemplaza los caracteres con puntos — pero recuerda que este prop es incompatible con `multiline`.\n\nPara acceso programático — mover el foco o limpiar el campo — pasa una `ref` y llama a métodos como `focus()`, `blur()` o `clear()`.",
+    "props": {
+      "value": "Valor controlado; fuerza al campo nativo a mostrar este string.",
+      "onChangeText": "Recibe el string actualizado con cada tecla presionada — la forma principal de leer la entrada en un componente controlado.",
+      "placeholder": "Texto mostrado antes de que el usuario escriba algo.",
+      "keyboardType": "Define qué layout de teclado se abre (`default`, `email-address`, `numeric`, `phone-pad`, etc.).",
+      "secureTextEntry": "Oculta los caracteres para contraseñas; incompatible con `multiline`.",
+      "multiline": "Permite que el campo crezca en múltiples líneas.",
+      "editable": "Cuando es false, el campo es de solo lectura y no puede recibir foco.",
+      "maxLength": "Limita el número de caracteres; prefiere esto a la validación JS para evitar parpadeos."
+    },
+    "gotchas": {
+      "gotcha1": "*Alineación vertical en multiline* — En iOS el texto se centra verticalmente en campos multiline; agrega `textAlignVertical: 'top'` al style para consistencia entre plataformas.",
+      "gotcha2": "*Subrayado en Android* — Android muestra un borde inferior por defecto en todo TextInput; usa `underlineColorAndroid=\"transparent\"` para eliminarlo.",
+      "gotcha3": "*secureTextEntry y multiline* — Estos dos props no pueden usarse juntos; `secureTextEntry` se ignora silenciosamente cuando `multiline` es true.",
+      "gotcha4": "*El teclado empuja el layout en Android* — El teclado virtual puede cambiar el `windowSoftInputMode`, rompiendo componentes con posición absoluta. Envuelve la pantalla en `KeyboardAvoidingView` para gestionar esto."
+    }
+  },
+  "scrollview": {
+    "subtitle": "Un contenedor desplazable que renderiza todos sus hijos de una vez.",
+    "description": "`ScrollView` envuelve el scroll view nativo de la plataforma y se integra con el sistema de respuesta táctil de React Native. A diferencia de `FlatList`, renderiza todos los hijos inmediatamente — por eso es más adecuado para contenido de tamaño acotado y predecible.\n\nEl contenedor de scroll debe tener una altura acotada para funcionar correctamente. En un `ScrollView` vertical, esto significa que al menos un ancestro debe tener una altura explícita o `flex: 1` propagado por el árbol. El bug de layout más común es un `ScrollView` con altura ilimitada que nunca se desplaza.\n\nPara control programático, adjunta una `ref` y llama a `scrollTo` o `scrollToEnd`. En iOS, `scrollEventThrottle` controla con qué frecuencia se dispara `onScroll` — ponlo en `16` para obtener aproximadamente un evento por frame.",
+    "props": {
+      "horizontal": "Organiza los hijos en una fila horizontal en lugar de una columna vertical.",
+      "contentContainerStyle": "Estilos aplicados al contenedor interno de contenido que envuelve a todos los hijos.",
+      "showsVerticalScrollIndicator": "Muestra u oculta el indicador de scroll vertical; también `showsHorizontalScrollIndicator` para modo horizontal.",
+      "pagingEnabled": "Ajusta el desplazamiento a múltiplos del tamaño del scroll view, habilitando navegación página a página.",
+      "onScroll": "Se dispara durante el desplazamiento con datos de posición; usa con `scrollEventThrottle` para controlar la frecuencia en iOS.",
+      "scrollEnabled": "Cuando es false, el contenido no puede desplazarse con el toque, pero aún puede hacerlo programáticamente."
+    },
+    "gotchas": {
+      "gotcha1": "*La altura debe estar acotada* — ScrollView necesita una altura restringida para desplazarse. Un `flex: 1` faltante en un ancestro es la causa más común de un scroll view que nunca se desplaza.",
+      "gotcha2": "*No es adecuado para listas largas* — Todos los hijos se renderizan inmediatamente. Para conjuntos de datos con muchos elementos usa `FlatList` o `SectionList`, que renderizan de forma diferida.",
+      "gotcha3": "*Scroll anidado en Android* — Mezclar ScrollViews horizontal y vertical requiere `nestedScrollEnabled={true}` en Android; sin esto, el scroll interno queda bloqueado.",
+      "gotcha4": "*scrollEventThrottle en iOS* — `onScroll` se dispara como máximo una vez por frame por defecto en iOS; establece `scrollEventThrottle={16}` para actualizaciones por frame al rastrear la posición de scroll."
+    }
+  },
+  "flatlist": {
+    "subtitle": "Un componente de lista desplazable de alto rendimiento para renderizar arrays de datos simples.",
+    "description": "`FlatList` es un componente de lista de alto rendimiento construido sobre `ScrollView`. Renderiza los elementos de forma diferida — solo los que están visibles en pantalla (más una ventana configurable) — lo que lo hace adecuado para conjuntos de datos largos o de longitud desconocida.\n\nComo `FlatList` extiende `PureComponent`, usa igualdad superficial para decidir cuándo volver a renderizar. Si tu `renderItem` depende de estado o contexto fuera de `data`, debes pasar ese valor a `extraData` para que la lista sepa que debe actualizarse.\n\nPara mejor rendimiento de desplazamiento, proporciona `getItemLayout` cuando los elementos tengan una altura fija. Esto permite que `FlatList` evite mediciones dinámicas y salte directamente a cualquier posición de la lista.",
+    "props": {
+      "data": "El array de elementos a renderizar. Cada elemento se pasa a `renderItem`.",
+      "renderItem": "Recibe `{item, index, separators}` y debe retornar un elemento React.",
+      "keyExtractor": "Retorna una clave string única para cada elemento; usa `item.key`, luego `item.id`, luego el índice como fallback.",
+      "extraData": "Cualquier valor que, al cambiar, fuerza a la lista a volver a renderizar — necesario para filas que dependen de estado.",
+      "getItemLayout": "Retorna `{length, offset, index}` para elementos de tamaño fijo, habilitando scroll directo y evitando medición dinámica.",
+      "numColumns": "Renderiza elementos en una cuadrícula con ese número de columnas; los elementos deben tener la misma altura."
+    },
+    "gotchas": {
+      "gotcha1": "*extraData requerido para filas con estado* — FlatList es un PureComponent; sin extraData, seleccionar o alternar un elemento no actualizará su renderizado.",
+      "gotcha2": "*El estado interno no se preserva* — Cuando una fila sale de la pantalla se desmonta. Gestiona la selección y otros estados fuera de la lista.",
+      "gotcha3": "*Filas en blanco al desplazarse rápido* — FlatList renderiza de forma asíncrona; los desplazamientos rápidos pueden revelar áreas vacías. Usa `getItemLayout` y ajusta `windowSize` para mitigarlo.",
+      "gotcha4": "*numColumns requiere altura uniforme* — Los diseños de múltiples columnas no soportan elementos de distintas alturas; usa una biblioteca de masonry en ese caso."
+    }
+  },
   "button": {
     "subtitle": "Un elemento presionable básico que activa una acción. Se renderiza como botón nativo en cada plataforma.",
     "description": "Un elemento presionable básico que activa una acción. Se renderiza como botón nativo en cada plataforma — un `UIButton` en iOS y un `android.widget.Button` en Android — por lo que su apariencia sigue el estilo predeterminado del sistema operativo.\n\nComo `Button` delega el renderizado a la plataforma, su superficie de personalización es intencionalmente mínima. Para control visual completo usa `Pressable` o `TouchableOpacity`.\n\nEl handler `onPress` recibe un `GestureResponderEvent`, pero raramente es necesario; la mayoría de los handlers ignoran el argumento por completo.",

@@ -1,4 +1,143 @@
 {
+  "touchableopacity": {
+    "subtitle": "A pressable wrapper that dims its content during a touch by animating opacity.",
+    "description": "`TouchableOpacity` is a pressable wrapper that dims its content when touched by animating the opacity of an internal `Animated.View`. It is one of the original touch primitives in React Native and still widely used, but the React Native team recommends `Pressable` for new code.\n\nThe opacity during a press is controlled by `activeOpacity`, which defaults to `0.2` — a very strong dim. Most designs set it to `0.7` or `0.8` for subtler feedback. Remember that a lower value means more transparent, not less.\n\nBecause the animation runs on an `Animated.View` wrapping your children, it adds a layer to the view hierarchy. This can occasionally cause unexpected layout behaviour — particularly with absolutely positioned children or overlapping views.",
+    "props": {
+      "onPress": "Called when the touch completes.",
+      "activeOpacity": "Opacity of the wrapper during a press; defaults to `0.2` — lower values produce a stronger dimming effect.",
+      "disabled": "When true, disables press interaction.",
+      "onLongPress": "Called when a press is held longer than 500ms."
+    },
+    "gotchas": {
+      "gotcha1": "*Prefer Pressable for new code* — TouchableOpacity is the older API; the React Native team recommends `Pressable` for new development as it offers more control over the press lifecycle.",
+      "gotcha2": "*activeOpacity defaults to 0.2* — This is very dim; most designs use `0.7`–`0.8` for subtler feedback. Remember: lower value = more transparent.",
+      "gotcha3": "*Animated.View wrapper affects layout* — The internal `Animated.View` adds a layer to the view hierarchy, which can cause unexpected layout behaviour with absolutely positioned or overlapping children."
+    }
+  },
+  "pressable": {
+    "subtitle": "A primitive wrapper for building custom interactive elements with full press-lifecycle control.",
+    "description": "`Pressable` is the recommended primitive for building custom interactive elements. It wraps any children and exposes the full press interaction lifecycle — `onPressIn`, `onPress`, `onPressOut`, and `onLongPress` — without imposing any visual style of its own.\n\nBoth `style` and `children` can be functions that receive `{ pressed }`, making it easy to apply visual feedback directly in JSX without external state. This is the preferred way to dim, scale, or recolour an element during a press.\n\nUse `hitSlop` to expand the touchable area beyond the visible bounds — especially useful for small icons and tight layouts — and `android_ripple` to configure the native ripple effect on Android.",
+    "props": {
+      "onPress": "Called when the press completes (after the finger lifts).",
+      "onPressIn": "Called immediately when the touch engages — useful for instant feedback before `onPress` fires.",
+      "onLongPress": "Called when a press lasts longer than 500ms; customise the threshold with `delayLongPress`.",
+      "hitSlop": "Expands the touch-detection area beyond the component's visual bounds; accepts a number or `{ top, bottom, left, right }`.",
+      "disabled": "When true, disables all press interactions.",
+      "android_ripple": "Android only — configures the native ripple effect with `color`, `borderless`, and `radius`."
+    },
+    "gotchas": {
+      "gotcha1": "*style and children can be functions* — Both accept `({ pressed }) => ...`, letting you apply press-state feedback directly in JSX without managing external state.",
+      "gotcha2": "*hitSlop vs pressRetentionOffset* — `hitSlop` defines where a press can start; `pressRetentionOffset` defines how far the finger can move after engaging while staying active. They are distinct concepts.",
+      "gotcha3": "*Touch area cannot exceed parent bounds* — `hitSlop` cannot expand the active area past the parent view; restructure the layout if a larger area is needed near an edge.",
+      "gotcha4": "*android_ripple foreground* — If child views have backgrounds or images that cover the ripple, add `foreground: true` to `android_ripple` so the effect renders on top."
+    }
+  },
+  "switch": {
+    "subtitle": "A controlled boolean toggle for on/off settings.",
+    "description": "`Switch` is a controlled boolean toggle — the mobile equivalent of a checkbox. Like all controlled inputs in React Native, it does not manage its own state: you must update the `value` prop in the `onValueChange` callback, or the switch will snap back after every tap.\n\nTrack and thumb colours can be customised independently. On iOS, `trackColor.false` only tints the track border when the switch is off — use `ios_backgroundColor` to control the full background colour in that state.\n\nFor accessibility, pair `Switch` with an adjacent `Text` label or use the `accessibilityLabel` prop so screen readers can announce what the toggle controls.",
+    "props": {
+      "value": "Current state of the switch; `true` means on.",
+      "onValueChange": "Called with the new boolean when the user toggles the switch; must update `value` or the switch won't respond.",
+      "disabled": "When true, prevents user interaction.",
+      "trackColor": "Custom track colours for each state: `{ false: color, true: color }`.",
+      "thumbColor": "Color of the thumb grip; on iOS, setting this removes the native drop shadow.",
+      "ios_backgroundColor": "iOS only — background color visible when the switch is off or disabled; `trackColor` does not fill this area on iOS."
+    },
+    "gotchas": {
+      "gotcha1": "*Must be fully controlled* — If `value` is not updated in `onValueChange`, the toggle snaps back after every tap. Always pair it with a state setter.",
+      "gotcha2": "*thumbColor removes the iOS shadow* — Setting `thumbColor` on iOS removes the native drop shadow from the grip, making it look different from the system default.",
+      "gotcha3": "*ios_backgroundColor vs trackColor on iOS* — `trackColor.false` only tints the track border when the switch is off; use `ios_backgroundColor` for the full background. This prop has no effect on Android."
+    }
+  },
+  "activityindicator": {
+    "subtitle": "A circular loading spinner that communicates background activity to the user.",
+    "description": "`ActivityIndicator` renders the platform's native loading spinner. It is the standard way to communicate that the app is working — fetching data, processing a request, or waiting for a response.\n\nThe component is fully controlled: show and hide it by toggling the `animating` prop rather than conditionally mounting and unmounting it. On iOS, `hidesWhenStopped` (default `true`) automatically hides the spinner when `animating` is `false`; on Android you must manage visibility yourself.\n\nKeep spinners contextual — place them close to the content that is loading rather than full-screen unless the entire UI is blocked.",
+    "props": {
+      "animating": "Whether to show the indicator (`true`) or hide it (`false`); defaults to `true`.",
+      "color": "Foreground color of the spinner; defaults to the system accent on iOS and `#999999` on Android.",
+      "size": "Size of the indicator: `'small'` or `'large'`; Android also accepts a number for a custom size.",
+      "hidesWhenStopped": "iOS only — automatically hides the spinner when `animating` is `false`; has no effect on Android."
+    },
+    "gotchas": {
+      "gotcha1": "*Default color differs by platform* — iOS uses the system accent color; Android defaults to `#999999`. Pass an explicit `color` for consistent branding across both platforms.",
+      "gotcha2": "*hidesWhenStopped is iOS only* — Android ignores this prop entirely; control visibility by toggling `animating` instead of relying on auto-hide.",
+      "gotcha3": "*Custom numeric size is Android only* — Passing a number to `size` only works on Android; on iOS only `'small'` and `'large'` are respected."
+    }
+  },
+  "image": {
+    "subtitle": "Displays images from network URLs, local assets, and base64 data URIs.",
+    "description": "`Image` displays pictures from network URLs, local assets (via `require()`), and base64 data URIs. Its API is deliberately lean — dimensions and resize behaviour are controlled through the `style` prop and `resizeMode` rather than HTML-style attributes.\n\nNetwork and data URI images have no inherent size, so React Native cannot infer their layout dimensions. You must explicitly set `width` and `height` in the style; omitting them causes the image to collapse to zero size and become invisible.\n\nUse `onLoad` to react when the image finishes loading and `onError` to handle failures and show a fallback. For a smooth loading experience, provide a `defaultSource` (a local asset) to display while the real image fetches.",
+    "props": {
+      "source": "Specifies the image: a `{ uri }` object for network or data URIs, or `require()` for local assets.",
+      "resizeMode": "Controls how the image scales when its frame doesn't match the raw dimensions (`cover`, `contain`, `stretch`, `repeat`, `center`).",
+      "style": "Sets dimensions, border radius, and other visual properties; `width` and `height` are required for network images.",
+      "onLoad": "Fires when the image finishes loading successfully; receives the actual source dimensions.",
+      "onError": "Fires when the image fails to load; use it to set a flag and render a fallback.",
+      "defaultSource": "Placeholder image shown while the actual source loads; ignored on Android debug builds."
+    },
+    "gotchas": {
+      "gotcha1": "*Network images require explicit dimensions* — Unlike web `<img>`, remote URLs carry no layout info; omitting `width` and `height` in the style collapses the image to zero size.",
+      "gotcha2": "*GIF and WebP on Android* — These formats are unsupported by default; add the Fresco animated modules to `android/app/build.gradle` to enable them.",
+      "gotcha3": "*defaultSource ignored on Android debug builds* — The placeholder only renders in release builds on Android; test placeholder behaviour on a release variant.",
+      "gotcha4": "*blurRadius differs by platform* — iOS needs values above 5 to produce a visible blur; the same value renders very differently between platforms."
+    }
+  },
+  "textinput": {
+    "subtitle": "A text field that captures keyboard input with support for autocorrect, capitalization, and keyboard types.",
+    "description": "`TextInput` is the foundational component for capturing text in React Native. It is used in controlled mode by passing `value` and `onChangeText`, which receives the updated string on every keystroke.\n\nKeyboard behaviour can be tuned with `keyboardType`, `autoCapitalize`, and `autoCorrect`. For passwords, use `secureTextEntry`, which masks characters with dots — but note that this prop is incompatible with `multiline`.\n\nFor programmatic access — moving focus or clearing the field — attach a `ref` and call methods like `focus()`, `blur()`, or `clear()`.",
+    "props": {
+      "value": "Controlled value; forces the native field to display this string.",
+      "onChangeText": "Receives the updated string on every keystroke — the primary way to read input in a controlled component.",
+      "placeholder": "Text shown before the user types anything.",
+      "keyboardType": "Determines which keyboard layout opens (`default`, `email-address`, `numeric`, `phone-pad`, etc.).",
+      "secureTextEntry": "Masks characters for passwords; incompatible with `multiline`.",
+      "multiline": "Allows the field to grow across multiple lines.",
+      "editable": "When false, the field is read-only and cannot be focused.",
+      "maxLength": "Hard-limits the number of characters; prefer this over JS validation to avoid flicker."
+    },
+    "gotchas": {
+      "gotcha1": "*Multiline vertical alignment* — On iOS text centers vertically in a multiline field; add `textAlignVertical: 'top'` to the style prop for cross-platform consistency.",
+      "gotcha2": "*Android underline* — Android renders a default bottom border on every TextInput; set `underlineColorAndroid=\"transparent\"` to remove it.",
+      "gotcha3": "*secureTextEntry + multiline* — These two props cannot be used together; `secureTextEntry` is silently ignored when `multiline` is true.",
+      "gotcha4": "*Keyboard pushes layout on Android* — The soft keyboard may change `windowSoftInputMode`, breaking absolutely positioned components. Wrap the screen in `KeyboardAvoidingView` to manage this."
+    }
+  },
+  "scrollview": {
+    "subtitle": "A scrollable container that renders all its children at once.",
+    "description": "`ScrollView` wraps the platform's native scroll view and integrates with React Native's touch responder system. Unlike `FlatList`, it renders all children immediately — so it is best suited for content of bounded, predictable size.\n\nThe scroll container must have a bounded height to work correctly. On a vertical `ScrollView` this means at least one ancestor must have an explicit height or `flex: 1` propagated down the tree. The most common layout bug is a `ScrollView` with unbounded height that never scrolls.\n\nFor programmatic control, attach a `ref` and call `scrollTo` or `scrollToEnd`. On iOS, `scrollEventThrottle` controls how often `onScroll` fires — set it to `16` to get approximately one event per frame.",
+    "props": {
+      "horizontal": "Arranges children in a horizontal row instead of a vertical column.",
+      "contentContainerStyle": "Styles applied to the inner content container that wraps all children.",
+      "showsVerticalScrollIndicator": "Shows or hides the vertical scroll indicator; also `showsHorizontalScrollIndicator` for horizontal mode.",
+      "pagingEnabled": "Snaps scrolling to multiples of the scroll view's size, enabling swipeable page-by-page navigation.",
+      "onScroll": "Fired during scrolling with position data; pair with `scrollEventThrottle` to control frequency on iOS.",
+      "scrollEnabled": "When false, content cannot be scrolled via touch interaction but can still scroll programmatically."
+    },
+    "gotchas": {
+      "gotcha1": "*Height must be bounded* — ScrollView needs a constrained height to scroll. A missing `flex: 1` on an ancestor is the most common cause of a scroll view that never scrolls.",
+      "gotcha2": "*Not for long lists* — All children render immediately. For datasets with many items use `FlatList` or `SectionList`, which render lazily.",
+      "gotcha3": "*Nested scrolling on Android* — Mixing horizontal and vertical ScrollViews requires `nestedScrollEnabled={true}` on Android; without it, inner scrolling is blocked.",
+      "gotcha4": "*scrollEventThrottle on iOS* — `onScroll` fires at most once per frame by default on iOS; set `scrollEventThrottle={16}` for per-frame updates when tracking scroll position."
+    }
+  },
+  "flatlist": {
+    "subtitle": "A performant scrollable list for rendering flat data arrays.",
+    "description": "`FlatList` is a high-performance list component built on top of `ScrollView`. It renders items lazily — only the ones currently on screen (plus a configurable window) — making it suitable for long or unknown-length datasets.\n\nBecause `FlatList` extends `PureComponent`, it uses shallow equality to decide whether to re-render. If your `renderItem` depends on state or context outside `data`, you must pass that value to `extraData` so the list knows to update.\n\nFor best scrolling performance, provide `getItemLayout` when items have a fixed height. This lets `FlatList` skip dynamic measurement and jump directly to any position in the list.",
+    "props": {
+      "data": "The array of items to render. Each element is passed to `renderItem`.",
+      "renderItem": "Receives `{item, index, separators}` and must return a React element.",
+      "keyExtractor": "Returns a unique string key for each item; falls back to `item.key`, then `item.id`, then the index.",
+      "extraData": "Any value that, when changed, forces the list to re-render — needed for state-dependent rows.",
+      "getItemLayout": "Returns `{length, offset, index}` for fixed-size items, enabling scroll-to and skipping dynamic measurement.",
+      "numColumns": "Renders items in a grid with this many columns; items must be the same height."
+    },
+    "gotchas": {
+      "gotcha1": "*extraData required for state-driven rows* — FlatList is a PureComponent; without extraData, selecting or toggling an item won't update its render.",
+      "gotcha2": "*Internal state is not preserved* — When a row scrolls off screen it unmounts. Manage selection and other state outside the list.",
+      "gotcha3": "*Blank rows while fast-scrolling* — FlatList renders asynchronously; fast scrolls can reveal empty areas. Use `getItemLayout` and tune `windowSize` to mitigate.",
+      "gotcha4": "*numColumns requires uniform height* — Multi-column layouts don't support items of different heights; use a masonry library instead."
+    }
+  },
   "button": {
     "subtitle": "A basic pressable element that triggers an action. Renders as a native button on each platform.",
     "description": "A basic pressable element that triggers an action. Renders as a native button on each platform — a `UIButton` on iOS and an `android.widget.Button` on Android — so its appearance follows the OS styling by default.\n\nBecause `Button` delegates rendering to the platform, its customisation surface is intentionally minimal. For full visual control use `Pressable` or `TouchableOpacity` instead.\n\nThe `onPress` handler receives a `GestureResponderEvent` but it is rarely needed; most handlers ignore the argument entirely.",

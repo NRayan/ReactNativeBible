@@ -1,6 +1,6 @@
 import { Box, Icon, PressableBox, Text } from "@components";
 import type { RNComponent } from "@features/components/types";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import React from "react";
 
 type NativeComponentCardProps = {
@@ -9,9 +9,10 @@ type NativeComponentCardProps = {
 }
 
 export function NativeComponentCard({ component, onPress }: NativeComponentCardProps) {
+    const { t } = useTranslation();
     return (
         <PressableBox rounded="default" border style={{ overflow: "hidden" }} onPress={onPress}>
-            <Box h={120} bgColor="background" align="center" justify="center">
+            <Box h={100} bgColor="background" align="center" justify="center">
                 {component.previewComponent}
             </Box>
 

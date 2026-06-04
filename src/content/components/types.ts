@@ -22,7 +22,7 @@ export type RNComponent = {
   tag: ComponentTag
   subtitle: ComponentContentKey
   description: ComponentContentKey
-  previewComponent: React.ReactNode
+  previewComponent: (props: { focused: boolean })=> React.ReactElement
   props: ComponentProp[]
   gotchas: ComponentContentKey[]
   codeSnippet: string

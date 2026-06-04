@@ -1,5 +1,22 @@
 import type { RNComponent } from "@content/components/types";
+import { useState } from "react";
+import { useThemeStore } from "@stores/theme";
 import { TextInput } from "react-native";
+
+function TextInputPreview() {
+    const { theme: { colors } } = useThemeStore();
+    const [value, setValue] = useState("");
+    
+    return (
+        <TextInput
+            value={value}
+            onChangeText={setValue}
+            placeholder="Type something…"
+            placeholderTextColor={colors["text-muted"]}
+            style={{ backgroundColor: colors.surface, color: colors["text-primary"], width: "70%", maxWidth: 350 }}
+        />
+    );
+}
 
 export const textinput: RNComponent = {
     id: "textinput",
@@ -7,12 +24,7 @@ export const textinput: RNComponent = {
     tag: "interaction",
     subtitle: "content.textinput.subtitle",
     description: "content.textinput.description",
-    previewComponent: (
-        <TextInput
-            placeholder="Type something…"
-            editable={false}
-        />
-    ),
+    previewComponent: TextInputPreview,
     props: [
         { name: "value", type: "string", required: false, description: "content.textinput.props.value" },
         { name: "onChangeText", type: "function", required: false, description: "content.textinput.props.onChangeText" },

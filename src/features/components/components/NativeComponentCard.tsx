@@ -13,13 +13,13 @@ export function NativeComponentCard({ component, onPress }: NativeComponentCardP
     return (
         <PressableBox rounded="default" border style={{ overflow: "hidden" }} onPress={onPress}>
             <Box h={100} bgColor="background" align="center" justify="center">
-                {component.previewComponent}
+                <component.previewComponent focused={false} />
             </Box>
 
             <Box row bgColor="surface" py={3} px={4} gap={2} align="center">
                 <Box flex={1}>
                     <Text variant="body-emphasis" color="text-primary" flex={1}>{component.name} </Text>
-                    <Text variant="caption" color="text-muted" numberOfLines={2} flex={1}>{t(component.subtitle)}</Text>
+                    <Text variant="caption" color="text-muted" numberOfLines={3} flex={1}>{t(component.subtitle)}</Text>
                 </Box>
 
                 <Icon name="IconChevronRight" size={16} color="text-disabled" />

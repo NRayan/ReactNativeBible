@@ -188,7 +188,55 @@ export const components: ComponentsContent = {
 
 ## Preview component rules
 
-- Must be a valid React Native render — no hooks, no state
+`previewComponent` has the type `(props: { focused: boolean }) => React.ReactElement`.
+
+**Always use a named component** (uppercase) defined above the exported object — even for stateless previews. This is required because ESLint's `react-hooks/rules-of-hooks` only recognises hooks inside functions whose names start with an uppercase letter or `use`, and it keeps the pattern consistent.
+
+```tsx
+function ButtonPreview() {
+    return <Button title="Press me" onPress={() => null} />;
+}
+
+export const button: RNComponent = {
+    // ...
+    previewComponent: ButtonPreview,
+}
+```
+
+**Theme-aware styling** — if the preview needs colours that follow the selected theme, use `useThemeStore`:
+
+```tsx
+function TextInputPreview() {
+    const { theme: { colors } } = useThemeStore();
+    return (
+        <TextInput
+            style={{ backgroundColor: colors.surface, color: colors["text-primary"] }}
+        />
+    );
+}
+```
+
+**Interactive previews** — previews should be interactive when the component is inherently interactive:
+
+- *Pressable components* (`Button`, `Pressable`, `TouchableOpacity`) — use a press counter. Start with `"Press me"`, then show `"Pressed N×"`:
+
+```tsx
+function ButtonPreview() {
+    const [count, setCount] = useState(0);
+    const label = count === 0 ? "Press me" : `Pressed ${count}×`;
+    return <Button title={label} onPress={() => setCount(c => c + 1)} />;
+}
+```
+
+- *Input components* (`TextInput`, `Switch`) — use controlled state so the user can interact with the field:
+
+```tsx
+function SwitchPreview() {
+    const [value, setValue] = useState(false);
+    return <Switch value={value} onValueChange={setValue} />;
+}
+```
+
 - Should be representative but simple
 - If the component requires mandatory props, provide minimal ones
 - If a meaningful preview isn't possible (e.g. `Modal`), use a placeholder `<View>`

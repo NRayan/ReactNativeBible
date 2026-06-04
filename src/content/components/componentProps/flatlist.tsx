@@ -2,13 +2,8 @@ import type { RNComponent } from "@content/components/types";
 import { Text } from "@components";
 import { FlatList } from "react-native";
 
-export const flatlist: RNComponent = {
-    id: "flatlist",
-    name: "FlatList",
-    tag: "layout",
-    subtitle: "content.flatlist.subtitle",
-    description: "content.flatlist.description",
-    previewComponent: (
+function FlatListPreview() {
+    return (
         <FlatList
             contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
             data={Array.from({ length: 10 }, (_, i) => `Item ${i + 1}`)}
@@ -16,7 +11,16 @@ export const flatlist: RNComponent = {
             keyExtractor={(item) => item}
             style={{ flexGrow: 0 }}
         />
-    ),
+    );
+}
+
+export const flatlist: RNComponent = {
+    id: "flatlist",
+    name: "FlatList",
+    tag: "layout",
+    subtitle: "content.flatlist.subtitle",
+    description: "content.flatlist.description",
+    previewComponent: FlatListPreview,
     props: [
         { name: "data", type: "T[]", required: true, description: "content.flatlist.props.data" },
         { name: "renderItem", type: "function", required: true, description: "content.flatlist.props.renderItem" },

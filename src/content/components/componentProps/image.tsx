@@ -1,19 +1,23 @@
 import type { RNComponent } from "@content/components/types";
 import { Image } from "react-native";
 
+function ImagePreview() {
+    return (
+        <Image
+            source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+            style={{ width: 64, height: 64 }}
+            resizeMode="contain"
+        />
+    );
+}
+
 export const image: RNComponent = {
     id: "image",
     name: "Image",
     tag: "layout",
     subtitle: "content.image.subtitle",
     description: "content.image.description",
-    previewComponent: (
-        <Image
-            source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-            style={{ width: 64, height: 64 }}
-            resizeMode="contain"
-        />
-    ),
+    previewComponent: ImagePreview,
     props: [
         { name: "source", type: "ImageSource", required: true, description: "content.image.props.source" },
         { name: "resizeMode", type: "string", required: false, description: "content.image.props.resizeMode" },

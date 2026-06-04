@@ -1,6 +1,17 @@
 import type { RNComponent } from "@content/components/types";
+import { useState } from "react";
 import { Text } from "@components";
 import { TouchableOpacity } from "react-native";
+
+function TouchableOpacityPreview() {
+    const [count, setCount] = useState(0);
+    const label = count === 0 ? "Press me" : `Pressed ${count}×`;
+    return (
+        <TouchableOpacity activeOpacity={0.7} onPress={() => setCount(c => c + 1)}>
+            <Text variant="body">{label}</Text>
+        </TouchableOpacity>
+    );
+}
 
 export const touchableopacity: RNComponent = {
     id: "touchableopacity",
@@ -8,11 +19,7 @@ export const touchableopacity: RNComponent = {
     tag: "interaction",
     subtitle: "content.touchableopacity.subtitle",
     description: "content.touchableopacity.description",
-    previewComponent: (
-        <TouchableOpacity activeOpacity={0.7} onPress={() => null}>
-            <Text variant="body">Press me</Text>
-        </TouchableOpacity>
-    ),
+    previewComponent: TouchableOpacityPreview,
     props: [
         { name: "onPress", type: "function", required: false, description: "content.touchableopacity.props.onPress" },
         { name: "activeOpacity", type: "number", required: false, description: "content.touchableopacity.props.activeOpacity" },

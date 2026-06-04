@@ -1,5 +1,13 @@
 import type { RNComponent } from "@content/components/types";
+import { useThemeStore } from "@stores/theme";
+import { useState } from "react";
 import { Switch } from "react-native";
+
+function SwitchPreview() {
+    const { theme: { colors } } = useThemeStore();
+    const [value, setValue] = useState(false);
+    return <Switch value={value} onValueChange={setValue} thumbColor={value ? colors.accent : colors["text-secondary"]} />;
+}
 
 export const switchComponent: RNComponent = {
     id: "switch",
@@ -7,9 +15,7 @@ export const switchComponent: RNComponent = {
     tag: "interaction",
     subtitle: "content.switch.subtitle",
     description: "content.switch.description",
-    previewComponent: (
-        <Switch value={true} onValueChange={() => null} />
-    ),
+    previewComponent: SwitchPreview,
     props: [
         { name: "value", type: "boolean", required: true, description: "content.switch.props.value" },
         { name: "onValueChange", type: "function", required: true, description: "content.switch.props.onValueChange" },

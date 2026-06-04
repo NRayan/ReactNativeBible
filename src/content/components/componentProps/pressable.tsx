@@ -1,6 +1,17 @@
 import type { RNComponent } from "@content/components/types";
+import { useState } from "react";
 import { Text } from "@components";
 import { Pressable } from "react-native";
+
+function PressablePreview() {
+    const [count, setCount] = useState(0);
+    const label = count === 0 ? "Press me" : `Pressed ${count}×`;
+    return (
+        <Pressable onPress={() => setCount(c => c + 1)}>
+            <Text variant="body">{label}</Text>
+        </Pressable>
+    );
+}
 
 export const pressable: RNComponent = {
     id: "pressable",
@@ -8,11 +19,7 @@ export const pressable: RNComponent = {
     tag: "interaction",
     subtitle: "content.pressable.subtitle",
     description: "content.pressable.description",
-    previewComponent: (
-        <Pressable onPress={() => null}>
-            <Text variant="body">Press me</Text>
-        </Pressable>
-    ),
+    previewComponent: PressablePreview,
     props: [
         { name: "onPress", type: "function", required: false, description: "content.pressable.props.onPress" },
         { name: "onPressIn", type: "function", required: false, description: "content.pressable.props.onPressIn" },

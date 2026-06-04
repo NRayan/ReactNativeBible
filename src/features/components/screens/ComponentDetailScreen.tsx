@@ -23,7 +23,7 @@ export function ComponentDetailScreen({ route }: Props) {
                 <Box fullWidth gap={2}>
                     <Text variant="section-label">{strings.preview}</Text>
                     <Box h={120} fullWidth border rounded="default" justify="center" align="center" >
-                        {component.previewComponent}
+                        <component.previewComponent focused={false} />
                     </Box>
                 </Box>
 

@@ -2,22 +2,24 @@ import type { RNComponent } from "@content/components/types";
 import { Text } from "@components";
 import { ScrollView } from "react-native";
 
+function ScrollViewPreview() {
+    return (
+        <ScrollView
+            scrollEnabled={true}
+            contentContainerStyle={{ gap: 8, paddingHorizontal: 16, alignItems: "center" }}
+            style={{ flexGrow: 0 }}>
+            {Array.from({ length: 10 }, (_, i) => <Text key={i} variant="body">Item {i + 1}</Text>)}
+        </ScrollView>
+    );
+}
+
 export const scrollview: RNComponent = {
     id: "scrollview",
     name: "ScrollView",
     tag: "layout",
     subtitle: "content.scrollview.subtitle",
     description: "content.scrollview.description",
-    previewComponent: (
-        <ScrollView
-            scrollEnabled={true}
-            contentContainerStyle={{ gap: 8, paddingHorizontal: 16, alignItems: "center" }}
-            style={{ flexGrow: 0 }} >
-            {
-                Array.from({ length: 10 }, (_, i) => <Text key={i} variant="body">Item {i + 1}</Text> )
-            }
-        </ScrollView>
-    ),
+    previewComponent: ScrollViewPreview,
     props: [
         { name: "horizontal", type: "boolean", required: false, description: "content.scrollview.props.horizontal" },
         { name: "contentContainerStyle", type: "StyleProp<ViewStyle>", required: false, description: "content.scrollview.props.contentContainerStyle" },

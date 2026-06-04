@@ -1,4 +1,39 @@
 {
+  "sectionlist": {
+    "subtitle": "A performant scrollable list that groups items under labelled section headers.",
+    "description": "`SectionList` is the sectioned counterpart to `FlatList` — it renders a scrollable list where items are grouped under labelled headers. Like `FlatList`, it renders lazily and is suitable for long datasets.\n\nThe `sections` prop is an array of objects, each with a `data` array and an optional `key`. `renderItem` works identically to `FlatList`, while `renderSectionHeader` lets you render a header above each group.\n\nSection headers stick while scrolling on iOS by default but not on Android. Set `stickySectionHeadersEnabled` explicitly when consistent cross-platform behaviour matters. As with `FlatList`, pass any external state that `renderItem` depends on through `extraData` to trigger re-renders.",
+    "props": {
+      "sections": "Array of section objects, each with a `data` array of items and an optional `key`.",
+      "renderItem": "Renders each item; receives `{ item, index, section, separators }`.",
+      "renderSectionHeader": "Renders the header for each section; sticky on iOS by default.",
+      "stickySectionHeadersEnabled": "Makes section headers stick while scrolling; defaults to `true` on iOS and `false` on Android.",
+      "extraData": "Any value that, when changed, forces the list to re-render — needed for state-dependent rows.",
+      "ItemSeparatorComponent": "Renders a divider between items; not rendered at section edges."
+    },
+    "gotchas": {
+      "gotcha1": "*Sticky headers differ by platform* — iOS sticks section headers by default; Android doesn't. Always set `stickySectionHeadersEnabled` explicitly for consistent cross-platform behaviour.",
+      "gotcha2": "*Sections need keys* — Provide a unique `key` on each section object in addition to item keys; without them, React may mis-identify sections during re-renders.",
+      "gotcha3": "*extraData required for state-driven rows* — SectionList is a PureComponent; pass any state that `renderItem` depends on via `extraData` or updates won't show.",
+      "gotcha4": "*Internal state is not preserved* — Rows that scroll out of the render window unmount. Manage selection and other state outside the list."
+    }
+  },
+  "view": {
+    "subtitle": "The fundamental layout container — maps to a native view on each platform.",
+    "description": "`View` is the fundamental building block for UI in React Native — equivalent to a `<div>` on the web. It maps to `UIView` on iOS and `android.view.View` on Android, and is the primary primitive for composing layouts with flexbox.\n\nBy default, `View` uses flexbox with `flexDirection: 'column'`. Nest Views and set `flex`, `flexDirection`, `justifyContent`, and `alignItems` to build any layout. All visual styling — background, borders, shadows, transforms — is applied through the `style` prop.\n\nViews that serve only as layout containers (no background, no border) are removed from the native view hierarchy by default via the `collapsable` optimisation. Set `collapsable={false}` if you need to preserve the native node — for example, when attaching a `ref` or using `onLayout`.",
+    "props": {
+      "style": "Applies flexbox layout, spacing, colors, borders, and other visual styles.",
+      "onLayout": "Fires after layout is calculated with the view's dimensions and position; useful for measuring.",
+      "pointerEvents": "Controls touch handling: `'none'` blocks all touches, `'box-none'` passes touches through to children only, `'box-only'` blocks children.",
+      "collapsable": "When false, prevents React Native from removing the native node as a layout-only optimisation; needed for refs and onLayout.",
+      "accessible": "When true, marks the view as a single accessible element for screen readers."
+    },
+    "gotchas": {
+      "gotcha1": "*collapsable optimisation* — Views with no visual output are silently removed from the native hierarchy. Add `collapsable={false}` when you need the native node to exist for a ref or `onLayout`.",
+      "gotcha2": "*onLayout fires before paint* — The callback runs after the layout pass but before the frame is drawn; don't use it to trigger animations that need to start immediately on screen.",
+      "gotcha3": "*box-none vs none* — `'none'` blocks all touches including children; `'box-none'` blocks the View itself but still lets children receive touches. The two are easy to confuse.",
+      "gotcha4": "*hitSlop cannot exceed parent bounds* — Expanding the touch area with `hitSlop` has no effect beyond the parent View's boundaries."
+    }
+  },
   "touchableopacity": {
     "subtitle": "A pressable wrapper that dims its content during a touch by animating opacity.",
     "description": "`TouchableOpacity` is a pressable wrapper that dims its content when touched by animating the opacity of an internal `Animated.View`. It is one of the original touch primitives in React Native and still widely used, but the React Native team recommends `Pressable` for new code.\n\nThe opacity during a press is controlled by `activeOpacity`, which defaults to `0.2` — a very strong dim. Most designs set it to `0.7` or `0.8` for subtler feedback. Remember that a lower value means more transparent, not less.\n\nBecause the animation runs on an `Animated.View` wrapping your children, it adds a layer to the view hierarchy. This can occasionally cause unexpected layout behaviour — particularly with absolutely positioned children or overlapping views.",

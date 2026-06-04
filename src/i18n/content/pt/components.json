@@ -1,4 +1,39 @@
 {
+  "sectionlist": {
+    "subtitle": "Uma lista rolável de alta performance que agrupa itens sob cabeçalhos de seção.",
+    "description": "`SectionList` é a contraparte com seções do `FlatList` — renderiza uma lista rolável onde os itens são agrupados sob cabeçalhos com rótulos. Como o `FlatList`, renderiza de forma preguiçosa e é adequado para conjuntos de dados longos.\n\nO prop `sections` é um array de objetos, cada um com um array `data` e um `key` opcional. `renderItem` funciona de forma idêntica ao `FlatList`, enquanto `renderSectionHeader` permite renderizar um cabeçalho acima de cada grupo.\n\nOs cabeçalhos de seção ficam fixos durante a rolagem no iOS por padrão, mas não no Android. Defina `stickySectionHeadersEnabled` explicitamente quando o comportamento consistente entre plataformas for importante. Como no `FlatList`, passe qualquer estado externo do qual `renderItem` depende através de `extraData` para disparar re-renders.",
+    "props": {
+      "sections": "Array de objetos de seção, cada um com um array `data` de itens e um `key` opcional.",
+      "renderItem": "Renderiza cada item; recebe `{ item, index, section, separators }`.",
+      "renderSectionHeader": "Renderiza o cabeçalho de cada seção; fixo no iOS por padrão.",
+      "stickySectionHeadersEnabled": "Mantém os cabeçalhos fixos durante a rolagem; padrão `true` no iOS e `false` no Android.",
+      "extraData": "Qualquer valor que, ao mudar, força a lista a re-renderizar — necessário para linhas que dependem de estado.",
+      "ItemSeparatorComponent": "Renderiza um divisor entre os itens; não é renderizado nas bordas das seções."
+    },
+    "gotchas": {
+      "gotcha1": "*Cabeçalhos fixos diferem entre plataformas* — O iOS fixa os cabeçalhos de seção por padrão; o Android não. Sempre defina `stickySectionHeadersEnabled` explicitamente para comportamento consistente.",
+      "gotcha2": "*Seções precisam de keys* — Forneça um `key` único em cada objeto de seção além das keys dos itens; sem eles, o React pode identificar incorretamente as seções durante re-renders.",
+      "gotcha3": "*extraData obrigatório para linhas com estado* — SectionList é um PureComponent; passe qualquer estado do qual `renderItem` depende via `extraData` ou as atualizações não serão exibidas.",
+      "gotcha4": "*Estado interno não é preservado* — Linhas que saem da janela de renderização são desmontadas. Gerencie seleção e outros estados fora da lista."
+    }
+  },
+  "view": {
+    "subtitle": "O contêiner de layout fundamental — mapeia para uma view nativa em cada plataforma.",
+    "description": "`View` é o bloco de construção fundamental para UI no React Native — equivalente a um `<div>` na web. Mapeia para `UIView` no iOS e `android.view.View` no Android, e é o primitivo principal para compor layouts com flexbox.\n\nPor padrão, `View` usa flexbox com `flexDirection: 'column'`. Aninhe Views e defina `flex`, `flexDirection`, `justifyContent` e `alignItems` para construir qualquer layout. Todo estilo visual — fundo, bordas, sombras, transformações — é aplicado pelo prop `style`.\n\nViews que servem apenas como contêineres de layout (sem fundo, sem borda) são removidas da hierarquia de views nativa por padrão via a otimização `collapsable`. Defina `collapsable={false}` se precisar preservar o nó nativo — por exemplo, ao usar uma `ref` ou `onLayout`.",
+    "props": {
+      "style": "Aplica layout flexbox, espaçamento, cores, bordas e outros estilos visuais.",
+      "onLayout": "Disparado após o cálculo do layout com as dimensões e posição da view; útil para medição.",
+      "pointerEvents": "Controla o toque: `'none'` bloqueia todos os toques, `'box-none'` passa os toques apenas para os filhos, `'box-only'` bloqueia os filhos.",
+      "collapsable": "Quando false, impede o React Native de remover o nó nativo como otimização de layout; necessário para refs e onLayout.",
+      "accessible": "Quando true, marca a view como um único elemento acessível para leitores de tela."
+    },
+    "gotchas": {
+      "gotcha1": "*Otimização collapsable* — Views sem saída visual são silenciosamente removidas da hierarquia nativa. Adicione `collapsable={false}` quando precisar que o nó nativo exista para uma ref ou `onLayout`.",
+      "gotcha2": "*onLayout dispara antes da renderização* — O callback é executado após o cálculo do layout mas antes do frame ser desenhado; não o use para disparar animações que precisam começar imediatamente na tela.",
+      "gotcha3": "*box-none vs none* — `'none'` bloqueia todos os toques incluindo os filhos; `'box-none'` bloqueia a View em si mas ainda permite que os filhos recebam toques. Os dois são fáceis de confundir.",
+      "gotcha4": "*hitSlop não pode ultrapassar os limites do pai* — Expandir a área de toque com `hitSlop` não tem efeito além dos limites da View pai."
+    }
+  },
   "touchableopacity": {
     "subtitle": "Um wrapper pressionável que escurece seu conteúdo durante o toque animando a opacidade.",
     "description": "`TouchableOpacity` é um wrapper pressionável que escurece seu conteúdo ao toque animando a opacidade de um `Animated.View` interno. É um dos primitivos de toque originais do React Native e ainda amplamente utilizado, mas a equipe do React Native recomenda `Pressable` para novos projetos.\n\nA opacidade durante o pressionamento é controlada por `activeOpacity`, que tem padrão `0.2` — um escurecimento muito forte. A maioria dos designs define como `0.7` ou `0.8` para um feedback mais sutil. Lembre-se: um valor menor significa mais transparente, não menos.\n\nComo a animação é executada em um `Animated.View` que envolve seus filhos, ela adiciona uma camada à hierarquia de views. Isso pode ocasionalmente causar comportamentos de layout inesperados — especialmente com filhos posicionados absolutamente ou views sobrepostas.",

@@ -1,5 +1,12 @@
 import type { RNComponent } from "@content/components/types";
+import { useState } from "react";
 import { Button } from "react-native";
+
+function ButtonPreview() {
+    const [count, setCount] = useState(0);
+    const label = count === 0 ? "Press me" : `Pressed ${count}×`;
+    return <Button title={label} onPress={() => setCount(c => c + 1)} />;
+}
 
 export const button: RNComponent = {
     id: "button",
@@ -7,7 +14,7 @@ export const button: RNComponent = {
     tag: "interaction",
     subtitle: "content.button.subtitle",
     description: "content.button.description",
-    previewComponent: <Button title="Press me" onPress={() => null} />,
+    previewComponent: ButtonPreview,
     props: [
         { name: "title", type: "string", required: true, description: "content.button.props.title" },
         { name: "onPress", type: "function", required: true, description: "content.button.props.onPress" },

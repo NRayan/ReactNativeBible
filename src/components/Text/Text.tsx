@@ -5,7 +5,7 @@ import { useThemeStore } from "@stores/theme";
 import type { ColorTokens, TypographyTokens } from "@theme/types";
 import { variantDefaultColor } from "./Text.utils";
 
-type TextProps = {
+export type TextProps = {
     variant?: keyof TypographyTokens;
     color?: keyof ColorTokens;
     flex?: number;

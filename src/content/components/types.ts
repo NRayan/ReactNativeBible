@@ -5,21 +5,16 @@ export type ComponentProp = {
   type: string
   required: boolean
   description: string
-  options?: string[]
-}
-
-export type ComponentGotcha = {
-  label: string
-  description: string
 }
 
 export type RNComponent = {
   id: string
   name: string
   tag: ComponentTag
+  subtitle: string
   description: string
   previewComponent: React.ReactNode
   props: ComponentProp[]
-  gotchas: ComponentGotcha[]
+  gotchas: string[]
   codeSnippet: string
 }

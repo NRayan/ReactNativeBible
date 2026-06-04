@@ -1,5 +1,6 @@
 export { Box } from "./Box";
 export { Text } from "./Text";
+export { RichText } from "./RichText";
 export { Icon } from "./Icon";
 export { Badge } from "./Badge";
 export { IconTile } from "./IconTile";

@@ -32,7 +32,7 @@ export function ComponentDetailScreen({ route }: Props) {
                     <Box fullWidth border bgColor="surface" rounded="large">
                         {component.props.map((prop, index)=>
                             <React.Fragment key={prop.name}>
-                                <PropDetailRow prop={prop} requiredLabel={strings.required} />
+                                <PropDetailRow prop={prop as ComponentProp} requiredLabel={strings.required} />
                                 {index < component.props.length - 1 && <Separator/>}
                             </React.Fragment>
                         )}

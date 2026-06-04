@@ -1,5 +1,6 @@
 import { Box, Icon, PressableBox, Text } from "@components";
 import type { RNComponent } from "@features/components/types";
+import { t } from "i18next";
 import React from "react";
 
 type NativeComponentCardProps = {
@@ -17,7 +18,7 @@ export function NativeComponentCard({ component, onPress }: NativeComponentCardP
             <Box row bgColor="surface" py={3} px={4} gap={2} align="center">
                 <Box flex={1}>
                     <Text variant="body-emphasis" color="text-primary" flex={1}>{component.name} </Text>
-                    <Text variant="caption" color="text-muted" numberOfLines={2} flex={1}>{component.subtitle}</Text>
+                    <Text variant="caption" color="text-muted" numberOfLines={2} flex={1}>{t(component.subtitle)}</Text>
                 </Box>
 
                 <Icon name="IconChevronRight" size={16} color="text-disabled" />

@@ -1,0 +1,18 @@
+{
+  "button": {
+    "subtitle": "A basic pressable element that triggers an action. Renders as a native button on each platform.",
+    "description": "A basic pressable element that triggers an action. Renders as a native button on each platform — a `UIButton` on iOS and an `android.widget.Button` on Android — so its appearance follows the OS styling by default.\n\nBecause `Button` delegates rendering to the platform, its customisation surface is intentionally minimal. For full visual control use `Pressable` or `TouchableOpacity` instead.\n\nThe `onPress` handler receives a `GestureResponderEvent` but it is rarely needed; most handlers ignore the argument entirely.",
+    "props": {
+      "title": "Text label rendered inside the button. On Android the OS automatically uppercases it.",
+      "onPress": "Fired when the button is pressed.",
+      "color": "Text color on iOS, background color on Android.",
+      "disabled": "Disables interaction and renders in a muted style."
+    },
+    "gotchas": {
+      "gotcha1": "*iOS vs Android* — `color` sets the text color on iOS but the background fill on Android. A single value will look inconsistent across platforms.",
+      "gotcha2": "*No style prop* — `Button` doesn't accept `style`. Any customisation beyond `color` and `disabled` requires `Pressable` or `TouchableOpacity`.",
+      "gotcha3": "*Android* — The `title` is automatically uppercased by the OS. Use `Pressable` with a `Text` child if case matters.",
+      "gotcha4": "*Touch target* — React Native recommends 44×44pt minimum. `Button` doesn't enforce this — small labels produce small buttons."
+    }
+  }
+}

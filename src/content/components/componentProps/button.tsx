@@ -5,43 +5,22 @@ export const button: RNComponent = {
     id: "button",
     name: "Button",
     tag: "interaction",
-    subtitle: "A basic pressable element that triggers an action. Renders as a native button on each platform",
-    description:
-    "A basic pressable element that triggers an action. Renders as a native button on each platform — a `UIButton` on iOS and an `android.widget.Button` on Android — so its appearance follows the OS styling by default.\n\nBecause `Button` delegates rendering to the platform, its customisation surface is intentionally minimal. For full visual control use `Pressable` or `TouchableOpacity` instead.\n\nThe `onPress` handler receives a `GestureResponderEvent` but it is rarely needed; most handlers ignore the argument entirely.",
+    subtitle: "content.button.subtitle",
+    description: "content.button.description",
     previewComponent: <Button title="Press me" onPress={() => null} />,
     props: [
-        {
-            name: "title",
-            type: "string",
-            required: true,
-            description: "Text label. Uppercased automatically on Android.",
-        },
-        {
-            name: "onPress",
-            type: "function",
-            required: true,
-            description: "Fired when the button is pressed.",
-        },
-        {
-            name: "color",
-            type: "ColorValue",
-            required: false,
-            description: "Text color on iOS, background color on Android.",
-        },
-        {
-            name: "disabled",
-            type: "boolean",
-            required: false,
-            description: "Disables interaction and renders in a muted style.",
-        },
+        { name: "title", type: "string", required: true, description: "content.button.props.title" },
+        { name: "onPress", type: "function", required: true, description: "content.button.props.onPress" },
+        { name: "color", type: "ColorValue", required: false, description: "content.button.props.color" },
+        { name: "disabled", type: "boolean", required: false, description: "content.button.props.disabled" },
     ],
     gotchas: [
-        "*iOS vs Android* — `color` sets the text color on iOS but the background fill on Android. A single value will look inconsistent across platforms.",
-        "*No style prop* — `Button` doesn't accept `style`. Any customisation beyond `color` and `disabled` requires `Pressable` or `TouchableOpacity`.",
-        "*Android* — The `title` is automatically uppercased by the OS. Use `Pressable` with a `Text` child if case matters.",
-        "*Touch target* — React Native recommends 44×44pt minimum. `Button` doesn't enforce this — small labels produce small buttons.",
+        "content.button.gotchas.gotcha1",
+        "content.button.gotchas.gotcha2",
+        "content.button.gotchas.gotcha3",
+        "content.button.gotchas.gotcha4",
     ],
-    codeSnippet: 
+    codeSnippet:
 `<Button
     title="Reset"
     color="#fca5a5"
@@ -49,5 +28,4 @@ export const button: RNComponent = {
     onPress={() => setCount(0)}
     accessibilityLabel="Reset counter to zero"
 />`,
-       
 };

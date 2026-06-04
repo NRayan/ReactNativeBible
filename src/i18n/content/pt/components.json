@@ -1,0 +1,18 @@
+{
+  "button": {
+    "subtitle": "Um elemento pressionável básico que dispara uma ação. Renderiza como botão nativo em cada plataforma.",
+    "description": "Um elemento pressionável básico que dispara uma ação. Renderiza como botão nativo em cada plataforma — um `UIButton` no iOS e um `android.widget.Button` no Android — portanto sua aparência segue o estilo padrão do sistema operacional.\n\nComo `Button` delega a renderização à plataforma, sua superfície de personalização é intencionalmente mínima. Para controle visual completo, use `Pressable` ou `TouchableOpacity`.\n\nO handler `onPress` recebe um `GestureResponderEvent`, mas raramente é necessário; a maioria dos handlers ignora o argumento completamente.",
+    "props": {
+      "title": "Rótulo de texto renderizado dentro do botão. No Android, o sistema operacional o coloca em maiúsculas automaticamente.",
+      "onPress": "Disparado quando o botão é pressionado.",
+      "color": "Cor do texto no iOS, cor de fundo no Android.",
+      "disabled": "Desativa a interação e renderiza em estilo atenuado."
+    },
+    "gotchas": {
+      "gotcha1": "*iOS vs Android* — `color` define a cor do texto no iOS, mas o preenchimento de fundo no Android. Um único valor ficará inconsistente entre plataformas.",
+      "gotcha2": "*Sem prop style* — `Button` não aceita `style`. Qualquer personalização além de `color` e `disabled` exige `Pressable` ou `TouchableOpacity`.",
+      "gotcha3": "*Android* — O `title` é automaticamente colocado em maiúsculas pelo sistema. Use `Pressable` com um filho `Text` se o caso importar.",
+      "gotcha4": "*Alvo de toque* — O React Native recomenda no mínimo 44×44pt. `Button` não impõe isso — rótulos pequenos produzem botões pequenos."
+    }
+  }
+}

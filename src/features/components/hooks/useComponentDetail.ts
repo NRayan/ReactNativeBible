@@ -8,7 +8,15 @@ type UseComponentDetailParams = {
 
 export function useComponentDetail({ component }: UseComponentDetailParams) {
     const { t } = useTranslation();
-    const tag = COMPONENT_TAGS.find(t => t.id === component.tag)!;
+    const tag = COMPONENT_TAGS.find(ct => ct.id === component.tag)!;
+
+    const translatedComponent = {
+        ...component,
+        subtitle: t(component.subtitle),
+        description: t(component.description),
+        props: component.props.map(prop => ({ ...prop, description: t(prop.description) })),
+        gotchas: component.gotchas.map(key => t(key)),
+    };
 
     const strings = {
         props: t("components.props"),
@@ -19,5 +27,5 @@ export function useComponentDetail({ component }: UseComponentDetailParams) {
         tagTitle: t(`components.tags.${tag.id}`),
     };
 
-    return { component, tag, strings };
+    return { component: translatedComponent, tag, strings };
 }

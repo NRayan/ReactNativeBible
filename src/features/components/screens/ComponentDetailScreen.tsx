@@ -1,4 +1,4 @@
-import { Badge, Box, Chip, Icon, RichText, Separator, Text, Toolbar } from "@components";
+import { Badge, Box, Chip, CodeBlock, Icon, RichText, Separator, Text, Toolbar } from "@components";
 import type { ComponentsStackParamList } from "@navigation/ComponentsNavigator";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
@@ -47,6 +47,11 @@ export function ComponentDetailScreen({ route }: Props) {
                             <RichText content={gotcha} variant="body" flex={1}/>
                         </Box>
                     )}
+                </Box>
+
+                <Box fullWidth gap={2}>
+                    <Text variant="section-label">Code</Text>
+                    <CodeBlock code={component.codeSnippet}/>
                 </Box>
 
             </ScrollView>

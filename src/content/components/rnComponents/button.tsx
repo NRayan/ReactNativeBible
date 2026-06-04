@@ -41,36 +41,13 @@ export const button: RNComponent = {
         "*Android* — The `title` is automatically uppercased by the OS. Use `Pressable` with a `Text` child if case matters.",
         "*Touch target* — React Native recommends 44×44pt minimum. `Button` doesn't enforce this — small labels produce small buttons.",
     ],
-    codeSnippet: `import { useState } from 'react'
-        import { Button, StyleSheet } from 'react-native'
-        import { View, Text } from '@/components'
-
-        export function CounterExample() {
-        const [count, setCount] = useState(0)
-
-        return (
-            <View style={styles.container}>
-            <Text variant="heading">{count}</Text>
-
-            <Button title="Increment" onPress={() => setCount(c => c + 1)} />
-
-            <Button
-                title="Reset"
-                color="#fca5a5"
-                disabled={count === 0}
-                onPress={() => setCount(0)}
-                accessibilityLabel="Reset counter to zero"
-            />
-            </View>
-        )
-        }
-
-        const styles = StyleSheet.create({
-        container: {
-            gap: 12,
-            alignItems: 'center',
-            padding: 24,
-        },
-        })
-    `,        
+    codeSnippet: 
+`<Button
+    title="Reset"
+    color="#fca5a5"
+    disabled={count === 0}
+    onPress={() => setCount(0)}
+    accessibilityLabel="Reset counter to zero"
+/>`,
+       
 };

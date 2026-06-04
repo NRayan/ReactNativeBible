@@ -1,22 +1,24 @@
-import { TypographyTokens } from "@theme";
-import { Text } from "../";
 import { TextProps } from "@components/Text/Text";
+import { Text } from "../";
 
 type RichTextProps = {
   content: string
-  variant?: keyof TypographyTokens
 } & TextProps
 
 export function RichText({ content, ...rest }: RichTextProps) {
-    const parts = content.split(/(`[^`]+`)/);
+    const parts = content.split(/(`[^`]+`|\*[^*]+\*)/);
 
     return (
         <Text {...rest}>
-            {parts.map((part, i) =>
-                part.startsWith("`") && part.endsWith("`")
-                    ? <Text key={i} variant="code" color="success">{part.slice(1, -1)}</Text>
-                    : part
-            )}
+            {parts.map((part, i) => {
+                if (part.startsWith("`") && part.endsWith("`"))
+                    return <Text key={i} variant="code" color="success">{part.slice(1, -1)}</Text>;
+
+                if (part.startsWith("*") && part.endsWith("*"))
+                    return <Text key={i} variant="body-emphasis">{part.slice(1, -1)}</Text>;
+
+                return part;
+            })}
         </Text>
     );
 }

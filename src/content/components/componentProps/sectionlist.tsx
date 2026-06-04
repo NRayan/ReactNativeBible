@@ -1,27 +1,32 @@
-import type { RNComponent } from "@content/components/types";
-import { Text } from "@components";
-import { useThemeStore } from "@stores/theme";
+import { Box, Text } from "@components";
+import type { PreviewProps, RNComponent } from "@content/components/types";
+import { s } from "@theme/spacing";
 import { SectionList } from "react-native";
 
 const SECTIONS = [
-    { title: "Section A", data: ["Item 1", "Item 2"] },
-    { title: "Section B", data: ["Item 3", "Item 4"] },
+    { title: "🍎 Fruits", data: ["Apple", "Banana", "Orange", "Grape", "Mango"] },
+    { title: "🥕 Vegetables", data: ["Carrot", "Broccoli", "Spinach", "Potato", "Tomato"] },
+    { title: "🐶 Animals", data: ["Dog", "Cat", "Bird", "Fish", "Rabbit"] },
+    { title: "🏠 Places", data: ["Home", "Office", "Park", "Beach", "Mountain"] },
+    { title: "⚡ Tech", data: ["Phone", "Laptop", "Tablet", "Watch", "Camera"] },
 ];
 
-function SectionListPreview() {
-    const { theme: { colors } } = useThemeStore();
+function SectionListPreview({ focused }: PreviewProps) {
+
     return (
         <SectionList
             sections={SECTIONS}
             keyExtractor={(item) => item}
             renderItem={({ item }) => <Text variant="body">{item}</Text>}
             renderSectionHeader={({ section }) => (
-                <Text variant="caption" style={{ backgroundColor: colors.surface }}>
-                    {section.title}
-                </Text>
+                <Box rounded="large" px={2} py={1} bgColor="surface" style={{ alignSelf: "flex-start" }}>
+                    <Text variant="caption">{section.title}</Text>
+                </Box>
             )}
-            scrollEnabled={false}
+            showsVerticalScrollIndicator={focused}
+            scrollEnabled={focused}
             style={{ flexGrow: 0 }}
+            contentContainerStyle={{ paddingHorizontal: s(8), paddingVertical: s(2) }}
             stickySectionHeadersEnabled={false}
         />
     );
@@ -34,6 +39,7 @@ export const sectionlist: RNComponent = {
     subtitle: "content.sectionlist.subtitle",
     description: "content.sectionlist.description",
     previewComponent: SectionListPreview,
+    hasScroll: true,
     props: [
         { name: "sections", type: "array", required: true, description: "content.sectionlist.props.sections" },
         { name: "renderItem", type: "function", required: true, description: "content.sectionlist.props.renderItem" },

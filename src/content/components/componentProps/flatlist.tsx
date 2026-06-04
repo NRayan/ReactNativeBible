@@ -1,14 +1,17 @@
-import type { RNComponent } from "@content/components/types";
+import type { PreviewProps, RNComponent } from "@content/components/types";
 import { Text } from "@components";
+import { s } from "@theme/spacing";
 import { FlatList } from "react-native";
 
-function FlatListPreview() {
+function FlatListPreview({ focused }: PreviewProps) {
     return (
         <FlatList
-            contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
-            data={Array.from({ length: 10 }, (_, i) => `Item ${i + 1}`)}
+            contentContainerStyle={{ alignItems: "center", paddingHorizontal: s(8), paddingVertical: s(2) }}
+            data={Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`)}
             renderItem={({ item }) => <Text variant="body">{item}</Text>}
             keyExtractor={(item) => item}
+            showsVerticalScrollIndicator={focused}
+            scrollEnabled={focused}
             style={{ flexGrow: 0 }}
         />
     );
@@ -21,6 +24,7 @@ export const flatlist: RNComponent = {
     subtitle: "content.flatlist.subtitle",
     description: "content.flatlist.description",
     previewComponent: FlatListPreview,
+    hasScroll: true,
     props: [
         { name: "data", type: "T[]", required: true, description: "content.flatlist.props.data" },
         { name: "renderItem", type: "function", required: true, description: "content.flatlist.props.renderItem" },

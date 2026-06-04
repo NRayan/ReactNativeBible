@@ -1,12 +1,12 @@
 import React from "react";
-import type { DimensionValue, FlexStyle, StyleProp, ViewStyle } from "react-native";
+import type { DimensionValue, FlexStyle, StyleProp, ViewProps, ViewStyle } from "react-native";
 import { View } from "react-native";
 import { useThemeStore } from "@stores/theme";
 import { s } from "@theme/spacing";
 import { ColorTokens, RadiusTokens } from "@theme";
 import type { Theme } from "@theme/types";
 
-export type BoxProps = {
+export type BoxProps = Omit<ViewProps, "style" | "children"> & {
     flex?: number;
     row?: boolean;
     align?: FlexStyle["alignItems"];
@@ -121,6 +121,26 @@ export function buildBoxStyle(props: Omit<BoxProps, "style" | "children">, theme
 
 export function Box({ style, children, ...props }: BoxProps) {
     const { theme } = useThemeStore();
-    const computedStyle = buildBoxStyle(props, theme);
-    return <View style={[computedStyle, style]}>{children}</View>;
+    const {
+        flex, row, align, justify, wrap,
+        p, px, py, pt, pb, pl, pr,
+        m, mx, my, mt, mb, ml, mr,
+        gap, rowGap, columnGap,
+        fullWidth, fullHeight,
+        w, h, minW, minH, maxW, maxH,
+        bgColor, borderColor, border, rounded, opacity,
+        position, top, bottom, left, right,
+        ...viewProps
+    } = props;
+    const computedStyle = buildBoxStyle({
+        flex, row, align, justify, wrap,
+        p, px, py, pt, pb, pl, pr,
+        m, mx, my, mt, mb, ml, mr,
+        gap, rowGap, columnGap,
+        fullWidth, fullHeight,
+        w, h, minW, minH, maxW, maxH,
+        bgColor, borderColor, border, rounded, opacity,
+        position, top, bottom, left, right,
+    }, theme);
+    return <View {...viewProps} style={[computedStyle, style]}>{children}</View>;
 }

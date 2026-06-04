@@ -16,13 +16,16 @@ export type ComponentProp = {
   description: ComponentContentKey
 }
 
+export type PreviewProps = { focused: boolean }
+
 export type RNComponent = {
   id: string
   name: string
   tag: ComponentTag
   subtitle: ComponentContentKey
   description: ComponentContentKey
-  previewComponent: (props: { focused: boolean })=> React.ReactElement
+  previewComponent: (props: PreviewProps)=> React.ReactElement
+  hasScroll?: boolean
   props: ComponentProp[]
   gotchas: ComponentContentKey[]
   codeSnippet: string

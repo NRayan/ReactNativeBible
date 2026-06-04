@@ -188,7 +188,7 @@ export const components: ComponentsContent = {
 
 ## Preview component rules
 
-`previewComponent` has the type `(props: { focused: boolean }) => React.ReactElement`.
+`previewComponent` has the type `(props: PreviewProps) => React.ReactElement`, where `PreviewProps = { focused: boolean }` is exported from `@content/components/types`. Import it when the preview uses `focused`.
 
 **Always use a named component** (uppercase) defined above the exported object — even for stateless previews. This is required because ESLint's `react-hooks/rules-of-hooks` only recognises hooks inside functions whose names start with an uppercase letter or `use`, and it keeps the pattern consistent.
 
@@ -213,6 +213,22 @@ function TextInputPreview() {
             style={{ backgroundColor: colors.surface, color: colors["text-primary"] }}
         />
     );
+}
+```
+
+**Scrollable previews** — if the preview contains a scrollable component (`FlatList`, `ScrollView`, `SectionList`, etc.), set `hasScroll: true` on the `RNComponent` object and use `focused` to gate `scrollEnabled`. This tells the detail screen to show the focus toggle button, which prevents the preview's scroll from conflicting with the page scroll:
+
+```tsx
+import type { PreviewProps, RNComponent } from "@content/components/types";
+
+function FlatListPreview({ focused }: PreviewProps) {
+    return <FlatList scrollEnabled={focused} ... />;
+}
+
+export const flatlist: RNComponent = {
+    // ...
+    previewComponent: FlatListPreview,
+    hasScroll: true,
 }
 ```
 
@@ -253,3 +269,4 @@ Before finishing, verify:
 - [ ] Gotchas use `*label*` prefix pattern
 - [ ] Component is registered in `index.ts` under the correct tag
 - [ ] `previewComponent` renders without errors
+- [ ] If preview contains a scrollable component, `hasScroll: true` is set and `scrollEnabled={focused}` is used

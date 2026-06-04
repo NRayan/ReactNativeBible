@@ -1,2 +1,2 @@
-export type { ComponentProp, ComponentGotcha, RNComponent } from "@content/components/types";
+export type { ComponentProp, RNComponent } from "@content/components/types";
 export type { ComponentTag } from "./constants";

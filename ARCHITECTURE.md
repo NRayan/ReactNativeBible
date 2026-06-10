@@ -135,6 +135,10 @@ The hook `useComponentDetail` translates all content fields through `t()` before
 
 **Types over interfaces** — `type` is used throughout the project. `interface` is never used.
 
+**Hooks convention:**
+- Screen viewmodel hooks use the `Screen` suffix: `useLearnScreen`, `useTopicScreen`, `useQuizScreen`, `useResultScreen`, `useComponentsScreen`, `useComponentDetailScreen`
+- Component hooks use no suffix: `useTopicCard`, `useNativeComponentCard`, `useSectionHeader`
+
 **Types convention:**
 - Component props — always inline in the component file, named `ComponentNameProps`
 - Domain and entity types — always in the feature's `types.ts`

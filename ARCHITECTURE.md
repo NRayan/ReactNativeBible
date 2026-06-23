@@ -17,6 +17,7 @@ src/
     components/  ← RN components reference
     settings/    ← theme, language
   components/    ← shared components
+  hooks/         ← shared utility hooks
   navigation/
   stores/
   content/       ← local JSON files
@@ -138,6 +139,7 @@ The hook `useComponentDetail` translates all content fields through `t()` before
 **Hooks convention:**
 - Screen viewmodel hooks use the `Screen` suffix: `useLearnScreen`, `useTopicScreen`, `useQuizScreen`, `useResultScreen`, `useComponentsScreen`, `useComponentDetailScreen`
 - Component hooks use no suffix: `useTopicCard`, `useNativeComponentCard`, `useSectionHeader`
+- Shared utility hooks live in `src/hooks/` and use no suffix: `useScrollReveal`, etc.
 
 **Types convention:**
 - Component props — always inline in the component file, named `ComponentNameProps`

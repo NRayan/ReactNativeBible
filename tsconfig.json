@@ -23,6 +23,9 @@
       "@stores": ["./src/stores/index"],
       "@stores/*": ["./src/stores/*"],
 
+      "@hooks": ["./src/hooks/index"],
+      "@hooks/*": ["./src/hooks/*"],
+
       "@theme": ["./src/theme/index"],
       "@theme/*": ["./src/theme/*"]
     }

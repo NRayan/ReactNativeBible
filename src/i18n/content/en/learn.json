@@ -12,14 +12,5 @@
       "heading2": "The flex property",
       "text3": "Set `flex: 1` on a child to make it fill all available space on the main axis. When multiple children carry `flex` values, the space is divided proportionally. A child without `flex` keeps its natural size."
     }
-  },
-  "positioning": {
-    "title": "Absolute Positioning",
-    "subtitle": "Overlapping elements with position and zIndex",
-    "body": {
-      "heading1": "Taking an element out of the flow",
-      "text1": "Setting `position: 'absolute'` removes an element from the normal layout flow. It is then placed relative to its nearest ancestor with a defined size. Use `top`, `bottom`, `left`, and `right` to offset the element from each edge.",
-      "text2": "When elements overlap, `zIndex` controls the stacking order — a higher value renders on top. In React Native, `zIndex` only works reliably between siblings that share the same parent."
-    }
   }
 }

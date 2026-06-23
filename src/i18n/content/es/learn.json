@@ -12,14 +12,5 @@
       "heading2": "La propiedad flex",
       "text3": "Establece `flex: 1` en un hijo para que ocupe todo el espacio disponible en el eje principal. Cuando varios hijos tienen valores `flex`, el espacio se divide proporcionalmente. Un hijo sin `flex` conserva su tamaño natural."
     }
-  },
-  "positioning": {
-    "title": "Posicionamiento Absoluto",
-    "subtitle": "Superposición de elementos con position y zIndex",
-    "body": {
-      "heading1": "Sacar un elemento del flujo",
-      "text1": "Establecer `position: 'absolute'` saca un elemento del flujo normal de layout. Luego se posiciona respecto al ancestro más cercano con tamaño definido. Usa `top`, `bottom`, `left` y `right` para desplazar el elemento desde cada borde.",
-      "text2": "Cuando los elementos se superponen, `zIndex` controla el orden de apilamiento — un valor más alto se renderiza encima. En React Native, `zIndex` solo funciona de forma confiable entre hermanos que comparten el mismo padre."
-    }
   }
 }

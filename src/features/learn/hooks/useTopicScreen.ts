@@ -13,8 +13,14 @@ export function useTopicScreen({ section, topicIndex }: UseTopicScreenParams) {
 
     const strings = {
         sectionTitle: t(section.title),
+        topicTitle: t(topic.title),
         position: `${topicIndex + 1}/${section.topics.length}`,
     };
 
-    return { topic, strings };
+    const blocks = topic.body.map((block, index) => ({
+        ...(block.type === "code" || block.type === "image" ? block : { ...block, value: t(block.value) }),
+        id: `${block.type}-${index}`,
+    }));
+
+    return { strings, blocks };
 }

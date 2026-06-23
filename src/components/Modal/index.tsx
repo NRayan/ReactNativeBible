@@ -16,10 +16,10 @@ export function Modal() {
             onRequestClose={close}
         >
             <Box fullWidth fullHeight style={{ backgroundColor: "rgba(0,0,0,0.7)" }} justify="center" align="center">
-                <PressableBox 
-                    position="absolute" 
-                    top={0} bottom={0} left={0} right={0} 
-                    onPress={close} 
+                <PressableBox
+                    position="absolute"
+                    top={0} bottom={0} left={0} right={0}
+                    onPress={close}
                 />
 
                 {content}

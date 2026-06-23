@@ -1,5 +1,5 @@
-import { TextProps } from "@components/Text/Text";
-import { Text } from "../";
+import { TextProps } from "../Text";
+import { Text } from "../Text";
 
 type RichTextProps = {
   content: string

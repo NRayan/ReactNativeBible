@@ -141,6 +141,19 @@ The hook `useComponentDetail` translates all content fields through `t()` before
 - Component hooks use no suffix: `useTopicCard`, `useNativeComponentCard`, `useSectionHeader`
 - Shared utility hooks live in `src/hooks/` and use no suffix: `useScrollReveal`, etc.
 
+**Component file convention:**
+Each shared component lives in its own folder under `src/components/`. The component is defined directly in `index.tsx` — no separate `ComponentName.tsx` with a re-exporting `index.ts`. Utility helpers (e.g. `Button.utils.ts`, `Text.utils.ts`) stay as sibling files in the same folder.
+
+```
+src/components/
+  Button/
+    index.tsx       ← component defined here
+    Button.utils.ts ← helpers alongside
+  Text/
+    index.tsx
+    Text.utils.ts
+```
+
 **Types convention:**
 - Component props — always inline in the component file, named `ComponentNameProps`
 - Domain and entity types — always in the feature's `types.ts`

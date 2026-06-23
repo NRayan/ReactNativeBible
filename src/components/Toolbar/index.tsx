@@ -45,7 +45,7 @@ export function Toolbar({ title, subtitle, showBackButton = false }: ToolbarProp
                     :
                     <Box h={TOOLBAR_HEIGHT}>
                         <Text variant="screen-title">{title}</Text>
-                        <Text variant="body-emphasis" color="text-secondary">{subtitle}</Text>                        
+                        <Text variant="body-emphasis" color="text-secondary">{subtitle}</Text>
                     </Box>
             }
         </Box>

@@ -19,18 +19,18 @@
   },
   "view": {
     "subtitle": "The fundamental layout container — maps to a native view on each platform.",
-    "description": "`View` is the fundamental building block for UI in React Native — equivalent to a `<div>` on the web. It maps to `UIView` on iOS and `android.view.View` on Android, and is the primary primitive for composing layouts with flexbox.\n\nBy default, `View` uses flexbox with `flexDirection: 'column'`. Nest Views and set `flex`, `flexDirection`, `justifyContent`, and `alignItems` to build any layout. All visual styling — background, borders, shadows, transforms — is applied through the `style` prop.\n\nViews that serve only as layout containers (no background, no border) are removed from the native view hierarchy by default via the `collapsable` optimisation. Set `collapsable={false}` if you need to preserve the native node — for example, when attaching a `ref` or using `onLayout`.",
+    "description": "`View` is the fundamental building block for UI in React Native — equivalent to a `<div>` on the web. It maps to `UIView` on iOS and `android.view.View` on Android, and is the primary primitive for composing layouts with flexbox.\n\nBy default, `View` uses flexbox with `flexDirection: \"column\"`. Nest Views and set `flex`, `flexDirection`, `justifyContent`, and `alignItems` to build any layout. All visual styling — background, borders, shadows, transforms — is applied through the `style` prop.\n\nViews that serve only as layout containers (no background, no border) are removed from the native view hierarchy by default via the `collapsable` optimisation. Set `collapsable={false}` if you need to preserve the native node — for example, when attaching a `ref` or using `onLayout`.",
     "props": {
       "style": "Applies flexbox layout, spacing, colors, borders, and other visual styles.",
       "onLayout": "Fires after layout is calculated with the view's dimensions and position; useful for measuring.",
-      "pointerEvents": "Controls touch handling: `'none'` blocks all touches, `'box-none'` passes touches through to children only, `'box-only'` blocks children.",
+      "pointerEvents": "Controls touch handling: `\"none\"` blocks all touches, `\"box-none\"` passes touches through to children only, `\"box-only\"` blocks children.",
       "collapsable": "When false, prevents React Native from removing the native node as a layout-only optimisation; needed for refs and onLayout.",
       "accessible": "When true, marks the view as a single accessible element for screen readers."
     },
     "gotchas": {
       "gotcha1": "*collapsable optimisation* — Views with no visual output are silently removed from the native hierarchy. Add `collapsable={false}` when you need the native node to exist for a ref or `onLayout`.",
       "gotcha2": "*onLayout fires before paint* — The callback runs after the layout pass but before the frame is drawn; don't use it to trigger animations that need to start immediately on screen.",
-      "gotcha3": "*box-none vs none* — `'none'` blocks all touches including children; `'box-none'` blocks the View itself but still lets children receive touches. The two are easy to confuse.",
+      "gotcha3": "*box-none vs none* — `\"none\"` blocks all touches including children; `\"box-none\"` blocks the View itself but still lets children receive touches. The two are easy to confuse.",
       "gotcha4": "*hitSlop cannot exceed parent bounds* — Expanding the touch area with `hitSlop` has no effect beyond the parent View's boundaries."
     }
   },
@@ -90,13 +90,13 @@
     "props": {
       "animating": "Whether to show the indicator (`true`) or hide it (`false`); defaults to `true`.",
       "color": "Foreground color of the spinner; defaults to the system accent on iOS and `#999999` on Android.",
-      "size": "Size of the indicator: `'small'` or `'large'`; Android also accepts a number for a custom size.",
+      "size": "Size of the indicator: `\"small\"` or `\"large\"`; Android also accepts a number for a custom size.",
       "hidesWhenStopped": "iOS only — automatically hides the spinner when `animating` is `false`; has no effect on Android."
     },
     "gotchas": {
       "gotcha1": "*Default color differs by platform* — iOS uses the system accent color; Android defaults to `#999999`. Pass an explicit `color` for consistent branding across both platforms.",
       "gotcha2": "*hidesWhenStopped is iOS only* — Android ignores this prop entirely; control visibility by toggling `animating` instead of relying on auto-hide.",
-      "gotcha3": "*Custom numeric size is Android only* — Passing a number to `size` only works on Android; on iOS only `'small'` and `'large'` are respected."
+      "gotcha3": "*Custom numeric size is Android only* — Passing a number to `size` only works on Android; on iOS only `\"small\"` and `\"large\"` are respected."
     }
   },
   "image": {
@@ -131,7 +131,7 @@
       "maxLength": "Hard-limits the number of characters; prefer this over JS validation to avoid flicker."
     },
     "gotchas": {
-      "gotcha1": "*Multiline vertical alignment* — On iOS text centers vertically in a multiline field; add `textAlignVertical: 'top'` to the style prop for cross-platform consistency.",
+      "gotcha1": "*Multiline vertical alignment* — On iOS text centers vertically in a multiline field; add `textAlignVertical: \"top\"` to the style prop for cross-platform consistency.",
       "gotcha2": "*Android underline* — Android renders a default bottom border on every TextInput; set `underlineColorAndroid=\"transparent\"` to remove it.",
       "gotcha3": "*secureTextEntry + multiline* — These two props cannot be used together; `secureTextEntry` is silently ignored when `multiline` is true.",
       "gotcha4": "*Keyboard pushes layout on Android* — The soft keyboard may change `windowSoftInputMode`, breaking absolutely positioned components. Wrap the screen in `KeyboardAvoidingView` to manage this."

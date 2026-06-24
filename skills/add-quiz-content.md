@@ -44,7 +44,6 @@ src/
 type QuizContentKey = `content.${NestedKeyOf<typeof enQuiz>}`
 
 type QuizOption = {
-  id: string          // "a" | "b" | "c" | "d" | "e" | "f"
   label: QuizContentKey
   isCorrect: boolean  // exactly 1 option per question must be true
 }
@@ -61,6 +60,8 @@ type SectionQuiz = {
   questions: QuizQuestion[]
 }
 ```
+
+> **Note:** `QuizOption` has no `id` field. The display letters (A, B, C, D…) are assigned at runtime by `useQuizScreen` after shuffling — they are not stored in the data.
 
 ---
 
@@ -91,10 +92,10 @@ Every wrong option must be **technically plausible** and require knowledge to ru
 
 **Distractor patterns that work:**
 
-- **Same enum, wrong value** — if the answer is `'column'`, offer `'row'`, `'column-reverse'`, `'row-reverse'`
+- **Same enum, wrong value** — if the answer is `"column"`, offer `"row"`, `"column-reverse"`, `"row-reverse"`
 - **Swapped axis** — if the answer involves `justifyContent`, distract with `alignItems` (or vice versa)
-- **Adjacent API** — for `useWindowDimensions`, distract with `Dimensions.get('window')` and vice versa
-- **Common misconception** — things that feel right but are wrong: "React Native's default `flexDirection` is `'row'` like the web" is a classic wrong belief
+- **Adjacent API** — for `useWindowDimensions`, distract with `Dimensions.get("window")` and vice versa
+- **Common misconception** — things that feel right but are wrong: "React Native's default `flexDirection` is `"row"` like the web" is a classic wrong belief
 - **Slight name variation** — `StyleSheet.flatten` vs `StyleSheet.absoluteFill` vs `StyleSheet.hairlineWidth`
 - **Almost-true statement** — a statement that would be correct in CSS or the web but is not true in React Native
 
@@ -139,10 +140,10 @@ Add questions to **`src/i18n/content/en/quiz.json`** under the matching section 
       "question": "...",
       "explanation": "...",
       "options": {
-        "a": "...",
-        "b": "...",
-        "c": "...",
-        "d": "..."
+        "1": "...",
+        "2": "...",
+        "3": "...",
+        "4": "..."
       }
     }
   }
@@ -151,7 +152,7 @@ Add questions to **`src/i18n/content/en/quiz.json`** under the matching section 
 
 - `{section_id}` matches `SectionQuiz.sectionId` and `Section.id` in `learn/index.ts` (e.g. `"layout"`, `"performance"`)
 - `{question_id}` is sequential: `"q1"`, `"q2"`, `"q3"`…
-- `options` keys are `"a"` through `"f"` — use only as many as needed (minimum 4)
+- `options` keys are `"1"` through `"6"` — use only as many as needed (minimum 4)
 - `explanation` must state **why the correct answer is correct** and briefly explain why the most tempting wrong answer is wrong
 
 ### Example
@@ -161,12 +162,12 @@ Add questions to **`src/i18n/content/en/quiz.json`** under the matching section 
   "layout": {
     "q1": {
       "question": "What is the default value of `flexDirection` in React Native?",
-      "explanation": "`flexDirection` defaults to `'column'` in React Native, so children stack vertically. This differs from the web, where the CSS default is `'row'`. Changing to `'row'` makes children line up horizontally.",
+      "explanation": "`flexDirection` defaults to `\"column\"` in React Native, so children stack vertically. This differs from the web, where the CSS default is `\"row\"`. Changing to `\"row\"` makes children line up horizontally.",
       "options": {
-        "a": "'row'",
-        "b": "'column'",
-        "c": "'row-reverse'",
-        "d": "'column-reverse'"
+        "1": "\"row\"",
+        "2": "\"column\"",
+        "3": "\"row-reverse\"",
+        "4": "\"column-reverse\""
       }
     }
   }
@@ -184,9 +185,9 @@ Replicate the **exact same key structure** in:
 
 ### Translation rules
 
-- Keep untranslated: prop names, API names, values inside backticks, enum literals (`'column'`, `'absolute'`)
+- Keep untranslated: prop names, API names, values inside backticks, enum literals (`"column"`, `"absolute"`)
 - Technical terms like "hook", "render", "layout", "flex" are acceptable untranslated
-- The option labels for code values (e.g. `"'column'"`, `"'row'"`) must remain unchanged
+- The option labels for code values (e.g. `"\"column\""`, `"\"row\""`) must remain unchanged
 - Prose in `question` and `explanation` should read naturally in the target language, not word-for-word
 
 ---
@@ -209,10 +210,10 @@ export const quizzes: SectionQuiz[] = [
         question: "content.{section_id}.q1.question",
         explanation: "content.{section_id}.q1.explanation",
         options: [
-          { id: "a", label: "content.{section_id}.q1.options.a", isCorrect: false },
-          { id: "b", label: "content.{section_id}.q1.options.b", isCorrect: true },
-          { id: "c", label: "content.{section_id}.q1.options.c", isCorrect: false },
-          { id: "d", label: "content.{section_id}.q1.options.d", isCorrect: false },
+          { label: "content.{section_id}.q1.options.1", isCorrect: false },
+          { label: "content.{section_id}.q1.options.2", isCorrect: true },
+          { label: "content.{section_id}.q1.options.3", isCorrect: false },
+          { label: "content.{section_id}.q1.options.4", isCorrect: false },
         ],
       },
     ],
@@ -226,7 +227,13 @@ If the file already exists, add a new `SectionQuiz` entry or append questions to
 - `sectionId` must match an existing `Section.id` in `src/content/learn/index.ts`
 - `question.id` must be unique within the section (`"q1"`, `"q2"`…)
 - Exactly **one** option per question must have `isCorrect: true`
-- Option `id` must match the JSON key (`"a"` → `id: "a"`)
+- Options have no `id` field — the display letters are assigned at runtime after shuffling
+
+---
+
+## Code style
+
+- Always use double quotes in code examples and prop values — `"column"` not `'column'`, `flexDirection="row"` not `flexDirection='row'`
 
 ---
 
@@ -238,9 +245,9 @@ Before finishing, verify:
 - [ ] Every wrong option is plausible — an experienced developer could be tripped up by it
 - [ ] No option is obviously wrong due to being too short, too vague, or unrelated to the topic
 - [ ] All options have comparable length and complexity
-- [ ] `en/quiz.json` has the new questions with `question`, `explanation`, and all `options` keys
+- [ ] `en/quiz.json` has the new questions with `question`, `explanation`, and all `options` keys (`"1"`–`"4"` minimum)
 - [ ] `pt/quiz.json` and `es/quiz.json` have the **exact same key structure** as `en`
 - [ ] Code values in option labels (enum strings, prop names) are untranslated in pt and es
 - [ ] `src/content/quiz/index.ts` has exactly one `isCorrect: true` per question
-- [ ] `QuizOption.id` values match the JSON `options` keys exactly
+- [ ] `QuizOption` entries have no `id` field
 - [ ] TypeScript accepts all `QuizContentKey` values (no type errors)

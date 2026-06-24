@@ -7,8 +7,8 @@
     "subtitle": "O sistema de layout por trás de toda interface React Native",
     "body": {
       "heading1": "Como o Flexbox funciona no React Native",
-      "text1": "O React Native usa Flexbox como motor de layout padrão. Ao contrário da web, o `flexDirection` padrão é `'column'`, então os filhos se empilham verticalmente. Toda `View` já é um contêiner flex — não é preciso definir `display: 'flex'`.",
-      "text2": "`justifyContent` alinha os filhos no eixo principal e `alignItems` no eixo transversal. Com a direção padrão `'column'`, `justifyContent: 'center'` centraliza verticalmente e `alignItems: 'center'` centraliza horizontalmente. Mude para `flexDirection: 'row'` e os eixos se invertem.",
+      "text1": "O React Native usa Flexbox como motor de layout padrão. Ao contrário da web, o `flexDirection` padrão é `\"column\"`, então os filhos se empilham verticalmente. Toda `View` já é um contêiner flex — não é preciso definir `display: \"flex\"`.",
+      "text2": "`justifyContent` alinha os filhos no eixo principal e `alignItems` no eixo transversal. Com a direção padrão `\"column\"`, `justifyContent: \"center\"` centraliza verticalmente e `alignItems: \"center\"` centraliza horizontalmente. Mude para `flexDirection: \"row\"` e os eixos se invertem.",
       "heading2": "A propriedade flex",
       "text3": "Defina `flex: 1` em um filho para que ele ocupe todo o espaço disponível no eixo principal. Quando vários filhos têm valores `flex`, o espaço é dividido proporcionalmente. Um filho sem `flex` mantém seu tamanho natural."
     }
@@ -18,8 +18,8 @@
     "subtitle": "Controle o posicionamento de elementos removendo-os do fluxo de layout normal",
     "body": {
       "heading1": "Posicionamento relativo vs absoluto",
-      "text1": "Por padrão, o React Native posiciona todo elemento como `position: 'relative'`, ou seja, ele participa do fluxo normal do Flexbox e usar `top`, `left`, `right` ou `bottom` apenas o desloca a partir de onde ele estaria naturalmente. Defina `position: 'absolute'` e o elemento é removido do fluxo por completo — ele não afeta nem é afetado por seus irmãos.",
-      "text2": "Um elemento com posição absoluta é sempre medido e posicionado em relação ao seu pai mais próximo, independentemente de esse pai ser `'relative'` ou `'absolute'`. Diferentemente do CSS, não é necessário marcar o pai com `position: relative` para ancorar um filho.",
+      "text1": "Por padrão, o React Native posiciona todo elemento como `position: \"relative\"`, ou seja, ele participa do fluxo normal do Flexbox e usar `top`, `left`, `right` ou `bottom` apenas o desloca a partir de onde ele estaria naturalmente. Defina `position: \"absolute\"` e o elemento é removido do fluxo por completo — ele não afeta nem é afetado por seus irmãos.",
+      "text2": "Um elemento com posição absoluta é sempre medido e posicionado em relação ao seu pai mais próximo, independentemente de esse pai ser `\"relative\"` ou `\"absolute\"`. Diferentemente do CSS, não é necessário marcar o pai com `position: relative` para ancorar um filho.",
       "heading2": "Propriedades de deslocamento",
       "text3": "Use `top`, `right`, `bottom` e `left` para posicionar o elemento dentro do pai. Definir `top: 0` e `left: 0` o fixa no canto superior esquerdo; `bottom: 0` e `right: 0` o fixa no canto inferior direito. Você também pode usar `inset` como atalho para definir os quatro lados de uma vez.",
       "heading3": "Empilhamento com zIndex",
@@ -33,7 +33,7 @@
       "heading1": "Lendo o tamanho da tela",
       "text1": "O React Native oferece duas formas de ler as dimensões da tela do dispositivo. A API `Dimensions` retorna um snapshot estático capturado no momento da chamada. O hook `useWindowDimensions` retorna um valor reativo que se atualiza automaticamente sempre que a janela muda — por exemplo, ao rotacionar o dispositivo ou quando um telefone dobrável alterna entre layouts.",
       "heading2": "API Dimensions",
-      "text2": "Chame `Dimensions.get('window')` para obter o objeto `{ width, height, scale, fontScale }`. A dimensão `'window'` refere-se à área visível do app; `'screen'` inclui a barra de status e é útil no Android. Como o valor é um snapshot, ele não refletirá mudanças de orientação a menos que você assine com `Dimensions.addEventListener`.",
+      "text2": "Chame `Dimensions.get(\"window\")` para obter o objeto `{ width, height, scale, fontScale }`. A dimensão `\"window\"` refere-se à área visível do app; `\"screen\"` inclui a barra de status e é útil no Android. Como o valor é um snapshot, ele não refletirá mudanças de orientação a menos que você assine com `Dimensions.addEventListener`.",
       "heading3": "Hook useWindowDimensions",
       "text3": "Para a maioria dos casos, prefira o hook `useWindowDimensions`. Ele re-renderiza o componente automaticamente sempre que as dimensões mudam, eliminando a necessidade de gerenciar uma assinatura manualmente. O objeto retornado contém `width`, `height`, `scale` e `fontScale`."
     }

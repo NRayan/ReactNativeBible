@@ -10,6 +10,10 @@
     "learn": {
         "title": "Aprender"
     },
+    "quiz": {
+        "progress": "Questão {{current}} de {{total}}",
+        "result": "Resultado"
+    },
     "components": {
         "title": "Componentes",
         "props": "Props principais",

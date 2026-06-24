@@ -10,17 +10,20 @@ export function useLearnScreen() {
 
     const translatedSections = sections.map(section => ({
         ...section,
-        title: t(section.title),
+        displayTitle: t(section.title),
     }));
 
-    function handleTopicPress(sectionId: string, topicIndex: number) {
-        const section = sections.find(s => s.id === sectionId)!;
+    function handleTopicPress(section: (typeof translatedSections)[number], topicIndex: number) {
         navigation.navigate("Topic", { section, topicIndex });
+    }
+
+    function handleSectionQuizPress(section: (typeof translatedSections)[number]) {
+        navigation.navigate("Quiz", { section });
     }
 
     const strings = {
         title: t("learn.title"),
     };
 
-    return { sections: translatedSections, strings, handleTopicPress };
+    return { sections: translatedSections, strings, handleTopicPress, handleSectionQuizPress };
 }

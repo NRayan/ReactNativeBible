@@ -11,7 +11,7 @@ type Props = NativeStackScreenProps<LearnStackParamList, "Topic">;
 
 export function TopicScreen({ route, navigation }: Props) {
     const { section } = route.params;
-    const { strings, blocks, isFirst, isLast, topicIndex, setTopicIndex } = useTopicScreen({ section, initialTopicIndex: route.params.topicIndex });
+    const { strings, blocks, isFirst, isLast, topicIndex, setTopicIndex, handleQuizPress } = useTopicScreen({ section, initialTopicIndex: route.params.topicIndex, navigation });
     const { opacity, handleScroll, handleLayout, handleContentSizeChange } = useScrollReveal(.5, .7);
     const scrollRef = useRef<ScrollView>(null);
 
@@ -53,12 +53,14 @@ export function TopicScreen({ route, navigation }: Props) {
                 </ScrollView>
 
                 <Animated.View style={{ flexDirection: "row", gap: s(2), position: "absolute", right: s(3), bottom: s(3), opacity }}>
-                    {!isFirst && (
+                    {
+                        !isFirst && 
                         <Button variant="icon" icon="IconArrowLeft" onPress={() => setTopicIndex(i => i - 1)} />
-                    )}
-                    {isLast
-                        ? <Button variant="icon-cta" icon="IconBolt" onPress={() => navigation.navigate("Quiz", { section })} />
-                        : <Button variant="icon" icon="IconArrowRight" onPress={() => setTopicIndex(i => i + 1)} />
+                    }
+                    {
+                        isLast
+                            ? <Button variant="icon-cta" icon="IconBolt" onPress={handleQuizPress} />
+                            : <Button variant="icon" icon="IconArrowRight" onPress={() => setTopicIndex(i => i + 1)} />
                     }
                 </Animated.View>
             </Box>

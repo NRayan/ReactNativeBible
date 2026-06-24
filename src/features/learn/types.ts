@@ -44,7 +44,6 @@ export type Topic = {
 export type QuizContentKey = `content.${NestedKeyOf<typeof enQuiz>}`
 
 export type QuizOption = {
-  id: string
   label: QuizContentKey
   isCorrect: boolean
 }

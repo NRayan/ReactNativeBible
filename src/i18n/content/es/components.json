@@ -19,18 +19,18 @@
   },
   "view": {
     "subtitle": "El contenedor de layout fundamental — se mapea a una vista nativa en cada plataforma.",
-    "description": "`View` es el bloque de construcción fundamental para la UI en React Native — equivalente a un `<div>` en la web. Se mapea a `UIView` en iOS y `android.view.View` en Android, y es el primitivo principal para componer layouts con flexbox.\n\nPor defecto, `View` usa flexbox con `flexDirection: 'column'`. Anida Views y define `flex`, `flexDirection`, `justifyContent` y `alignItems` para construir cualquier layout. Todo el estilo visual — fondo, bordes, sombras, transformaciones — se aplica mediante el prop `style`.\n\nLas Views que sirven solo como contenedores de layout (sin fondo, sin borde) son eliminadas de la jerarquía de vistas nativa por defecto mediante la optimización `collapsable`. Define `collapsable={false}` si necesitas preservar el nodo nativo — por ejemplo, al usar una `ref` u `onLayout`.",
+    "description": "`View` es el bloque de construcción fundamental para la UI en React Native — equivalente a un `<div>` en la web. Se mapea a `UIView` en iOS y `android.view.View` en Android, y es el primitivo principal para componer layouts con flexbox.\n\nPor defecto, `View` usa flexbox con `flexDirection: \"column\"`. Anida Views y define `flex`, `flexDirection`, `justifyContent` y `alignItems` para construir cualquier layout. Todo el estilo visual — fondo, bordes, sombras, transformaciones — se aplica mediante el prop `style`.\n\nLas Views que sirven solo como contenedores de layout (sin fondo, sin borde) son eliminadas de la jerarquía de vistas nativa por defecto mediante la optimización `collapsable`. Define `collapsable={false}` si necesitas preservar el nodo nativo — por ejemplo, al usar una `ref` u `onLayout`.",
     "props": {
       "style": "Aplica layout flexbox, espaciado, colores, bordes y otros estilos visuales.",
       "onLayout": "Se dispara tras calcular el layout con las dimensiones y posición de la vista; útil para medir.",
-      "pointerEvents": "Controla el toque: `'none'` bloquea todos los toques, `'box-none'` pasa los toques solo a los hijos, `'box-only'` bloquea los hijos.",
+      "pointerEvents": "Controla el toque: `\"none\"` bloquea todos los toques, `\"box-none\"` pasa los toques solo a los hijos, `\"box-only\"` bloquea los hijos.",
       "collapsable": "Cuando es false, impide que React Native elimine el nodo nativo como optimización de layout; necesario para refs y onLayout.",
       "accessible": "Cuando es true, marca la vista como un único elemento accesible para lectores de pantalla."
     },
     "gotchas": {
       "gotcha1": "*Optimización collapsable* — Las Views sin salida visual son eliminadas silenciosamente de la jerarquía nativa. Agrega `collapsable={false}` cuando necesites que el nodo nativo exista para una ref u `onLayout`.",
       "gotcha2": "*onLayout se dispara antes del pintado* — El callback se ejecuta tras el paso de layout pero antes de que el frame sea dibujado; no lo uses para disparar animaciones que deban comenzar inmediatamente en pantalla.",
-      "gotcha3": "*box-none vs none* — `'none'` bloquea todos los toques incluyendo los hijos; `'box-none'` bloquea la View en sí pero aún permite que los hijos reciban toques. Los dos son fáciles de confundir.",
+      "gotcha3": "*box-none vs none* — `\"none\"` bloquea todos los toques incluyendo los hijos; `\"box-none\"` bloquea la View en sí pero aún permite que los hijos reciban toques. Los dos son fáciles de confundir.",
       "gotcha4": "*hitSlop no puede superar los límites del padre* — Expandir el área táctil con `hitSlop` no tiene efecto más allá de los límites de la View padre."
     }
   },
@@ -90,13 +90,13 @@
     "props": {
       "animating": "Si debe mostrar el indicador (`true`) u ocultarlo (`false`); por defecto es `true`.",
       "color": "Color del spinner; usa el color de acento del sistema en iOS y `#999999` en Android por defecto.",
-      "size": "Tamaño del indicador: `'small'` o `'large'`; en Android también acepta un número para tamaño personalizado.",
+      "size": "Tamaño del indicador: `\"small\"` o `\"large\"`; en Android también acepta un número para tamaño personalizado.",
       "hidesWhenStopped": "Solo iOS — oculta el spinner automáticamente cuando `animating` es `false`; no tiene efecto en Android."
     },
     "gotchas": {
       "gotcha1": "*El color por defecto difiere entre plataformas* — iOS usa el color de acento del sistema; Android usa `#999999` por defecto. Pasa un `color` explícito para branding consistente entre plataformas.",
       "gotcha2": "*hidesWhenStopped es solo para iOS* — Android ignora este prop por completo; controla la visibilidad alternando `animating` en lugar de depender del ocultado automático.",
-      "gotcha3": "*El tamaño numérico personalizado es solo para Android* — Pasar un número a `size` solo funciona en Android; en iOS solo se respetan `'small'` y `'large'`."
+      "gotcha3": "*El tamaño numérico personalizado es solo para Android* — Pasar un número a `size` solo funciona en Android; en iOS solo se respetan `\"small\"` y `\"large\"`."
     }
   },
   "image": {
@@ -131,7 +131,7 @@
       "maxLength": "Limita el número de caracteres; prefiere esto a la validación JS para evitar parpadeos."
     },
     "gotchas": {
-      "gotcha1": "*Alineación vertical en multiline* — En iOS el texto se centra verticalmente en campos multiline; agrega `textAlignVertical: 'top'` al style para consistencia entre plataformas.",
+      "gotcha1": "*Alineación vertical en multiline* — En iOS el texto se centra verticalmente en campos multiline; agrega `textAlignVertical: \"top\"` al style para consistencia entre plataformas.",
       "gotcha2": "*Subrayado en Android* — Android muestra un borde inferior por defecto en todo TextInput; usa `underlineColorAndroid=\"transparent\"` para eliminarlo.",
       "gotcha3": "*secureTextEntry y multiline* — Estos dos props no pueden usarse juntos; `secureTextEntry` se ignora silenciosamente cuando `multiline` es true.",
       "gotcha4": "*El teclado empuja el layout en Android* — El teclado virtual puede cambiar el `windowSoftInputMode`, rompiendo componentes con posición absoluta. Envuelve la pantalla en `KeyboardAvoidingView` para gestionar esto."

@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { LearnStackParamList } from "@navigation/LearnNavigator";
 import type { Section } from "../types";
 
 type UseTopicScreenParams = {
     section: Section;
     initialTopicIndex: number;
+    navigation: NativeStackNavigationProp<LearnStackParamList, "Topic">;
 };
 
-export function useTopicScreen({ section, initialTopicIndex }: UseTopicScreenParams) {
+export function useTopicScreen({ section, initialTopicIndex, navigation }: UseTopicScreenParams) {
     const { t } = useTranslation();
     const [topicIndex, setTopicIndex] = useState(initialTopicIndex);
 
@@ -30,5 +33,9 @@ export function useTopicScreen({ section, initialTopicIndex }: UseTopicScreenPar
         id: `${block.type}-${index}`,
     }));
 
-    return { strings, blocks, isFirst, isLast, topicIndex, setTopicIndex };
+    function handleQuizPress() {
+        navigation.replace("Quiz", { section });
+    }
+
+    return { strings, blocks, isFirst, isLast, topicIndex, setTopicIndex, handleQuizPress };
 }

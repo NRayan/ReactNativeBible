@@ -19,18 +19,18 @@
   },
   "view": {
     "subtitle": "O contêiner de layout fundamental — mapeia para uma view nativa em cada plataforma.",
-    "description": "`View` é o bloco de construção fundamental para UI no React Native — equivalente a um `<div>` na web. Mapeia para `UIView` no iOS e `android.view.View` no Android, e é o primitivo principal para compor layouts com flexbox.\n\nPor padrão, `View` usa flexbox com `flexDirection: 'column'`. Aninhe Views e defina `flex`, `flexDirection`, `justifyContent` e `alignItems` para construir qualquer layout. Todo estilo visual — fundo, bordas, sombras, transformações — é aplicado pelo prop `style`.\n\nViews que servem apenas como contêineres de layout (sem fundo, sem borda) são removidas da hierarquia de views nativa por padrão via a otimização `collapsable`. Defina `collapsable={false}` se precisar preservar o nó nativo — por exemplo, ao usar uma `ref` ou `onLayout`.",
+    "description": "`View` é o bloco de construção fundamental para UI no React Native — equivalente a um `<div>` na web. Mapeia para `UIView` no iOS e `android.view.View` no Android, e é o primitivo principal para compor layouts com flexbox.\n\nPor padrão, `View` usa flexbox com `flexDirection: \"column\"`. Aninhe Views e defina `flex`, `flexDirection`, `justifyContent` e `alignItems` para construir qualquer layout. Todo estilo visual — fundo, bordas, sombras, transformações — é aplicado pelo prop `style`.\n\nViews que servem apenas como contêineres de layout (sem fundo, sem borda) são removidas da hierarquia de views nativa por padrão via a otimização `collapsable`. Defina `collapsable={false}` se precisar preservar o nó nativo — por exemplo, ao usar uma `ref` ou `onLayout`.",
     "props": {
       "style": "Aplica layout flexbox, espaçamento, cores, bordas e outros estilos visuais.",
       "onLayout": "Disparado após o cálculo do layout com as dimensões e posição da view; útil para medição.",
-      "pointerEvents": "Controla o toque: `'none'` bloqueia todos os toques, `'box-none'` passa os toques apenas para os filhos, `'box-only'` bloqueia os filhos.",
+      "pointerEvents": "Controla o toque: `\"none\"` bloqueia todos os toques, `\"box-none\"` passa os toques apenas para os filhos, `\"box-only\"` bloqueia os filhos.",
       "collapsable": "Quando false, impede o React Native de remover o nó nativo como otimização de layout; necessário para refs e onLayout.",
       "accessible": "Quando true, marca a view como um único elemento acessível para leitores de tela."
     },
     "gotchas": {
       "gotcha1": "*Otimização collapsable* — Views sem saída visual são silenciosamente removidas da hierarquia nativa. Adicione `collapsable={false}` quando precisar que o nó nativo exista para uma ref ou `onLayout`.",
       "gotcha2": "*onLayout dispara antes da renderização* — O callback é executado após o cálculo do layout mas antes do frame ser desenhado; não o use para disparar animações que precisam começar imediatamente na tela.",
-      "gotcha3": "*box-none vs none* — `'none'` bloqueia todos os toques incluindo os filhos; `'box-none'` bloqueia a View em si mas ainda permite que os filhos recebam toques. Os dois são fáceis de confundir.",
+      "gotcha3": "*box-none vs none* — `\"none\"` bloqueia todos os toques incluindo os filhos; `\"box-none\"` bloqueia a View em si mas ainda permite que os filhos recebam toques. Os dois são fáceis de confundir.",
       "gotcha4": "*hitSlop não pode ultrapassar os limites do pai* — Expandir a área de toque com `hitSlop` não tem efeito além dos limites da View pai."
     }
   },
@@ -90,13 +90,13 @@
     "props": {
       "animating": "Se deve exibir o indicador (`true`) ou ocultá-lo (`false`); padrão é `true`.",
       "color": "Cor do spinner; usa a cor de destaque do sistema no iOS e `#999999` no Android por padrão.",
-      "size": "Tamanho do indicador: `'small'` ou `'large'`; no Android também aceita um número para tamanho personalizado.",
+      "size": "Tamanho do indicador: `\"small\"` ou `\"large\"`; no Android também aceita um número para tamanho personalizado.",
       "hidesWhenStopped": "Apenas iOS — oculta o spinner automaticamente quando `animating` é `false`; não tem efeito no Android."
     },
     "gotchas": {
       "gotcha1": "*Cor padrão difere entre plataformas* — O iOS usa a cor de destaque do sistema; o Android usa `#999999` por padrão. Passe um `color` explícito para branding consistente entre as plataformas.",
       "gotcha2": "*hidesWhenStopped é apenas iOS* — O Android ignora esse prop completamente; controle a visibilidade alternando `animating` em vez de depender do ocultar automático.",
-      "gotcha3": "*Tamanho numérico personalizado é apenas Android* — Passar um número para `size` só funciona no Android; no iOS apenas `'small'` e `'large'` são respeitados."
+      "gotcha3": "*Tamanho numérico personalizado é apenas Android* — Passar um número para `size` só funciona no Android; no iOS apenas `\"small\"` e `\"large\"` são respeitados."
     }
   },
   "image": {
@@ -131,7 +131,7 @@
       "maxLength": "Limita o número de caracteres; prefira isso a validação JS para evitar flickering."
     },
     "gotchas": {
-      "gotcha1": "*Alinhamento vertical em multiline* — No iOS o texto centraliza verticalmente em campos multiline; adicione `textAlignVertical: 'top'` ao style para consistência entre plataformas.",
+      "gotcha1": "*Alinhamento vertical em multiline* — No iOS o texto centraliza verticalmente em campos multiline; adicione `textAlignVertical: \"top\"` ao style para consistência entre plataformas.",
       "gotcha2": "*Sublinhado no Android* — O Android exibe uma borda inferior padrão em todo TextInput; use `underlineColorAndroid=\"transparent\"` para removê-la.",
       "gotcha3": "*secureTextEntry e multiline* — Esses dois props não podem ser usados juntos; `secureTextEntry` é silenciosamente ignorado quando `multiline` é true.",
       "gotcha4": "*Teclado empurra o layout no Android* — O teclado virtual pode alterar o `windowSoftInputMode`, quebrando componentes com posição absoluta. Envolva a tela em `KeyboardAvoidingView` para gerenciar isso."

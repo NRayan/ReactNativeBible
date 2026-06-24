@@ -9,9 +9,10 @@ export type TextProps = {
     variant?: keyof TypographyTokens;
     color?: keyof ColorTokens;
     flex?: number;
+    textAlign?: TextStyle["textAlign"];
 } & React.ComponentProps<typeof RNText>;
 
-export function Text({ variant = "body", color, flex, style, ...rest }: TextProps) {
+export function Text({ variant = "body", color, flex, textAlign, style, ...rest }: TextProps) {
     const { theme: { colors, typography } } = useThemeStore();
     const token = typography[variant];
 
@@ -26,5 +27,5 @@ export function Text({ variant = "body", color, flex, style, ...rest }: TextProp
         color: colors[color ?? variantDefaultColor[variant]],
     };
 
-    return <RNText style={[computedStyle, flex !== undefined && { flex }, style]} {...rest} />;
+    return <RNText style={[computedStyle, flex !== undefined && { flex }, textAlign !== undefined && { textAlign }, style]} {...rest} />;
 }

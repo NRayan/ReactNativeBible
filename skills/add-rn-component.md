@@ -259,6 +259,12 @@ function SwitchPreview() {
 
 ---
 
+## Code style
+
+- Always use double quotes in code examples and prop values — `"column"` not `'column'`, `variant="primary"` not `variant='primary'`
+
+---
+
 ## Quality checklist
 
 Before finishing, verify:

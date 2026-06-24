@@ -1,63 +1,80 @@
 {
+  "quizResult": {
+    "bad": {
+      "1": "Ainda não chegou lá — continue estudando! 📚",
+      "2": "Todo especialista já foi iniciante. Tente novamente! 💪",
+      "3": "Não desista, você vai conseguir! 🔄"
+    },
+    "medium": {
+      "1": "Bom esforço! Um pouco mais de prática e você vai acertar em cheio 🎯",
+      "2": "Está chegando lá! Revise os tópicos e tente novamente 📖",
+      "3": "Bom progresso! Force um pouco mais na próxima vez 🚀"
+    },
+    "good": {
+      "1": "Excelente trabalho! Você realmente sabe o que está fazendo 🏆",
+      "2": "Impressionante! Você está pegando fogo 🔥",
+      "3": "Arrasou! Você está dominando tudo 🎉"
+    }
+  },
   "layout": {
     "q1": {
       "question": "Qual é o valor padrão de `flexDirection` no React Native?",
-      "explanation": "O `flexDirection` tem o valor padrão `'column'` no React Native, então os filhos se empilham verticalmente. Isso é o oposto do CSS da web, cujo padrão é `'row'`. Mudar para `'row'` faz os filhos se alinharem horizontalmente.",
+      "explanation": "O `flexDirection` tem o valor padrão `\"column\"` no React Native, então os filhos se empilham verticalmente. Isso é o oposto do CSS da web, cujo padrão é `\"row\"`. Mudar para `\"row\"` faz os filhos se alinharem horizontalmente.",
       "options": {
-        "a": "'row'",
-        "b": "'column'",
-        "c": "'column-reverse'",
-        "d": "'row-reverse'"
+        "1": "\"row\"",
+        "2": "\"column\"",
+        "3": "\"column-reverse\"",
+        "4": "\"row-reverse\""
       }
     },
     "q2": {
       "question": "Qual é o valor padrão de `alignContent` no React Native?",
-      "explanation": "O React Native define `alignContent` como `'flex-start'` por padrão, então as linhas agrupadas se alinham ao início do eixo transversal. O CSS da web usa `'stretch'` como padrão, fazendo as linhas expandirem para preencher o contêiner — uma fonte comum de confusão para quem vem da web.",
+      "explanation": "O React Native define `alignContent` como `\"flex-start\"` por padrão, então as linhas agrupadas se alinham ao início do eixo transversal. O CSS da web usa `\"stretch\"` como padrão, fazendo as linhas expandirem para preencher o contêiner — uma fonte comum de confusão para quem vem da web.",
       "options": {
-        "a": "'stretch'",
-        "b": "'flex-start'",
-        "c": "'center'",
-        "d": "'flex-end'"
+        "1": "\"stretch\"",
+        "2": "\"flex-start\"",
+        "3": "\"center\"",
+        "4": "\"flex-end\""
       }
     },
     "q3": {
       "question": "Qual é o valor padrão de `position` no React Native?",
-      "explanation": "O React Native define `position` como `'relative'` por padrão, então os elementos participam do fluxo normal do Flexbox. No CSS da web, o padrão é `'static'`. Vale notar que `'static'` existe no React Native, mas apenas na New Architecture, e não forma um bloco contendo para descendentes com posição absoluta.",
+      "explanation": "O React Native define `position` como `\"relative\"` por padrão, então os elementos participam do fluxo normal do Flexbox. No CSS da web, o padrão é `\"static\"`. Vale notar que `\"static\"` existe no React Native, mas apenas na New Architecture, e não forma um bloco contendo para descendentes com posição absoluta.",
       "options": {
-        "a": "'static'",
-        "b": "'relative'",
-        "c": "'absolute'",
-        "d": "'fixed'"
+        "1": "\"static\"",
+        "2": "\"relative\"",
+        "3": "\"absolute\"",
+        "4": "\"fixed\""
       }
     },
     "q4": {
-      "question": "Um elemento com `position: 'absolute'` no React Native é posicionado em relação a qual ancestral?",
-      "explanation": "No React Native, um elemento com posição absoluta é sempre posicionado em relação ao seu pai mais próximo, independentemente do valor de `position` desse pai. No CSS da web, a referência é o ancestral mais próximo cujo `position` seja diferente de `'static'` — uma diferença chave que confunde desenvolvedores vindos da web.",
+      "question": "Um elemento com `position: \"absolute\"` no React Native é posicionado em relação a qual ancestral?",
+      "explanation": "No React Native, um elemento com posição absoluta é sempre posicionado em relação ao seu pai mais próximo, independentemente do valor de `position` desse pai. No CSS da web, a referência é o ancestral mais próximo cujo `position` seja diferente de `\"static\"` — uma diferença chave que confunde desenvolvedores vindos da web.",
       "options": {
-        "a": "Seu ancestral mais próximo com `position: 'relative'`",
-        "b": "Seu pai mais próximo, independentemente do valor de `position` dele",
-        "c": "Seu ancestral mais próximo com `position: 'relative'` ou `position: 'absolute'`",
-        "d": "O `View` raiz da aplicação"
+        "1": "Seu ancestral mais próximo com `position: \"relative\"`",
+        "2": "Seu pai mais próximo, independentemente do valor de `position` dele",
+        "3": "Seu ancestral mais próximo com `position: \"relative\"` ou `position: \"absolute\"`",
+        "4": "O `View` raiz da aplicação"
       }
     },
     "q5": {
       "question": "Qual afirmação sobre `useWindowDimensions` está correta?",
       "explanation": "`useWindowDimensions` re-renderiza o componente automaticamente sempre que o tamanho da janela muda — por exemplo, ao rotacionar o dispositivo. Nenhuma assinatura manual é necessária. `Dimensions.get()`, por sua vez, retorna um snapshot estático e requer `Dimensions.addEventListener` para acompanhar as mudanças.",
       "options": {
-        "a": "É necessário chamar `Dimensions.addEventListener` para se manter atualizado quando o dispositivo for rotacionado",
-        "b": "Ele re-renderiza o componente automaticamente sempre que o tamanho da janela muda",
-        "c": "Retorna o tamanho completo da tela do dispositivo, incluindo a barra de status e a barra de navegação",
-        "d": "Deve ser chamado dentro de `useEffect` para evitar leitura de valores de dimensão desatualizados"
+        "1": "É necessário chamar `Dimensions.addEventListener` para se manter atualizado quando o dispositivo for rotacionado",
+        "2": "Ele re-renderiza o componente automaticamente sempre que o tamanho da janela muda",
+        "3": "Retorna o tamanho completo da tela do dispositivo, incluindo a barra de status e a barra de navegação",
+        "4": "Deve ser chamado dentro de `useEffect` para evitar leitura de valores de dimensão desatualizados"
       }
     },
     "q6": {
-      "question": "No Android, o que `Dimensions.get('window')` exclui em comparação com `Dimensions.get('screen')`?",
-      "explanation": "`Dimensions.get('window')` retorna a área visível do app no Android, excluindo a barra de status (a menos que seja translúcida) e a barra de navegação inferior. `Dimensions.get('screen')` retorna a tela completa do dispositivo, incluindo essas áreas do sistema. No iOS, ambos os valores são tipicamente iguais.",
+      "question": "No Android, o que `Dimensions.get(\"window\")` exclui em comparação com `Dimensions.get(\"screen\")`?",
+      "explanation": "`Dimensions.get(\"window\")` retorna a área visível do app no Android, excluindo a barra de status (a menos que seja translúcida) e a barra de navegação inferior. `Dimensions.get(\"screen\")` retorna a tela completa do dispositivo, incluindo essas áreas do sistema. No iOS, ambos os valores são tipicamente iguais.",
       "options": {
-        "a": "Nada — ambos os valores são idênticos em todas as plataformas",
-        "b": "Apenas a barra de status, mas não a barra de navegação inferior",
-        "c": "A barra de status e a barra de navegação inferior (quando não translúcidas)",
-        "d": "O fator de escala de densidade de pixels e o fator de escala de fonte"
+        "1": "Nada — ambos os valores são idênticos em todas as plataformas",
+        "2": "Apenas a barra de status, mas não a barra de navegação inferior",
+        "3": "A barra de status e a barra de navegação inferior (quando não translúcidas)",
+        "4": "O fator de escala de densidade de pixels e o fator de escala de fonte"
       }
     }
   }

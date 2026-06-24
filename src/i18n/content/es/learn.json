@@ -9,6 +9,7 @@
       "heading1": "Cómo funciona Flexbox en React Native",
       "text1": "React Native usa Flexbox como motor de layout predeterminado. A diferencia de la web, el `flexDirection` por defecto es `'column'`, por lo que los hijos se apilan verticalmente. Todo `View` ya es un contenedor flex — no es necesario definir `display: 'flex'`.",
       "text2": "`justifyContent` alinea los hijos sobre el eje principal y `alignItems` sobre el eje transversal. Con la dirección por defecto `'column'`, `justifyContent: 'center'` centra verticalmente y `alignItems: 'center'` centra horizontalmente. Cambia a `flexDirection: 'row'` y los ejes se invierten.",
+      "image1": "La arquitectura de React Native — el hilo JS envía instrucciones de layout al hilo nativo a través del Bridge.",
       "heading2": "La propiedad flex",
       "text3": "Establece `flex: 1` en un hijo para que ocupe todo el espacio disponible en el eje principal. Cuando varios hijos tienen valores `flex`, el espacio se divide proporcionalmente. Un hijo sin `flex` conserva su tamaño natural."
     }

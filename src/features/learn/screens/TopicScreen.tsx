@@ -1,8 +1,8 @@
-import { Box, Chip, Toolbar, Text, CodeBlock, RichText, Button } from "@components";
+import { Box, Chip, Toolbar, Text, CodeBlock, RichText, Button, ImageBlock } from "@components";
 import type { LearnStackParamList } from "@navigation/LearnNavigator";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { s, size } from "@theme/spacing";
-import { ScrollView, Image, Animated } from "react-native";
+import { ScrollView, Animated } from "react-native";
 import { useTopicScreen } from "../hooks/useTopicScreen";
 import { useScrollReveal } from "@hooks";
 
@@ -10,7 +10,7 @@ type Props = NativeStackScreenProps<LearnStackParamList, "Topic">;
 
 export function TopicScreen({ route }: Props) {
     const { strings, blocks } = useTopicScreen({ section: route.params.section, topicIndex: route.params.topicIndex });
-    const { opacity, handleScroll, handleLayout, handleContentSizeChange } = useScrollReveal(.7, .8);
+    const { opacity, handleScroll, handleLayout, handleContentSizeChange } = useScrollReveal(.5, .7);
 
     return (
         <Box flex={1} bgColor="background">
@@ -38,7 +38,7 @@ export function TopicScreen({ route }: Props) {
                             case "code":
                                 return <CodeBlock key={block.id} language={block.language} code={block.value} />;
                             case "image":
-                                return <Image key={block.id} source={{ uri: block.uri }} />;
+                                return <ImageBlock key={block.id} imagePath={block.imagePath} caption={block.caption} />;
                             }
                         })
                     }

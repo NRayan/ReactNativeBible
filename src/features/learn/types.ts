@@ -13,7 +13,7 @@ export type ContentBlock =
     { type: "heading"; value: LearnContentKey }
   | { type: "text"; value: LearnContentKey }
   | { type: "code"; language: string; value: string }
-  | { type: "image"; uri: string; caption?: string }
+  | { type: "image"; imagePath: number; caption: LearnContentKey }
 
 export type Section = {
   id: string

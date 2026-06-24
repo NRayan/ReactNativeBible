@@ -4,7 +4,6 @@
 - Flexbox
 - Position Absolute
 - Dimensions & useWindowDimensions
-- SafeAreaView
 
 ## Performance
 - JS Thread vs UI Thread
@@ -32,6 +31,20 @@
 - AccessibilityInfo API
 - Foco e ordem de leitura
 - Testando com VoiceOver e TalkBack
+
+## Android
+- Android SDK
+- JDK & Build Tools
+- Gradle & gradlew
+- AndroidManifest.xml
+- Android API Levels
+
+## iOS
+- Xcode & Simulator
+- CocoaPods
+- Info.plist
+- App Sandbox & Permissions
+- iOS SDK & Deployment Target
 
 ## Publishing
 - Signing & Certificates

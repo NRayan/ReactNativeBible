@@ -9,6 +9,7 @@
       "heading1": "How Flexbox works in React Native",
       "text1": "React Native uses Flexbox as its default layout engine. Unlike the web, the default `flexDirection` is `'column'`, so children stack vertically. Every `View` is already a flex container — no need to set `display: 'flex'`.",
       "text2": "`justifyContent` aligns children along the main axis and `alignItems` aligns them along the cross axis. With the default `'column'` direction, `justifyContent: 'center'` centers vertically and `alignItems: 'center'` centers horizontally. Switch to `flexDirection: 'row'` and the axes flip.",
+      "image1": "React Native's architecture — the JS thread sends layout instructions to the native thread via the Bridge.",
       "heading2": "The flex property",
       "text3": "Set `flex: 1` on a child to make it fill all available space on the main axis. When multiple children carry `flex` values, the space is divided proportionally. A child without `flex` keeps its natural size."
     }

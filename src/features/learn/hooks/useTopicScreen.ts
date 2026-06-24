@@ -18,7 +18,11 @@ export function useTopicScreen({ section, topicIndex }: UseTopicScreenParams) {
     };
 
     const blocks = topic.body.map((block, index) => ({
-        ...(block.type === "code" || block.type === "image" ? block : { ...block, value: t(block.value) }),
+        ...(block.type === "code"
+            ? block
+            : block.type === "image"
+                ? { ...block, caption: t(block.caption) }
+                : { ...block, value: t(block.value) }),
         id: `${block.type}-${index}`,
     }));
 

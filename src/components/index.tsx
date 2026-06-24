@@ -8,6 +8,7 @@ export { Button } from "./Button";
 export { Chip } from "./Chip";
 export { SearchInput } from "./SearchInput";
 export { CodeBlock } from "./CodeBlock";
+export { ImageBlock } from "./ImageBlock";
 export { Separator } from "./Separator";
 export { PressableBox } from "./PressableBox";
 export { Toolbar } from "./Toolbar";

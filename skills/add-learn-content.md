@@ -106,7 +106,20 @@ The JSON only contains keys for `heading` and `text` blocks — the number and a
 
 - Blocks are named by **type + sequential number**: `heading1`, `heading2`, `text1`, `text2`, `text3`…
 - Each type has its own independent counter that increments sequentially and never resets — `heading1` and `text1` can coexist because they count separately.
-- Only `heading` and `text` blocks get i18n keys. `code` and `image` blocks use literal values directly in `index.ts` and do **not** appear in the JSON.
+- Only `heading` and `text` blocks get i18n keys. `code` blocks use literal string values directly in `index.ts` and do **not** appear in the JSON.
+- `image` blocks follow the same numeric pattern per type: `image1`, `image2`… The `imagePath` uses `require()` directly in `index.ts` and is never an i18n key. The `caption` is **required** — it is a `LearnContentKey` (e.g. `"content.{topic_id}.body.image1"`) and **must** be translated in all three locale files alongside the other body keys. Images live in `src/content/learn/assets/`.
+
+### Image caption rules
+
+Captions must be **short** — one brief phrase identifying what the image represents. Not a description, not an explanation.
+
+**Correct:**
+- `"Old Architecture thread communication flow"`
+- `"Flexbox main axis and cross axis"`
+- `"React Native DevTools — Profiler tab"`
+
+**Incorrect:**
+- `"This diagram illustrates how the JavaScript thread communicates with the native thread through the bridge using JSON serialization"`
 
 ### Body structure is free-form
 
@@ -158,9 +171,10 @@ In **`src/content/learn/index.ts`**, add the new `Topic` inside the appropriate 
     // makes the reading flow natural — there is no fixed template.
     { type: "heading", value: "content.{topic_id}.body.heading1" },
     { type: "text",    value: "content.{topic_id}.body.text1" },
-    // code and image blocks use literal values, not i18n keys:
+    // code blocks use a literal string value, not an i18n key:
     { type: "code", language: "typescript", value: `...` },
-    { type: "image", uri: "..." },
+    // image: imagePath is a require(), caption is a LearnContentKey (optional):
+    { type: "image", imagePath: require("./assets/flexbox_diagram.png"), caption: "content.flexbox_basics.body.image1" },
     { type: "heading", value: "content.{topic_id}.body.heading2" },
     { type: "text",    value: "content.{topic_id}.body.text2" },
   ],

@@ -1,15 +1,19 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Section } from "../types";
 
 type UseTopicScreenParams = {
     section: Section;
-    topicIndex: number;
+    initialTopicIndex: number;
 };
 
-export function useTopicScreen({ section, topicIndex }: UseTopicScreenParams) {
+export function useTopicScreen({ section, initialTopicIndex }: UseTopicScreenParams) {
     const { t } = useTranslation();
+    const [topicIndex, setTopicIndex] = useState(initialTopicIndex);
 
     const topic = section.topics[topicIndex];
+    const isFirst = topicIndex === 0;
+    const isLast = topicIndex === section.topics.length - 1;
 
     const strings = {
         sectionTitle: t(section.title),
@@ -26,5 +30,5 @@ export function useTopicScreen({ section, topicIndex }: UseTopicScreenParams) {
         id: `${block.type}-${index}`,
     }));
 
-    return { strings, blocks };
+    return { strings, blocks, isFirst, isLast, topicIndex, setTopicIndex };
 }

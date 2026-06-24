@@ -1,5 +1,6 @@
 import { TablerIconName } from "@components/Icon";
 import en from "../../i18n/content/en/learn.json";
+import enQuiz from "../../i18n/content/en/quiz.json";
 
 type NestedKeyOf<T, K extends string = ""> = {
   [P in keyof T & string]: T[P] extends object
@@ -15,8 +16,18 @@ export type ContentBlock =
   | { type: "code"; language: string; value: string }
   | { type: "image"; imagePath: number; caption: LearnContentKey }
 
+export type SectionId =
+  | "layout"
+  | "performance"
+  | "under_the_hood"
+  | "debugging"
+  | "accessibility"
+  | "android"
+  | "ios"
+  | "publishing"
+
 export type Section = {
-  id: string
+  id: SectionId
   icon: TablerIconName,
   title: LearnContentKey
   topics: Topic[]
@@ -28,4 +39,24 @@ export type Topic = {
   title: LearnContentKey
   subtitle: LearnContentKey
   body: ContentBlock[]
+}
+
+export type QuizContentKey = `content.${NestedKeyOf<typeof enQuiz>}`
+
+export type QuizOption = {
+  id: string
+  label: QuizContentKey
+  isCorrect: boolean
+}
+
+export type QuizQuestion = {
+  id: string
+  question: QuizContentKey
+  explanation: QuizContentKey
+  options: QuizOption[]
+}
+
+export type SectionQuiz = {
+  sectionId: SectionId
+  questions: QuizQuestion[]
 }

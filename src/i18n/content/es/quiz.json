@@ -1,0 +1,64 @@
+{
+  "layout": {
+    "q1": {
+      "question": "¿Cuál es el valor predeterminado de `flexDirection` en React Native?",
+      "explanation": "`flexDirection` tiene el valor predeterminado `'column'` en React Native, por lo que los hijos se apilan verticalmente. Esto es lo opuesto al CSS de la web, que tiene `'row'` como predeterminado. Cambiar a `'row'` hace que los hijos se alineen horizontalmente.",
+      "options": {
+        "a": "'row'",
+        "b": "'column'",
+        "c": "'column-reverse'",
+        "d": "'row-reverse'"
+      }
+    },
+    "q2": {
+      "question": "¿Cuál es el valor predeterminado de `alignContent` en React Native?",
+      "explanation": "React Native establece `alignContent` como `'flex-start'` por defecto, por lo que las líneas agrupadas se alinean al inicio del eje transversal. El CSS de la web usa `'stretch'` por defecto, haciendo que las líneas se expandan para llenar el contenedor — una fuente común de confusión para quienes vienen de la web.",
+      "options": {
+        "a": "'stretch'",
+        "b": "'flex-start'",
+        "c": "'center'",
+        "d": "'flex-end'"
+      }
+    },
+    "q3": {
+      "question": "¿Cuál es el valor predeterminado de `position` en React Native?",
+      "explanation": "React Native establece `position` como `'relative'` por defecto, por lo que los elementos participan en el flujo normal de Flexbox. En el CSS de la web, el valor por defecto es `'static'`. Cabe destacar que `'static'` existe en React Native, pero solo en la New Architecture, y no forma un bloque contenedor para descendientes con posición absoluta.",
+      "options": {
+        "a": "'static'",
+        "b": "'relative'",
+        "c": "'absolute'",
+        "d": "'fixed'"
+      }
+    },
+    "q4": {
+      "question": "¿Un elemento con `position: 'absolute'` en React Native se posiciona relativo a qué ancestro?",
+      "explanation": "En React Native, un elemento con posición absoluta siempre se posiciona relativo a su padre más cercano, independientemente del valor de `position` de ese padre. En el CSS de la web, la referencia es el ancestro más cercano cuyo `position` sea distinto de `'static'` — una diferencia clave que confunde a los desarrolladores web.",
+      "options": {
+        "a": "Su ancestro más cercano con `position: 'relative'`",
+        "b": "Su padre más cercano, independientemente del valor de `position` que tenga",
+        "c": "Su ancestro más cercano con `position: 'relative'` o `position: 'absolute'`",
+        "d": "El `View` raíz de la aplicación"
+      }
+    },
+    "q5": {
+      "question": "¿Cuál afirmación sobre `useWindowDimensions` es correcta?",
+      "explanation": "`useWindowDimensions` vuelve a renderizar el componente automáticamente cada vez que el tamaño de la ventana cambia — por ejemplo, al rotar el dispositivo. No se necesita ninguna suscripción manual. `Dimensions.get()`, en cambio, devuelve un snapshot estático y requiere `Dimensions.addEventListener` para rastrear los cambios.",
+      "options": {
+        "a": "Requiere llamar a `Dimensions.addEventListener` para mantenerse actualizado cuando el dispositivo rota",
+        "b": "Vuelve a renderizar el componente automáticamente cada vez que el tamaño de la ventana cambia",
+        "c": "Devuelve el tamaño completo de la pantalla del dispositivo, incluida la barra de estado y la barra de navegación",
+        "d": "Debe llamarse dentro de `useEffect` para evitar leer valores de dimensiones desactualizados"
+      }
+    },
+    "q6": {
+      "question": "En Android, ¿qué excluye `Dimensions.get('window')` que sí incluye `Dimensions.get('screen')`?",
+      "explanation": "`Dimensions.get('window')` devuelve el área visible de la app en Android, excluyendo la barra de estado (salvo que sea translúcida) y la barra de navegación inferior. `Dimensions.get('screen')` devuelve la pantalla completa del dispositivo, incluidas esas áreas del sistema. En iOS, ambos valores suelen ser iguales.",
+      "options": {
+        "a": "Nada — ambos valores son idénticos en todas las plataformas",
+        "b": "Solo la barra de estado, pero no la barra de navegación inferior",
+        "c": "La barra de estado y la barra de navegación inferior (cuando no son translúcidas)",
+        "d": "El factor de escala de densidad de píxeles y el factor de escala de fuente"
+      }
+    }
+  }
+}

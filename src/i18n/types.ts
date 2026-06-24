@@ -1,8 +1,9 @@
 import type en from "./locales/en.json";
 import type enContent from "./content/en/components.json";
 import type enLearn from "./content/en/learn.json";
+import type enQuiz from "./content/en/quiz.json";
 
-type TranslationResource = typeof en & { content: typeof enContent & typeof enLearn };
+type TranslationResource = typeof en & { content: typeof enContent & typeof enLearn & typeof enQuiz };
 
 declare module "i18next" {
   interface CustomTypeOptions {

@@ -2,27 +2,35 @@ import { Box, Chip, Toolbar, Text, CodeBlock, RichText, Button, ImageBlock } fro
 import type { LearnStackParamList } from "@navigation/LearnNavigator";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { s, size } from "@theme/spacing";
+import { useEffect, useRef } from "react";
 import { ScrollView, Animated } from "react-native";
 import { useTopicScreen } from "../hooks/useTopicScreen";
 import { useScrollReveal } from "@hooks";
 
 type Props = NativeStackScreenProps<LearnStackParamList, "Topic">;
 
-export function TopicScreen({ route }: Props) {
-    const { strings, blocks } = useTopicScreen({ section: route.params.section, topicIndex: route.params.topicIndex });
+export function TopicScreen({ route, navigation }: Props) {
+    const { section } = route.params;
+    const { strings, blocks, isFirst, isLast, topicIndex, setTopicIndex } = useTopicScreen({ section, initialTopicIndex: route.params.topicIndex });
     const { opacity, handleScroll, handleLayout, handleContentSizeChange } = useScrollReveal(.5, .7);
+    const scrollRef = useRef<ScrollView>(null);
+
+    useEffect(() => {
+        scrollRef.current?.scrollTo({ y: 0, animated: false });
+    }, [topicIndex]);
 
     return (
         <Box flex={1} bgColor="background">
-            <Toolbar title={strings.topicTitle} showBackButton />
+            <Toolbar title={strings.sectionTitle} showBackButton />
 
             <Box flex={1} align="flex-start" pt={4} gap={2}>
 
                 <Box px={4}>
-                    <Chip title={strings.sectionTitle} subtitle={strings.position} icon="IconAB"/>
+                    <Chip title={strings.topicTitle} subtitle={strings.position} icon={section.topics[topicIndex].icon}/>
                 </Box>
                 
                 <ScrollView
+                    ref={scrollRef}
                     onScroll={handleScroll}
                     onLayout={handleLayout}
                     onContentSizeChange={handleContentSizeChange}
@@ -45,8 +53,13 @@ export function TopicScreen({ route }: Props) {
                 </ScrollView>
 
                 <Animated.View style={{ flexDirection: "row", gap: s(2), position: "absolute", right: s(3), bottom: s(3), opacity }}>
-                    <Button variant="icon" icon="IconArrowLeft" onPress={()=>null} />
-                    <Button variant="icon" icon="IconArrowRight" onPress={()=>null} />
+                    {!isFirst && (
+                        <Button variant="icon" icon="IconArrowLeft" onPress={() => setTopicIndex(i => i - 1)} />
+                    )}
+                    {isLast
+                        ? <Button variant="icon-cta" icon="IconBolt" onPress={() => navigation.navigate("Quiz", { section })} />
+                        : <Button variant="icon" icon="IconArrowRight" onPress={() => setTopicIndex(i => i + 1)} />
+                    }
                 </Animated.View>
             </Box>
         </Box>

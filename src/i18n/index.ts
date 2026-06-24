@@ -13,12 +13,16 @@ import enLearn from "./content/en/learn.json";
 import ptLearn from "./content/pt/learn.json";
 import esLearn from "./content/es/learn.json";
 
+import enQuiz from "./content/en/quiz.json";
+import ptQuiz from "./content/pt/quiz.json";
+import esQuiz from "./content/es/quiz.json";
+
 i18n.use(initReactI18next).init({
     resources:
     {
-        pt: { translation: { ...pt, content: { ...ptContent, ...ptLearn } } },
-        en: { translation: { ...en, content: { ...enContent, ...enLearn } } },
-        es: { translation: { ...es, content: { ...esContent, ...esLearn } } },
+        pt: { translation: { ...pt, content: { ...ptContent, ...ptLearn, ...ptQuiz } } },
+        en: { translation: { ...en, content: { ...enContent, ...enLearn, ...enQuiz } } },
+        es: { translation: { ...es, content: { ...esContent, ...esLearn, ...esQuiz } } },
     },
     lng: "en",
     fallbackLng: "en",

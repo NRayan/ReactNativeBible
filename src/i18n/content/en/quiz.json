@@ -1,0 +1,64 @@
+{
+  "layout": {
+    "q1": {
+      "question": "What is the default value of `flexDirection` in React Native?",
+      "explanation": "`flexDirection` defaults to `'column'` in React Native, so children stack vertically. This is the opposite of web CSS, which defaults to `'row'`. Switching to `'row'` makes children line up horizontally instead.",
+      "options": {
+        "a": "'row'",
+        "b": "'column'",
+        "c": "'column-reverse'",
+        "d": "'row-reverse'"
+      }
+    },
+    "q2": {
+      "question": "What is the default value of `alignContent` in React Native?",
+      "explanation": "React Native defaults `alignContent` to `'flex-start'`, so wrapped lines align to the start of the cross axis. Web CSS defaults to `'stretch'`, which makes wrapped lines expand to fill the container — a common source of confusion when coming from the web.",
+      "options": {
+        "a": "'stretch'",
+        "b": "'flex-start'",
+        "c": "'center'",
+        "d": "'flex-end'"
+      }
+    },
+    "q3": {
+      "question": "What is the default value of `position` in React Native?",
+      "explanation": "React Native defaults `position` to `'relative'`, so elements participate in the normal Flexbox flow. Web CSS defaults to `'static'`. Note that `'static'` does exist in React Native but only on the New Architecture, and it does not form a containing block for absolutely-positioned descendants.",
+      "options": {
+        "a": "'static'",
+        "b": "'relative'",
+        "c": "'absolute'",
+        "d": "'fixed'"
+      }
+    },
+    "q4": {
+      "question": "An absolutely-positioned element in React Native is offset relative to which ancestor?",
+      "explanation": "In React Native, an absolutely-positioned element is always offset relative to its nearest parent, regardless of that parent's own `position` value. In web CSS, the reference point is the nearest ancestor whose `position` is anything other than `'static'` — a key difference that trips up web developers.",
+      "options": {
+        "a": "Its nearest ancestor with `position: 'relative'`",
+        "b": "Its nearest parent, regardless of that parent's `position` value",
+        "c": "Its nearest ancestor with `position: 'relative'` or `position: 'absolute'`",
+        "d": "The root `View` of the application"
+      }
+    },
+    "q5": {
+      "question": "Which statement about `useWindowDimensions` is correct?",
+      "explanation": "`useWindowDimensions` automatically re-renders the component whenever the window size changes — for example, on device rotation. No manual subscription is needed. `Dimensions.get()`, by contrast, returns a static snapshot and requires `Dimensions.addEventListener` to track changes.",
+      "options": {
+        "a": "It requires calling `Dimensions.addEventListener` to stay up to date when the device rotates",
+        "b": "It re-renders the component automatically whenever the window size changes",
+        "c": "It returns the full device screen size, including the status bar and navigation bar",
+        "d": "It must be called inside `useEffect` to avoid reading stale dimension values"
+      }
+    },
+    "q6": {
+      "question": "On Android, what does `Dimensions.get('window')` exclude that `Dimensions.get('screen')` includes?",
+      "explanation": "`Dimensions.get('window')` returns the visible app area on Android, which excludes the status bar (unless it is translucent) and the bottom navigation bar. `Dimensions.get('screen')` returns the full device screen including those system UI areas. On iOS, both values are typically equal.",
+      "options": {
+        "a": "Nothing — both values are identical across all platforms",
+        "b": "Only the status bar, but not the bottom navigation bar",
+        "c": "The status bar and the bottom navigation bar (when not translucent)",
+        "d": "The pixel density scale factor and font scale"
+      }
+    }
+  }
+}

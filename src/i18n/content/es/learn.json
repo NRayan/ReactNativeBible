@@ -3,15 +3,39 @@
     "layout": "Layout"
   },
   "flexbox_basics": {
-    "title": "Flexbox Basics",
+    "title": "Fundamentos de Flexbox",
     "subtitle": "El sistema de layout detrás de toda interfaz React Native",
     "body": {
       "heading1": "Cómo funciona Flexbox en React Native",
       "text1": "React Native usa Flexbox como motor de layout predeterminado. A diferencia de la web, el `flexDirection` por defecto es `'column'`, por lo que los hijos se apilan verticalmente. Todo `View` ya es un contenedor flex — no es necesario definir `display: 'flex'`.",
       "text2": "`justifyContent` alinea los hijos sobre el eje principal y `alignItems` sobre el eje transversal. Con la dirección por defecto `'column'`, `justifyContent: 'center'` centra verticalmente y `alignItems: 'center'` centra horizontalmente. Cambia a `flexDirection: 'row'` y los ejes se invierten.",
-      "image1": "La arquitectura de React Native — el hilo JS envía instrucciones de layout al hilo nativo a través del Bridge.",
       "heading2": "La propiedad flex",
       "text3": "Establece `flex: 1` en un hijo para que ocupe todo el espacio disponible en el eje principal. Cuando varios hijos tienen valores `flex`, el espacio se divide proporcionalmente. Un hijo sin `flex` conserva su tamaño natural."
+    }
+  },
+  "position_absolute": {
+    "title": "Position Absolute",
+    "subtitle": "Controla la ubicación de elementos sacándolos del flujo de layout normal",
+    "body": {
+      "heading1": "Posicionamiento relativo vs absoluto",
+      "text1": "Por defecto, React Native posiciona cada elemento como `position: 'relative'`, lo que significa que participa en el flujo normal de Flexbox y desplazarlo con `top`, `left`, `right` o `bottom` solo lo mueve desde donde naturalmente estaría. Establece `position: 'absolute'` y el elemento se elimina del flujo por completo — ya no afecta ni es afectado por sus hermanos.",
+      "text2": "Un elemento con posición absoluta siempre se mide y se coloca en relación a su padre más cercano, independientemente de si ese padre es `'relative'` o `'absolute'`. A diferencia de CSS, no es necesario marcar un padre con `position: relative` para anclar un hijo.",
+      "heading2": "Propiedades de desplazamiento",
+      "text3": "Usa `top`, `right`, `bottom` y `left` para posicionar el elemento dentro de su padre. Definir `top: 0` y `left: 0` lo fija en la esquina superior izquierda; `bottom: 0` y `right: 0` lo fija en la esquina inferior derecha. También puedes usar `inset` como atajo para establecer los cuatro lados a la vez.",
+      "heading3": "Apilamiento con zIndex",
+      "text4": "Cuando elementos con posición absoluta se superponen, `zIndex` controla cuál aparece encima. Los elementos con un `zIndex` más alto se renderizan sobre los de valor menor. Los hermanos comparten el mismo contexto de apilamiento — los valores de `zIndex` anidados solo se comparan dentro del mismo padre."
+    }
+  },
+  "dimensions": {
+    "title": "Dimensions & useWindowDimensions",
+    "subtitle": "Lee el tamaño de pantalla para construir layouts responsivos",
+    "body": {
+      "heading1": "Leyendo el tamaño de pantalla",
+      "text1": "React Native ofrece dos formas de leer las dimensiones de la pantalla del dispositivo. La API `Dimensions` devuelve un snapshot estático tomado en el momento de la llamada. El hook `useWindowDimensions` devuelve un valor reactivo que se actualiza automáticamente cuando la ventana cambia — por ejemplo, al rotar el dispositivo o cuando un teléfono plegable cambia entre layouts.",
+      "heading2": "API Dimensions",
+      "text2": "Llama a `Dimensions.get('window')` para obtener el objeto `{ width, height, scale, fontScale }`. La dimensión `'window'` hace referencia al área visible de la app; `'screen'` incluye la barra de estado y es útil en Android. Como el valor es un snapshot, no reflejará cambios de orientación a menos que te suscribas con `Dimensions.addEventListener`.",
+      "heading3": "Hook useWindowDimensions",
+      "text3": "Para la mayoría de los casos, prefiere el hook `useWindowDimensions`. Re-renderiza el componente automáticamente cada vez que las dimensiones cambian, eliminando la necesidad de gestionar una suscripción manualmente. El objeto devuelto contiene `width`, `height`, `scale` y `fontScale`."
     }
   }
 }

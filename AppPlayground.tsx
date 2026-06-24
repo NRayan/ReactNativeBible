@@ -71,7 +71,6 @@ export function AppPlayground() {
 
             <Box position="absolute" left={0} top={0} flex={1} align="center" fullHeight fullWidth bgColor="accent" >
                 <Image source={{ uri: imgAdress }} style={{ height: 100, width: 100 }}/>
-
                 {/* <Text>No SafeArea</Text>  */}
             </Box>
         </>   

@@ -9,9 +9,33 @@
       "heading1": "How Flexbox works in React Native",
       "text1": "React Native uses Flexbox as its default layout engine. Unlike the web, the default `flexDirection` is `'column'`, so children stack vertically. Every `View` is already a flex container — no need to set `display: 'flex'`.",
       "text2": "`justifyContent` aligns children along the main axis and `alignItems` aligns them along the cross axis. With the default `'column'` direction, `justifyContent: 'center'` centers vertically and `alignItems: 'center'` centers horizontally. Switch to `flexDirection: 'row'` and the axes flip.",
-      "image1": "React Native's architecture — the JS thread sends layout instructions to the native thread via the Bridge.",
       "heading2": "The flex property",
       "text3": "Set `flex: 1` on a child to make it fill all available space on the main axis. When multiple children carry `flex` values, the space is divided proportionally. A child without `flex` keeps its natural size."
+    }
+  },
+  "position_absolute": {
+    "title": "Position Absolute",
+    "subtitle": "Control element placement by removing it from the normal layout flow",
+    "body": {
+      "heading1": "Relative vs Absolute positioning",
+      "text1": "By default, React Native positions every element as `position: 'relative'`, meaning it participates in the normal Flexbox flow and nudging it with `top`, `left`, `right`, or `bottom` only offsets it from where it would naturally sit. Set `position: 'absolute'` and the element is removed from the flow entirely — it no longer affects or is affected by its siblings.",
+      "text2": "An absolutely-positioned element is always measured and placed relative to its nearest parent, regardless of whether that parent is `'relative'` or `'absolute'`. Unlike CSS, there is no need to mark a parent with `position: relative` to anchor a child.",
+      "heading2": "Offset properties",
+      "text3": "Use `top`, `right`, `bottom`, and `left` to place the element within its parent. Setting `top: 0` and `left: 0` pins it to the top-left corner; `bottom: 0` and `right: 0` pins it to the bottom-right. You can also use `inset` as a shorthand to set all four sides at once.",
+      "heading3": "Stacking with zIndex",
+      "text4": "When absolutely-positioned elements overlap, `zIndex` controls which one appears on top. Elements with a higher `zIndex` render above those with a lower value. Siblings share the same stacking context — nested `zIndex` values only compare within the same parent."
+    }
+  },
+  "dimensions": {
+    "title": "Dimensions & useWindowDimensions",
+    "subtitle": "Read the screen size to build responsive layouts",
+    "body": {
+      "heading1": "Reading the screen size",
+      "text1": "React Native provides two ways to read the device screen dimensions. The `Dimensions` API returns a static snapshot taken at the time of the call. The `useWindowDimensions` hook returns a reactive value that updates automatically whenever the window changes — for example on device rotation or when a foldable phone transitions between layouts.",
+      "heading2": "Dimensions API",
+      "text2": "Call `Dimensions.get('window')` to get the `{ width, height, scale, fontScale }` object. The `'window'` dimension refers to the visible app area; `'screen'` includes the status bar and is useful on Android. Because the value is a snapshot, it will not reflect orientation changes unless you subscribe with `Dimensions.addEventListener`.",
+      "heading3": "useWindowDimensions hook",
+      "text3": "For most use cases, prefer the `useWindowDimensions` hook. It re-renders the component automatically whenever the dimensions change, removing the need to manage a subscription manually. The returned object contains `width`, `height`, `scale`, and `fontScale`."
     }
   }
 }

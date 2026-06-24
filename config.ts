@@ -1,3 +1,3 @@
 export const DEV_CONFIG = {
-    playground: __DEV__ && 1,
+    playground: __DEV__ && 0,
 } as const;

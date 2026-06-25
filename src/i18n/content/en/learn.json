@@ -1,6 +1,13 @@
 {
   "sections": {
-    "layout": "Layout"
+    "layout": "Layout",
+    "performance": "Performance",
+    "under_the_hood": "Under the Hood",
+    "debugging": "Debugging",
+    "accessibility": "Accessibility",
+    "android": "Android",
+    "ios": "iOS",
+    "publishing": "Publishing"
   },
   "flexbox_basics": {
     "title": "Flexbox Basics",
@@ -36,6 +43,378 @@
       "text2": "Call `Dimensions.get(\"window\")` to get the `{ width, height, scale, fontScale }` object. The `\"window\"` dimension refers to the visible app area; `\"screen\"` includes the status bar and is useful on Android. Because the value is a snapshot, it will not reflect orientation changes unless you subscribe with `Dimensions.addEventListener`.",
       "heading3": "useWindowDimensions hook",
       "text3": "For most use cases, prefer the `useWindowDimensions` hook. It re-renders the component automatically whenever the dimensions change, removing the need to manage a subscription manually. The returned object contains `width`, `height`, `scale`, and `fontScale`."
+    }
+  },
+  "js_thread_ui_thread": {
+    "title": "JS Thread vs UI Thread",
+    "subtitle": "How React Native separates JavaScript execution from native rendering",
+    "body": {
+      "heading1": "Two threads, two responsibilities",
+      "text1": "React Native runs all JavaScript — component logic, state updates, and React reconciliation — on a dedicated JS thread powered by the Hermes engine. The UI thread (also called the main thread) handles everything visible: native rendering, layout calculation, gesture recognition, and animations. Neither thread can block the other without consequences.",
+      "text2": "In the Old Architecture, the two threads communicated exclusively through the Bridge, which serialized all data to JSON before passing it across. This serialization was the main bottleneck: large payloads caused frame drops. The New Architecture replaces the Bridge with JSI (JavaScript Interface), which gives the JS engine direct access to native host objects — no serialization required.",
+      "heading2": "Keeping the JS thread free",
+      "text3": "Heavy JavaScript work — processing a large dataset, running a complex sort, or synchronously reading from storage — blocks React from scheduling updates and delays re-renders. Native animations driven by `useNativeDriver: true` or Reanimated run entirely on the UI thread and are unaffected. Offload expensive work with `useMemo`, `InteractionManager.runAfterInteractions`, or background threads via native modules."
+    }
+  },
+  "hermes_engine": {
+    "title": "Hermes Engine",
+    "subtitle": "Meta's JavaScript engine purpose-built for React Native's startup and memory constraints",
+    "body": {
+      "heading1": "What Hermes does differently",
+      "text1": "Hermes is a JavaScript engine built by Meta specifically for React Native. Unlike V8 or JavaScriptCore, which parse and compile JavaScript at runtime, Hermes compiles JavaScript to bytecode at **build time**. The app ships pre-compiled bytecode — on startup, the engine loads it directly without a parse or JIT warm-up phase.",
+      "heading2": "Impact on startup and memory",
+      "text2": "Skipping runtime compilation directly reduces Time to Interactive (TTI): the engine begins executing code as soon as the bytecode is loaded. Hermes also has a significantly smaller memory footprint than V8, making it well-suited to mid-range and low-end Android devices where memory pressure causes app kills.",
+      "text3": "Hermes is enabled by default since React Native 0.70. You can verify the engine at runtime by checking `global.HermesInternal` — it is `null` on JavaScriptCore or V8. Profiling Hermes apps is done through the Hermes-specific CDP protocol exposed in React Native DevTools."
+    }
+  },
+  "flatlist_optimization": {
+    "title": "FlatList Optimization",
+    "subtitle": "Key props and patterns that keep long lists fast and memory-efficient",
+    "body": {
+      "heading1": "How FlatList virtualizes rendering",
+      "text1": "FlatList renders only the items within a configurable window around the visible area. Items outside the window are unmounted to free memory. `windowSize` controls how many screen-heights worth of items stay mounted (default: 21 — ten above, ten below the viewport). `initialNumToRender` controls how many items render on the first pass; `maxToRenderPerBatch` controls how many are added each subsequent batch.",
+      "heading2": "Props that unlock performance",
+      "text2": "`keyExtractor` returns a stable string identity per item — without it, FlatList cannot efficiently recycle cells. `getItemLayout` tells FlatList the height (and offset) of each item upfront, skipping the measurement pass entirely. This is required for `scrollToIndex` to work and dramatically speeds up initial render for fixed-height lists. `removeClippedSubviews` unmounts off-screen items on Android, but can cause blank flashes on fast scrolls — test on device before enabling.",
+      "heading3": "Preventing unnecessary re-renders",
+      "text3": "Defining `renderItem` inline — `renderItem={({ item }) => <ItemRow item={item} />}` — creates a new function reference on every parent render, breaking any `React.memo` optimization on `ItemRow`. Wrap `renderItem` with `useCallback` and the item component with `React.memo`. Pass only the props the item needs — avoid passing the entire data object when only one field is displayed."
+    }
+  },
+  "usememo_usecallback": {
+    "title": "useMemo & useCallback",
+    "subtitle": "Stabilize computed values and function references to prevent wasted renders",
+    "body": {
+      "heading1": "The problem they solve",
+      "text1": "Every React render creates new object and function references, even if the underlying value has not changed. A child wrapped in `React.memo` re-renders anyway when it receives a new reference for a prop that is semantically identical. `useMemo` memoizes a computed value; `useCallback` memoizes a function. Both return the **same reference** across renders until their dependency array changes.",
+      "heading2": "useMemo",
+      "text2": "Use `useMemo` for expensive computations — filtering or sorting a large array, deriving data from a big list, computing chart data — or when the result is passed as a prop to a memoized child. Avoid it for cheap operations: the overhead of running the dependency comparison and storing the cached value can exceed the cost of just recomputing.",
+      "heading3": "useCallback",
+      "text3": "Use `useCallback` when a function is passed as a prop to a `React.memo`-wrapped component, or when it appears in the dependency array of another hook. Without it, the function reference changes every render and breaks downstream memoization. The dependency array follows the same exhaustive-deps rule as `useEffect` — include every value from the enclosing scope that the function reads."
+    }
+  },
+  "the_bridge": {
+    "title": "The Bridge (Old Architecture)",
+    "subtitle": "The original communication channel between JavaScript and native — and why it was a bottleneck",
+    "body": {
+      "heading1": "How the Bridge worked",
+      "text1": "In the Old Architecture, the JS thread and the UI thread could not share memory. Every piece of data that needed to cross from JavaScript to native — or back — was serialized into JSON, placed on an asynchronous message queue, deserialized on the other side, and then acted on. This happened for every layout update, every event, and every native API call.",
+      "text2": "The asynchronous nature was a fundamental constraint: JavaScript could not call a native function and wait for an immediate return value. All native interactions were fire-and-forget with a callback, which made certain operations — like synchronously measuring a view's size — impossible without a workaround.",
+      "heading2": "Why it was replaced",
+      "text3": "At scale, the serialization overhead was significant. Large state updates, long lists, and rapid gesture events all competed for the same Bridge queue. Dropped frames, janky animations, and delayed touch responses were the visible symptoms. The New Architecture eliminates the Bridge entirely — JSI gives the JS engine direct references to native C++ objects, making serialization unnecessary."
+    }
+  },
+  "jsi": {
+    "title": "JSI",
+    "subtitle": "The C++ layer that lets JavaScript talk directly to native without serialization",
+    "body": {
+      "heading1": "What JSI is",
+      "text1": "JSI (JavaScript Interface) is a lightweight C++ API that sits between the JavaScript engine and native platform code. Instead of passing messages through a queue, JSI lets JavaScript hold direct references to native C++ objects — called host objects. A JavaScript value backed by a host object can invoke methods, read properties, and share memory with native code synchronously.",
+      "text2": "The key difference from the Bridge: there is no serialization. When JS calls a method on a host object, execution goes directly from the JS engine into C++ without packaging the arguments into JSON. The return value comes back the same way. This makes synchronous native calls possible for the first time.",
+      "heading2": "What JSI enables",
+      "text3": "JSI is the foundation that makes the rest of the New Architecture possible. TurboModules use JSI to expose native module methods directly to JS. Fabric uses JSI to share the C++ shadow tree between the JS reconciler and the native renderer. Reanimated uses JSI to run JavaScript animation worklets directly on the UI thread, eliminating gesture jank."
+    }
+  },
+  "fiber": {
+    "title": "Fiber",
+    "subtitle": "React's incremental reconciliation engine that makes prioritized rendering possible",
+    "body": {
+      "heading1": "What Fiber replaced",
+      "text1": "Before React 16, React's reconciler used a simple recursive algorithm: when state changed, it walked the entire component tree synchronously and flushed all updates at once. This was fast for small trees but caused dropped frames for large ones — the work could not be paused once started.",
+      "text2": "Fiber replaced this with an incremental work loop. Each component is represented as a unit of work (a \"fiber\") that can be paused, resumed, reused, or discarded. React can now split a large render into chunks, yield back to the browser between chunks, and prioritize urgent updates (a key press, a tap) over low-priority ones (off-screen content).",
+      "heading2": "User-facing impact in React Native",
+      "text3": "Fiber's priority scheduling is exposed to application code through the Concurrent features: `useTransition` marks a state update as non-urgent so React can interrupt it if something more important arrives, and `useDeferredValue` delays a derived value until the render is idle. In React Native, Fabric integrates directly with Fiber at the C++ level to support these features on mobile."
+    }
+  },
+  "turbomodules": {
+    "title": "TurboModules",
+    "subtitle": "The New Architecture's native module system — faster, lazier, and type-safe",
+    "body": {
+      "heading1": "Native modules without the Bridge",
+      "text1": "TurboModules are the New Architecture's replacement for Native Modules. They communicate via JSI, enabling direct calls from JavaScript to native C++ code without serialization. Calls can be synchronous or asynchronous depending on the return type declared in the spec.",
+      "text2": "The old Native Module system initialized every registered module at app startup, regardless of whether any JS code ever used it. TurboModules are lazy — a module is instantiated the first time JS imports it. On apps with many native modules, this alone can cut startup time noticeably.",
+      "heading2": "Type safety via Codegen",
+      "text3": "A TurboModule is defined by a TypeScript spec file that Codegen reads at build time to generate the C++ interface the native implementation must fulfill. Any mismatch between what JS expects and what native provides is caught as a compile error rather than a runtime crash. This spec file is also the source of truth for the method signatures that the JS side calls."
+    }
+  },
+  "fabric": {
+    "title": "Fabric",
+    "subtitle": "React Native's new rendering system — C++ shadow tree, synchronous layout, concurrent support",
+    "body": {
+      "heading1": "What Fabric replaces",
+      "text1": "Fabric is the New Architecture's native renderer, replacing the old UIManager. In the old system, React computed the shadow tree in JavaScript, serialized layout instructions across the Bridge, and the native side applied them asynchronously. Fabric moves the shadow tree implementation to C++, shared between the JS reconciler and the native platform via JSI.",
+      "text2": "With the shadow tree in C++, layout can be measured synchronously from JavaScript. Operations that previously required a callback — like `measure()` or `measureInWindow()` — can return a value directly. This also enables synchronous layout effects on mount, similar to `useLayoutEffect` semantics in web React.",
+      "heading2": "Concurrent rendering on mobile",
+      "text3": "Because Fabric integrates with React's Fiber reconciler at the C++ level, it supports concurrent rendering features: renders can be interrupted, paused, and prioritized. Transitions, deferred values, and Suspense boundaries all work correctly with Fabric. This is the architectural foundation that makes React Native's future concurrent features possible."
+    }
+  },
+  "codegen": {
+    "title": "Codegen",
+    "subtitle": "Build-time code generation that enforces type safety between JavaScript and native",
+    "body": {
+      "heading1": "What Codegen does",
+      "text1": "Codegen is a build-time tool that generates native C++ code from JavaScript spec files. You write a TypeScript interface describing a TurboModule or a Fabric native component, and Codegen produces the corresponding C++ headers, method stubs, and event emitters that the native platform compiles against.",
+      "heading2": "Generated artifacts and guarantees",
+      "text2": "For TurboModules, Codegen emits an abstract C++ class that the native implementation must subclass and fulfill. For Fabric components, it generates C++ props and event emitter classes. Because the generated code is compiled into the app binary, any mismatch between the JS spec and the native implementation surfaces as a build error — not a runtime crash.",
+      "text3": "Codegen runs automatically as part of the Metro and native build pipeline. Spec files follow a naming convention (`NativeMyModule.ts` for TurboModules, `MyComponentNativeComponent.ts` for Fabric) that Codegen uses to identify them. You never invoke Codegen manually — changing a spec file and rebuilding the native target is enough."
+    }
+  },
+  "react_native_devtools": {
+    "title": "React Native DevTools",
+    "subtitle": "The official all-in-one debugger for React Native apps",
+    "body": {
+      "heading1": "A unified debugging environment",
+      "text1": "React Native DevTools is the official debugger built on the Chrome DevTools Protocol (CDP). It replaces the older Chrome Remote JS Debugger and Flipper. Launch it by pressing `j` in the Metro terminal, or from the Dev Menu — shake the device, press Cmd+D on iOS Simulator, or Cmd+M on Android Emulator.",
+      "heading2": "What's inside",
+      "text2": "The DevTools window bundles four tools: the **JS Debugger** (breakpoints, call stack, watch expressions, step-through execution), **React DevTools** (component tree, inspect props and state in real time), the **Network inspector** (monitor fetch and XMLHttpRequest traffic), and the **Console** (logs and errors with source-mapped stack traces).",
+      "text3": "React Native DevTools requires the Hermes engine and is enabled by default in React Native 0.73+. It does not work with apps running on JavaScriptCore. For production profiling, use the Hermes-specific CDP sampling profiler accessible from the Profiler tab."
+    }
+  },
+  "performance_monitor": {
+    "title": "Performance Monitor",
+    "subtitle": "A real-time overlay that shows thread health and memory at a glance",
+    "body": {
+      "heading1": "What the overlay shows",
+      "text1": "The Performance Monitor is a lightweight overlay you can toggle from the Dev Menu. It displays live metrics that update every frame: **UI FPS** (UI thread frame rate — should stay near 60), **JS FPS** (JS thread frame rate — drops signal blocked JS work), **RAM** (JS heap memory), and **Views** (total native views currently mounted in the hierarchy).",
+      "heading2": "Reading the numbers",
+      "text2": "If UI FPS drops but JS FPS stays high, the bottleneck is in native rendering — a heavy layout pass, too many views, or an expensive shadow tree update. If JS FPS drops, the JS thread is overloaded — look for expensive computations, unnecessary re-renders, or synchronous storage reads on the hot path. The Views counter helps catch view bloat caused by deeply nested layouts or non-virtualized lists.",
+      "text3": "The Performance Monitor is a quick first step, not a replacement for the Profiler. Use it to confirm whether you have a JS thread or a UI thread problem, then open the Profiler to pinpoint the specific component or operation responsible."
+    }
+  },
+  "profiler": {
+    "title": "Profiler",
+    "subtitle": "Record and analyze React component render timings to find what's slow",
+    "body": {
+      "heading1": "Recording a profile",
+      "text1": "The Profiler tab in React Native DevTools records a timeline of React render activity. Press Record, interact with the part of the app you want to measure, then press Stop. The Profiler renders a flame chart of every component that committed during the recording — how long each commit took, and which components rendered in each commit.",
+      "heading2": "Reading the flame chart",
+      "text2": "Each bar represents a component in a commit. Wider bars took longer to render. Components highlighted in warmer colors took the most time relative to their siblings. Click a component to see its render duration and the reason it re-rendered: prop change, state change, context change, or parent re-render.",
+      "text3": "For programmatic profiling, React exports a `Profiler` component that wraps a subtree and fires an `onRender` callback with timing data on every commit. This lets you track render performance in staging or production builds and feed the data into analytics or alerting."
+    }
+  },
+  "logbox": {
+    "title": "LogBox",
+    "subtitle": "React Native's built-in overlay for runtime errors and warnings",
+    "body": {
+      "heading1": "How LogBox presents issues",
+      "text1": "LogBox is the system React Native uses to surface runtime errors and warnings during development. An uncaught JavaScript error renders a red full-screen overlay with the error message, a source-mapped stack trace, and — for known error types — a link to the relevant documentation. A `console.warn()` call appears as a collapsible yellow banner at the bottom of the screen.",
+      "heading2": "Suppressing known warnings",
+      "text2": "Third-party libraries sometimes emit warnings that you cannot immediately fix. Call `LogBox.ignoreLogs()` at your app's entry point with an array of string patterns or regular expressions to suppress specific messages. The messages are still printed to the Metro console — only the in-app overlay is hidden.",
+      "text3": "Use `LogBox.ignoreAllLogs()` only as a last resort when preparing a demo build. Ignoring all logs hides real issues during development and makes it easy to ship with unnoticed regressions. Prefer targeted suppressions scoped to the exact warning message."
+    }
+  },
+  "sourcemaps": {
+    "title": "Source Maps",
+    "subtitle": "Map compiled bundle positions back to original TypeScript files and line numbers",
+    "body": {
+      "heading1": "Why source maps matter",
+      "text1": "React Native bundles and minifies your TypeScript source before it runs. A source map is a JSON file that records the mapping from every position in the compiled bundle to the original source file and line number. Without one, a production stack trace shows minified variable names and byte offsets — meaningless without extra tooling.",
+      "heading2": "Development vs production",
+      "text2": "In development, Metro generates source maps automatically and React Native DevTools uses them transparently — stack traces in the console and LogBox already show your original source files. For production, pass `--sourcemap-output <path>` to the Metro bundle command to write the source map file to disk alongside the bundle.",
+      "text3": "Upload the source map to your crash reporting tool (Sentry, Firebase Crashlytics, Bugsnag) so that production crashes are automatically symbolicated — you see the original TypeScript file, line, and column in your dashboard instead of minified code. Always keep the source map matched to the exact build it was generated from; a mismatched map produces garbled or misleading stack traces."
+    }
+  },
+  "accessibility_labels": {
+    "title": "accessibilityLabel & accessibilityHint",
+    "subtitle": "Give every interactive element a name and purpose that screen readers can announce",
+    "body": {
+      "heading1": "What screen readers announce",
+      "text1": "By default, a screen reader announces a `Text` component's string content and nothing for a `View`. The `accessibilityLabel` prop overrides this with a custom string — essential for icon buttons, images, and any element whose visual appearance doesn't convey its purpose to a non-visual user. If omitted on an interactive element, the screen reader may announce nothing or fall back to an unhelpful default.",
+      "heading2": "accessibilityHint",
+      "text2": "`accessibilityHint` adds a second announcement after the label that describes what happens when the user activates the element. Use it when the outcome isn't obvious from the label alone: a label of `\"Trash\"` paired with a hint of `\"Deletes the selected message\"` gives the user the confidence to act. VoiceOver and TalkBack read the hint after a short pause following the label.",
+      "heading3": "Labels and roles",
+      "text3": "Keep labels short and action-oriented. Do not repeat the element's role — the screen reader appends it automatically when you set `accessibilityRole`. Available roles include `\"button\"`, `\"link\"`, `\"image\"`, `\"header\"`, `\"checkbox\"`, `\"switch\"`, and others. Avoid phrases like \"tap to\" — the reader already explains how to interact. Avoid appending the role yourself: say `\"Delete\"`, not `\"Delete button\"`."
+    }
+  },
+  "accessibility_info": {
+    "title": "AccessibilityInfo API",
+    "subtitle": "Detect screen reader state and make programmatic announcements at runtime",
+    "body": {
+      "heading1": "Checking screen reader state",
+      "text1": "`AccessibilityInfo.isScreenReaderEnabled()` returns a Promise that resolves to a boolean. Call it at mount time to read the current state. For reactive updates — for example, to add or remove decorative UI when a screen reader is toggled while the app is open — subscribe with `AccessibilityInfo.addEventListener(\"screenReaderChanged\", handler)` and unsubscribe in the cleanup.",
+      "heading2": "Announcing dynamic changes",
+      "text2": "`AccessibilityInfo.announceForAccessibility(message)` sends a string to the screen reader queue. The reader announces it as soon as it finishes its current announcement. Use this for confirming actions that produce no visible UI change — for example, `\"Item added to cart\"` after a silent background operation, or `\"24 results loaded\"` when a list refreshes without a navigation.",
+      "text3": "`AccessibilityInfo.setAccessibilityFocus(reactTag)` moves the virtual cursor to a specific element. Pass the result of `findNodeHandle(ref.current)` as the tag. Call this when a modal or sheet opens to land focus on the first meaningful element, preventing the screen reader from reading stale content behind the overlay."
+    }
+  },
+  "focus_order": {
+    "title": "Focus & Reading Order",
+    "subtitle": "Control which elements are reachable and in what sequence screen readers navigate them",
+    "body": {
+      "heading1": "How screen readers traverse the tree",
+      "text1": "Screen readers navigate accessible elements in document order — top-to-bottom, left-to-right, following the order of `View` children in the component tree. Visual positioning with `position: \"absolute\"` or `zIndex` does not affect reading order: an element rendered visually at the top of the screen but declared last in the tree will be read last.",
+      "heading2": "Grouping and hiding elements",
+      "text2": "Setting `accessible={true}` on a container collapses all its children into a single accessible element, announced with the container's `accessibilityLabel`. This is useful for cards and list items where reading each child separately would be noisy. To remove an entire subtree from the accessibility tree, use `importantForAccessibility=\"no-hide-descendants\"` on Android or `accessibilityElementsHidden={true}` on iOS.",
+      "heading3": "Trapping focus in modals",
+      "text3": "When a modal opens, the screen reader must not navigate to content behind it. On iOS, set `accessibilityViewIsModal={true}` on the modal's root view to block background navigation. The built-in `Modal` component handles this automatically on Android. After any modal or sheet opens, call `AccessibilityInfo.setAccessibilityFocus` to land the cursor on the first interactive element inside it."
+    }
+  },
+  "voiceover_talkback": {
+    "title": "Testing with VoiceOver & TalkBack",
+    "subtitle": "Verify your app works end-to-end with the built-in screen readers on iOS and Android",
+    "body": {
+      "heading1": "Enabling the screen readers",
+      "text1": "**VoiceOver** (iOS) is enabled in Settings → Accessibility → VoiceOver, or via the Accessibility Shortcut (triple-click the side button). **TalkBack** (Android) is enabled in Settings → Accessibility → TalkBack. Both use a swipe-based gesture model: swipe right to move to the next element, swipe left for the previous, double-tap to activate, and a two-finger swipe up or down to scroll.",
+      "heading2": "What to verify",
+      "text2": "Navigate the entire user flow using only the screen reader — no glancing at the screen to orient yourself. Check that every interactive element is reachable by swiping, announces a meaningful label and role, and performs the expected action on double-tap. Verify that modals trap focus, that loading and success states are announced, and that error messages are read without requiring the user to manually find them.",
+      "heading3": "Simulator tooling",
+      "text3": "On the iOS Simulator, use the Accessibility Inspector (Xcode → Open Developer Tool → Accessibility Inspector) to audit element labels, roles, and traits without enabling VoiceOver. On the Android Emulator, TalkBack behaves the same as on a real device. Both are useful for fast iteration, but always validate on a physical device before shipping — emulator audio, gesture handling, and timing differ from real hardware."
+    }
+  },
+  "android_sdk": {
+    "title": "Android SDK",
+    "subtitle": "The toolchain that compiles, packages, and deploys your React Native app on Android",
+    "body": {
+      "heading1": "What the Android SDK contains",
+      "text1": "The Android SDK is a collection of tools, libraries, and platform APIs installed on your development machine. The components React Native relies on are: **platform tools** (`adb` for device communication), **build tools** (`aapt2` for resource compilation, `d8` for dex conversion), and the **platform** itself — the `android.jar` that provides the Android API surface your code compiles against. Each major Android release ships a new platform version.",
+      "heading2": "SDK Manager and ANDROID_HOME",
+      "text2": "The SDK is managed via Android Studio's SDK Manager or the standalone `sdkmanager` CLI. Installed SDKs live under the directory pointed to by the `ANDROID_HOME` (or `ANDROID_SDK_ROOT`) environment variable — typically `~/Library/Android/sdk` on macOS. React Native's build scripts use this variable to locate `adb`, the emulator, and the build tools. If it is unset, builds fail with a path-not-found error.",
+      "text3": "React Native requires a specific minimum SDK version that changes across major RN releases. Check the official environment setup docs when creating a new project or upgrading. Keeping platform tools and build tools up to date via the SDK Manager avoids subtle build failures caused by version mismatches between tools."
+    }
+  },
+  "jdk_build_tools": {
+    "title": "JDK & Build Tools",
+    "subtitle": "The Java runtime and compiler toolchain that powers Android's build pipeline",
+    "body": {
+      "heading1": "Why Java is required",
+      "text1": "Android's build system — Gradle — runs on the JVM, so a Java Development Kit must be installed on the machine running the build. React Native 0.73+ requires JDK 17; older versions require JDK 11. The `JAVA_HOME` environment variable must point to the JDK installation — Gradle uses it to locate the compiler. A mismatch between the installed JDK and the required version is one of the most common first-time setup failures.",
+      "heading2": "What the build tools do",
+      "text2": "The Android build tools convert source code and resources into an installable `.apk` or `.aab`. `aapt2` compiles XML layouts and drawables into a compact binary format. `d8` converts JVM bytecode from Java and Kotlin dependencies into Dalvik bytecode (`.dex` files) that the Android Runtime can execute. `zipalign` and `apksigner` prepare and sign the final package.",
+      "text3": "You rarely interact with these tools directly — Gradle orchestrates them. But knowing their roles helps when diagnosing build errors. A `d8` error usually points to an incompatible dependency or a Java version mismatch. An `aapt2` error usually means a malformed resource file or a namespace conflict in a library."
+    }
+  },
+  "gradle_gradlew": {
+    "title": "Gradle & gradlew",
+    "subtitle": "Android's build system and the wrapper script that pins its version per project",
+    "body": {
+      "heading1": "What Gradle does",
+      "text1": "Gradle is the build system that orchestrates the entire Android build: resolving Maven dependencies, compiling code, packaging resources, running R8 (code shrinking and obfuscation), and producing the final artifact. Every React Native Android project includes a `gradlew` script — a shell wrapper that downloads and runs the exact Gradle version declared in `gradle/wrapper/gradle-wrapper.properties`, ensuring consistent builds across all machines.",
+      "heading2": "Key build files",
+      "text2": "The project has two main build files. `android/build.gradle` (project-level) declares global repositories and plugin versions. `android/app/build.gradle` (app-level) is where you set `compileSdkVersion`, `minSdkVersion`, `targetSdkVersion`, `versionCode`, `versionName`, and app dependencies. When you run `npx react-native run-android`, it calls `./gradlew assembleDebug` and installs the result.",
+      "text3": "Run `./gradlew clean` to wipe build output when you hit unexplained errors — it forces a full rebuild. The Gradle daemon runs as a background JVM process to speed up incremental builds; `./gradlew --stop` kills it if you need to free memory or resolve a hung build."
+    }
+  },
+  "android_manifest": {
+    "title": "AndroidManifest.xml",
+    "subtitle": "The file that declares your app's identity, permissions, and components to Android",
+    "body": {
+      "heading1": "What the manifest declares",
+      "text1": "Every Android app must have an `AndroidManifest.xml` at the root of the app module. It declares the app's package name, all components (activities, services, broadcast receivers, content providers), and metadata the OS and Google Play need. Android will not run a component that is not registered here — forgetting to declare an activity is a common cause of crashes on first install.",
+      "heading2": "Permissions",
+      "text2": "Any capability requiring user trust — internet access, camera, location, microphone, storage — must be declared with a `<uses-permission>` element. On Android 6.0+ (API 23+), dangerous permissions also require runtime user approval via `PermissionsAndroid` in React Native. Declaring a permission in the manifest is a prerequisite but does not automatically grant it.",
+      "text3": "Deep links are registered via `<intent-filter>` inside `<activity>`, with `<action android:name=\"android.intent.action.VIEW\">` and `<data>` elements specifying the scheme and host. The `android:exported` attribute must be `true` on any activity that responds to external intents — this is required for `MainActivity` and any activity handling deep links or notification taps."
+    }
+  },
+  "android_api_levels": {
+    "title": "Android API Levels",
+    "subtitle": "The integer that identifies each Android version — and why three of them matter in your build config",
+    "body": {
+      "heading1": "What an API Level is",
+      "text1": "Every Android OS release is assigned an integer API Level: Android 7.0 is API 24, Android 12 is API 31, Android 14 is API 34. The level determines which framework APIs are available at runtime. Calling an API introduced at level 33 on a device running level 28 crashes at runtime — unless you guard it with a version check using `Build.VERSION.SDK_INT` in native code or `Platform.Version` in JavaScript.",
+      "heading2": "The three SDK version settings",
+      "text2": "`minSdkVersion` is the lowest API level the app installs on — lowering it reaches more devices but prevents using newer APIs without guards. `targetSdkVersion` tells Android which version you designed and tested for; the OS uses it to decide whether to apply compatibility behaviors. Google Play requires `targetSdkVersion` to stay within one year of the latest release. `compileSdkVersion` is which SDK the code compiles against and should always be the latest stable SDK.",
+      "text3": "React Native raises its minimum `minSdkVersion` with major releases — check the RN changelog when upgrading. A common mistake is setting `minSdkVersion` too low and calling a newer API without a version guard: it compiles cleanly but crashes on older devices. React Native's own minimum is currently API 24 (Android 7.0) as of RN 0.73."
+    }
+  },
+  "xcode_simulator": {
+    "title": "Xcode & Simulator",
+    "subtitle": "Apple's IDE and the built-in iOS emulator for running and debugging React Native apps",
+    "body": {
+      "heading1": "What Xcode provides",
+      "text1": "Xcode is Apple's IDE and the toolchain required to compile any iOS app. For React Native you use it to build and sign the native layer, manage provisioning profiles and certificates, configure build settings, and open the iOS Simulator. You write JavaScript in your own editor, but every iOS build flows through `xcodebuild` — the command-line interface to Xcode that `npx react-native run-ios` calls under the hood.",
+      "heading2": "iOS Simulator",
+      "text2": "The iOS Simulator ships with Xcode and lets you run your app on a simulated iPhone or iPad without a physical device. Unlike Android's emulator, the Simulator runs native compiled code, so it is fast — but it also means a Simulator build is a different binary than an App Store build (different CPU target). Launch it via `npx react-native run-ios` or from Xcode's Window → Devices and Simulators menu.",
+      "text3": "The Simulator has real limitations: no push notifications from APNs, no camera, no NFC, limited biometric simulation, and performance that differs from real hardware. Always test on a physical device before shipping, especially for animations, scroll performance, and any hardware-dependent feature."
+    }
+  },
+  "cocoapods": {
+    "title": "CocoaPods",
+    "subtitle": "The dependency manager that installs and links native iOS libraries into your Xcode project",
+    "body": {
+      "heading1": "What CocoaPods does",
+      "text1": "CocoaPods is the dependency manager for Swift and Objective-C projects. React Native uses it to install and link every native iOS module — both React Native's own native code and any third-party library with a native layer. Dependencies are declared in `ios/Podfile`; running `pod install` resolves and downloads them, then generates `ios/YourApp.xcworkspace` — an Xcode workspace that includes all pod targets alongside your app target.",
+      "heading2": "After adding a native library",
+      "text2": "After installing any React Native library that ships native code, run `cd ios && pod install` to install the new pod and regenerate the workspace. Always open the `.xcworkspace` file — not the `.xcodeproj` — after a pod install; the workspace includes the CocoaPods integration that the plain project file lacks. Skipping `pod install` causes \"module not found\" or linker errors at build time.",
+      "text3": "`Podfile.lock` records the exact version of every installed pod. Commit it — it guarantees all developers and CI machines use identical pod versions. Run `pod update` only when you deliberately want to upgrade pod versions; never run it blindly as part of a routine setup step."
+    }
+  },
+  "info_plist": {
+    "title": "Info.plist",
+    "subtitle": "The property list file that declares your app's configuration and capabilities to iOS",
+    "body": {
+      "heading1": "What Info.plist configures",
+      "text1": "`Info.plist` (at `ios/YourApp/Info.plist`) is a key-value XML file iOS reads before launching the app. It declares the app's display name (`CFBundleDisplayName`), bundle identifier (`CFBundleIdentifier`), version and build numbers (`CFBundleShortVersionString`, `CFBundleVersion`), supported orientations, URL schemes for deep linking, and the usage description strings shown in system permission prompts.",
+      "heading2": "Permission usage descriptions",
+      "text2": "Every permission that requires user approval must have a corresponding usage description key whose value is the string iOS shows in the system dialog — for example, `NSCameraUsageDescription: \"Used to scan QR codes\"`. If the key is missing, iOS will crash the app silently when the permission is requested. Common keys for React Native apps: `NSCameraUsageDescription`, `NSLocationWhenInUseUsageDescription`, `NSMicrophoneUsageDescription`, `NSPhotoLibraryUsageDescription`.",
+      "text3": "Deep links are registered via `CFBundleURLTypes` (custom URL schemes) or `com.apple.developer.associated-domains` (Universal Links). Expo and React Native CLI abstract some of this via `app.json` or `Podfile` macros, but all changes ultimately land in `Info.plist` during the build — inspect the built file if something isn't working as expected."
+    }
+  },
+  "app_sandbox": {
+    "title": "App Sandbox & Permissions",
+    "subtitle": "How iOS isolates your app and controls access to sensitive device capabilities",
+    "body": {
+      "heading1": "What the App Sandbox is",
+      "text1": "Every iOS app runs in a sandbox — a restricted filesystem container. The app can only read and write within its own sandbox directories: `Documents` (user-visible, iCloud-backed), `Library` (app data, optionally backed up), `tmp` (cleared by the OS between launches), and the app bundle itself (read-only). It cannot access other apps' files or arbitrary filesystem paths.",
+      "heading2": "Runtime permission model",
+      "text2": "Access to sensitive capabilities — camera, microphone, location, contacts, photo library, health data, push notifications — requires explicit user approval at runtime. iOS shows a system dialog with the usage description from `Info.plist` on the first request. The user can grant or deny; denied permissions can only be re-enabled in Settings → Privacy. Use `react-native-permissions` for a unified API across iOS and Android in React Native.",
+      "text3": "Some capabilities also require entitlements — special flags declared in a `.entitlements` file and provisioned in the Apple Developer Portal. Push notifications, HealthKit, iCloud, Sign in with Apple, and App Groups all require entitlements. These are configured in Xcode under Signing & Capabilities. A missing entitlement causes a build rejection or a silent runtime failure — App Store review will catch it if you don't."
+    }
+  },
+  "ios_sdk_deployment": {
+    "title": "iOS SDK & Deployment Target",
+    "subtitle": "Which SDK you build against and the minimum iOS version your app supports",
+    "body": {
+      "heading1": "iOS SDK version",
+      "text1": "The iOS SDK is the set of frameworks (UIKit, AVFoundation, CoreLocation, etc.) your code compiles against. Xcode ships with the SDK for the latest iOS release. The SDK version follows your Xcode installation and rarely needs manual configuration — keeping Xcode up to date is enough. Compiling against a newer SDK unlocks newer APIs, but any API not available on the deployment target must be guarded with an `@available` check in Swift/Obj-C or `Platform.Version` in JavaScript.",
+      "heading2": "Deployment Target",
+      "text2": "The Deployment Target is the minimum iOS version the app runs on. Set it in `ios/Podfile` (`platform :ios, '13.4'`) and in Xcode project settings (`IPHONEOS_DEPLOYMENT_TARGET`). Both must match — a mismatch generates warnings and can cause linker errors. React Native raises its minimum deployment target with major releases: RN 0.73 requires iOS 13.4 as the minimum.",
+      "text3": "Apple requires all App Store submissions to be built with an SDK from the latest or previous major Xcode release, and periodically raises the minimum allowed deployment target — check App Store Connect release notes when planning an update. When you lower the deployment target to support older devices, test those OS versions explicitly in the Simulator."
+    }
+  },
+  "signing_certificates": {
+    "title": "Signing & Certificates",
+    "subtitle": "How iOS and Android verify your app's identity before installation and distribution",
+    "body": {
+      "heading1": "iOS signing",
+      "text1": "iOS apps must be signed with a certificate issued by Apple. Two types are used: a **Development** certificate (for running on physical devices during development) and a **Distribution** certificate (for TestFlight and App Store). Each certificate is paired with a provisioning profile — a file that binds a certificate, an App ID, and either a set of device UDIDs (development) or a distribution method (App Store/Ad Hoc). Together they form the signing identity Xcode uses when building your app.",
+      "heading2": "Android signing",
+      "text2": "Android apps are signed with a keystore file — a binary that holds one or more key pairs generated with `keytool`. For release builds, reference the keystore in `android/app/build.gradle` under a `signingConfigs` block. Store the keystore password and key alias in environment variables or `~/.gradle/gradle.properties`, never hardcoded in a build file that lives in version control.",
+      "heading3": "Protect your Android keystore",
+      "text3": "Never lose your Android keystore. Google Play ties updates to the signing key — if you lose it, you cannot push updates to an existing Play listing unless you enrolled in Play App Signing beforehand. Store the keystore file and its credentials in a secure location outside the repository (a password manager, secrets vault, or encrypted backup). Treat it like a private SSH key."
+    }
+  },
+  "app_store_connect": {
+    "title": "App Store Connect",
+    "subtitle": "Apple's portal for managing app listings, submissions, and TestFlight distribution",
+    "body": {
+      "heading1": "App listing and metadata",
+      "text1": "App Store Connect is where you create and manage your app's App Store listing. You set the name, subtitle, description, keywords, screenshots, preview videos, age rating, and pricing. Some metadata fields can be updated between releases (description, screenshots); others — like the app name — require a new submission. All metadata is localized per territory.",
+      "heading2": "Submitting a build",
+      "text2": "Archive the app in Xcode (Product → Archive), then upload to App Store Connect via the Organizer. The build undergoes automated checks for missing entitlements, rejected API usage, and bad symbols before it becomes available for TestFlight or review. A typical App Store review takes 24–48 hours; expedited review is available for critical bug fixes through the Resolution Center.",
+      "heading3": "TestFlight",
+      "text3": "TestFlight distributes pre-release builds to up to 10,000 external testers without App Store review (after an initial one-time approval). Internal testers — up to 100 members of your Apple Developer Program team — can install builds immediately. Use TestFlight extensively before submitting to review; it catches issues that only appear on real hardware or specific OS versions."
+    }
+  },
+  "google_play_console": {
+    "title": "Google Play Console",
+    "subtitle": "Google's portal for publishing, testing, and managing your Android app on the Play Store",
+    "body": {
+      "heading1": "Release tracks",
+      "text1": "Google Play Console uses a track model: **Internal** (up to 100 testers, instant availability), **Closed Testing** (alpha, invite-only), **Open Testing** (beta, anyone can opt in), and **Production**. The same `.aab` file moves from internal to production by promotion — no re-upload needed. This lets you build confidence incrementally before a full rollout.",
+      "heading2": "Generating a release AAB",
+      "text2": "Google Play requires Android App Bundle (`.aab`) format for new apps. Build it with `./gradlew bundleRelease`. The AAB includes all code and resources split by ABI, screen density, and language; Play generates optimized split APKs for each device at install time, reducing download size. Sign the AAB with your upload key before uploading to the console.",
+      "heading3": "Play App Signing",
+      "text3": "Play App Signing (mandatory for new apps) means Google holds the app signing key; you upload with an upload key that Google re-signs for distribution. This protects you if you lose the upload key — you can request a new one. Enroll during initial app creation before the first release; it cannot be enabled retroactively for apps that were not enrolled at launch."
+    }
+  },
+  "ota_updates": {
+    "title": "OTA Updates",
+    "subtitle": "Push JavaScript bundle updates to users without going through App Store or Play Store review",
+    "body": {
+      "heading1": "How OTA updates work",
+      "text1": "OTA (Over-the-Air) updates let you ship changes to the JavaScript bundle and static assets without a new native build submission. The app checks a remote server at launch, downloads a new bundle if one is available, and loads it on the next cold start. Only the JavaScript layer is updatable this way — changes to native code, new native modules, or updated native SDKs always require a full store submission.",
+      "heading2": "CodePush and EAS Update",
+      "text2": "The two main OTA solutions for React Native are **Microsoft CodePush** (via `react-native-code-push`, hosted by App Center) and **Expo EAS Update** (works with both managed Expo and bare React Native). Both publish a bundle to a named channel (production, staging); the app downloads and applies it on the next launch. EAS Update integrates with the Expo toolchain and supports staged rollouts, rollbacks, and branch-based deployments.",
+      "heading3": "Store policy limits",
+      "text3": "OTA updates must comply with App Store and Play Store policies. Apple's guidelines prohibit using OTA to change the core purpose of the app or to add functionality that would normally require review. In practice, OTA is safe for bug fixes, content changes, UI adjustments, and feature flags. Avoid using it to introduce new privacy-sensitive flows or to bypass review for features that access protected device capabilities."
     }
   }
 }

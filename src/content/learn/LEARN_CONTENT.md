@@ -1,53 +1,53 @@
 # Learn Tab — Content Map
 
-## Layout
-- Flexbox
-- Position Absolute
-- Dimensions & useWindowDimensions
+## Layout ✓
+- Flexbox ✓
+- Position Absolute ✓
+- Dimensions & useWindowDimensions ✓
 
-## Performance
-- JS Thread vs UI Thread
-- Hermes Engine
-- FlatList Optimization
-- useMemo & useCallback
+## Performance ✓
+- JS Thread vs UI Thread ✓
+- Hermes Engine ✓
+- FlatList Optimization ✓
+- useMemo & useCallback ✓
 
-## Under the Hood
-- The Bridge (Old Architecture)
-- JSI
-- Fiber
-- TurboModules
-- Fabric
-- Codegen
+## Under the Hood ✓
+- The Bridge (Old Architecture) ✓
+- JSI ✓
+- Fiber ✓
+- TurboModules ✓
+- Fabric ✓
+- Codegen ✓
 
-## Debugging
-- React Native DevTools
-- Performance Monitor
-- Profiler
-- LogBox
-- Sourcemaps
+## Debugging ✓
+- React Native DevTools ✓
+- Performance Monitor ✓
+- Profiler ✓
+- LogBox ✓
+- Sourcemaps ✓
 
-## Accessibility
-- accessibilityLabel & accessibilityHint
-- AccessibilityInfo API
-- Foco e ordem de leitura
-- Testando com VoiceOver e TalkBack
+## Accessibility ✓
+- accessibilityLabel & accessibilityHint ✓
+- AccessibilityInfo API ✓
+- Foco e ordem de leitura ✓
+- Testando com VoiceOver e TalkBack ✓
 
-## Android
-- Android SDK
-- JDK & Build Tools
-- Gradle & gradlew
-- AndroidManifest.xml
-- Android API Levels
+## Android ✓
+- Android SDK ✓
+- JDK & Build Tools ✓
+- Gradle & gradlew ✓
+- AndroidManifest.xml ✓
+- Android API Levels ✓
 
-## iOS
-- Xcode & Simulator
-- CocoaPods
-- Info.plist
-- App Sandbox & Permissions
-- iOS SDK & Deployment Target
+## iOS ✓
+- Xcode & Simulator ✓
+- CocoaPods ✓
+- Info.plist ✓
+- App Sandbox & Permissions ✓
+- iOS SDK & Deployment Target ✓
 
-## Publishing
-- Signing & Certificates
-- App Store Connect
-- Google Play Console
-- OTA Updates
+## Publishing ✓
+- Signing & Certificates ✓
+- App Store Connect ✓
+- Google Play Console ✓
+- OTA Updates ✓

@@ -16,6 +16,7 @@ src/
   content/
     learn/
       index.ts                  ← register the topic here (inside the correct Section)
+      LEARN_CONTENT.md          ← content map: all sections and topics planned or implemented
   i18n/
     content/
       en/learn.json             ← English content (source of truth)
@@ -25,6 +26,8 @@ src/
     learn/
       types.ts                  ← Section, Topic, ContentBlock, LearnContentKey
 ```
+
+> **`LEARN_CONTENT.md` is the content map.** It lists every section and topic — planned and implemented. After adding a new topic, update this file to keep the map in sync with what actually exists in `index.ts`.
 
 ---
 

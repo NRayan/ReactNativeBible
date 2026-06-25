@@ -24,6 +24,7 @@ src/
   content/
     quiz/
       index.ts                  ← register the SectionQuiz here
+      QUIZ_CONTENT.md           ← content map: all sections and questions planned or implemented
   i18n/
     content/
       en/quiz.json             ← English content (source of truth)
@@ -33,6 +34,8 @@ src/
     learn/
       types.ts                  ← SectionQuiz, QuizQuestion, QuizOption, QuizContentKey
 ```
+
+> **`QUIZ_CONTENT.md` is the content map.** It lists every section and question — planned and implemented. After adding new questions, update this file to keep the map in sync with what actually exists in `index.ts`.
 
 ---
 

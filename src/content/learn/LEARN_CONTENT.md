@@ -12,6 +12,7 @@
 - useMemo & useCallback ✓
 
 ## Under the Hood ✓
+- Metro ✓
 - The Bridge (Old Architecture) ✓
 - JSI ✓
 - Fiber ✓

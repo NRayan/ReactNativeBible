@@ -157,6 +157,19 @@ export const sections: Section[] = [
         title: "content.sections.under_the_hood",
         topics: [
             {
+                id: "metro",
+                icon: "IconTrain",
+                title: "content.metro.title",
+                subtitle: "content.metro.subtitle",
+                body: [
+                    { type: "heading", value: "content.metro.body.heading1" },
+                    { type: "text", value: "content.metro.body.text1" },
+                    { type: "text", value: "content.metro.body.text2" },
+                    { type: "heading", value: "content.metro.body.heading2" },
+                    { type: "text", value: "content.metro.body.text3" },
+                ],
+            },
+            {
                 id: "the_bridge",
                 icon: "IconArrowsLeftRight",
                 title: "content.the_bridge.title",

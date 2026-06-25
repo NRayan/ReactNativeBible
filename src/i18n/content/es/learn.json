@@ -91,6 +91,17 @@
       "text3": "Usa `useCallback` cuando una función se pasa como prop a un componente envuelto en `React.memo`, o cuando aparece en el array de dependencias de otro hook. Sin él, la referencia de la función cambia en cada render y rompe la memoización en cadena. El array de dependencias sigue la misma regla de exhaustive-deps que `useEffect` — incluye cada valor del ámbito externo que la función lea."
     }
   },
+  "metro": {
+    "title": "Metro",
+    "subtitle": "El bundler de JavaScript que impulsa el servidor de desarrollo y el pipeline de build de React Native",
+    "body": {
+      "heading1": "Qué hace Metro",
+      "text1": "Metro es el bundler de JavaScript construido por Meta específicamente para React Native. Durante el desarrollo, Metro inicia un servidor HTTP que transforma y empaqueta tu JavaScript bajo demanda. Cuando la app solicita un módulo, Metro resuelve el grafo de dependencias, transforma JSX y TypeScript a JavaScript plano y entrega un bundle único que el motor JS puede ejecutar.",
+      "text2": "El transformer de Metro es incremental: almacena en caché la salida de cada módulo según el hash de su contenido. En solicitudes posteriores, solo los archivos que cambiaron son re-transformados. Esto hace que los reloads sean rápidos tras un cambio en el código, incluso en codebases grandes — la actualización del bundle es un diff, no un rebuild completo.",
+      "heading2": "Fast Refresh y el ciclo de desarrollo",
+      "text3": "Fast Refresh está construido sobre el protocolo de actualización en caliente de Metro. Cuando guardas un archivo, Metro re-transforma solo el módulo cambiado y sus dependientes, luego envía el diff a la app en ejecución. React aplica la actualización re-ejecutando el módulo cambiado y re-renderizando los componentes afectados, preservando el estado de los componentes siempre que sea posible. El archivo `metro.config.js` en la raíz del proyecto es el punto de entrada de configuración — permite agregar transformers personalizados, alias de resolver y plugins de serialización."
+    }
+  },
   "the_bridge": {
     "title": "El Bridge (Old Architecture)",
     "subtitle": "El canal de comunicación original entre JavaScript y nativo — y por qué era un cuello de botella",

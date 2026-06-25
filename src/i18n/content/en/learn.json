@@ -91,6 +91,17 @@
       "text3": "Use `useCallback` when a function is passed as a prop to a `React.memo`-wrapped component, or when it appears in the dependency array of another hook. Without it, the function reference changes every render and breaks downstream memoization. The dependency array follows the same exhaustive-deps rule as `useEffect` — include every value from the enclosing scope that the function reads."
     }
   },
+  "metro": {
+    "title": "Metro",
+    "subtitle": "The JavaScript bundler that powers React Native's development server and build pipeline",
+    "body": {
+      "heading1": "What Metro does",
+      "text1": "Metro is the JavaScript bundler built by Meta specifically for React Native. During development, Metro starts an HTTP server that transforms and bundles your JavaScript on demand. When the app requests a module, Metro resolves its dependency graph, transforms JSX and TypeScript down to plain JavaScript, and delivers a single bundle the JS engine can execute.",
+      "text2": "Metro's transformer is incremental: it caches each module's output keyed by its content hash. On subsequent requests, only the files that changed are re-transformed. This makes reloads after a code change fast even in large codebases — the bundle update is a diff, not a full rebuild.",
+      "heading2": "Fast Refresh and the development loop",
+      "text3": "Fast Refresh is built on top of Metro's hot update protocol. When you save a file, Metro re-transforms only the changed module and its dependents, then pushes the diff to the running app. React applies the update by re-executing the changed module and re-rendering the affected components, preserving component state where possible. The `metro.config.js` file at the project root is the configuration entry point — it lets you add custom transformers, resolver aliases, and serializer plugins."
+    }
+  },
   "the_bridge": {
     "title": "The Bridge (Old Architecture)",
     "subtitle": "The original communication channel between JavaScript and native — and why it was a bottleneck",

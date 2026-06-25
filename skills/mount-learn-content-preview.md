@@ -5,7 +5,7 @@ description: Generates a human-readable English preview of one or more already-r
 
 # Mount Learn Content Preview
 
-Reads existing topic content from `src/content/learn/index.ts` and `src/i18n/content/en/learn.json`, resolves i18n keys to their English text values, and saves a human-readable flat file to `.preview/{topic_id}.md` for review.
+Reads existing topic content from `src/content/learn/index.ts` and `src/i18n/content/en/learn.json`, resolves i18n keys to their English text values, and saves a human-readable flat file to `.preview/learn/{topic_id}.md` for review.
 
 No docs are fetched. No content is created or modified.
 
@@ -61,7 +61,15 @@ Also resolve `title` and `subtitle` from `en/learn.json` using the same key reso
 
 ## Step 4 — Generate the preview file
 
-For each topic, create `.preview/{topic_id}.md` with the following structure:
+### Single topic
+
+Create `.preview/learn/{topic_id}.md` for the requested topic.
+
+### Entire section
+
+When the user requests all topics of a section, create a single file `.preview/learn/{section_id}.md` containing every topic in the section's order. Separate topics with a `---` divider line (blank line before and after).
+
+### Structure per topic:
 
 ```
 {topic_id}
@@ -127,7 +135,7 @@ And these values in `en/learn.json`:
 }
 ```
 
-The output file `.preview/flexbox_basics.md` should be:
+The output file `.preview/learn/flexbox_basics.md` should be:
 
 ```
 flexbox_basics
@@ -164,4 +172,4 @@ Append the following line at the end of every preview file, separated by a blank
 
 ## After saving
 
-Tell the user which files were saved under `.preview/`.
+Tell the user which files were saved under `.preview/learn/`.

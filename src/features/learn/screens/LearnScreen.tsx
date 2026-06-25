@@ -10,7 +10,7 @@ export function LearnScreen() {
     return (
         <Box flex={1} bgColor="background">
             <Toolbar title={strings.title} subtitle="React Native Bible" />
-            <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6) }}>
+            <ScrollView contentContainerStyle={{ paddingHorizontal: s(4), paddingVertical: s(6), gap: s(8) }}>
                 {sections.map(section => (
                     <Box key={section.id} gap={3}>
                         <Box fullWidth row justify="space-between" align="center">

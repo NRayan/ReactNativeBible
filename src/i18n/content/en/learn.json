@@ -52,6 +52,7 @@
       "heading1": "Two threads, two responsibilities",
       "text1": "React Native runs all JavaScript — component logic, state updates, and React reconciliation — on a dedicated JS thread powered by the Hermes engine. The UI thread (also called the main thread) handles everything visible: native rendering, layout calculation, gesture recognition, and animations. Neither thread can block the other without consequences.",
       "text2": "In the Old Architecture, the two threads communicated exclusively through the Bridge, which serialized all data to JSON before passing it across. This serialization was the main bottleneck: large payloads caused frame drops. The New Architecture replaces the Bridge with JSI (JavaScript Interface), which gives the JS engine direct access to native host objects — no serialization required.",
+      "image1": "JS Thread and UI Thread — responsibilities and communication",
       "heading2": "Keeping the JS thread free",
       "text3": "Heavy JavaScript work — processing a large dataset, running a complex sort, or synchronously reading from storage — blocks React from scheduling updates and delays re-renders. Native animations driven by `useNativeDriver: true` or Reanimated run entirely on the UI thread and are unaffected. Offload expensive work with `useMemo`, `InteractionManager.runAfterInteractions`, or background threads via native modules."
     }
@@ -75,6 +76,7 @@
       "text1": "FlatList renders only the items within a configurable window around the visible area. Items outside the window are unmounted to free memory. `windowSize` controls how many screen-heights worth of items stay mounted (default: 21 — ten above, ten below the viewport). `initialNumToRender` controls how many items render on the first pass; `maxToRenderPerBatch` controls how many are added each subsequent batch.",
       "heading2": "Props that unlock performance",
       "text2": "`keyExtractor` returns a stable string identity per item — without it, FlatList cannot efficiently recycle cells. `getItemLayout` tells FlatList the height (and offset) of each item upfront, skipping the measurement pass entirely. This is required for `scrollToIndex` to work and dramatically speeds up initial render for fixed-height lists. `removeClippedSubviews` unmounts off-screen items on Android, but can cause blank flashes on fast scrolls — test on device before enabling.",
+      "text4": "`extraData` is a prop that tells FlatList to re-render when external state changes. By default, FlatList only re-renders when `data` changes. If your items depend on state outside the list — like a selected item ID — pass that value as `extraData`. Without it, tapping an item to select it will not visually update the row, even if your state is correct.",
       "heading3": "Preventing unnecessary re-renders",
       "text3": "Defining `renderItem` inline — `renderItem={({ item }) => <ItemRow item={item} />}` — creates a new function reference on every parent render, breaking any `React.memo` optimization on `ItemRow`. Wrap `renderItem` with `useCallback` and the item component with `React.memo`. Pass only the props the item needs — avoid passing the entire data object when only one field is displayed."
     }
@@ -99,7 +101,8 @@
       "text1": "Metro is the JavaScript bundler built by Meta specifically for React Native. During development, Metro starts an HTTP server that transforms and bundles your JavaScript on demand. When the app requests a module, Metro resolves its dependency graph, transforms JSX and TypeScript down to plain JavaScript, and delivers a single bundle the JS engine can execute.",
       "text2": "Metro's transformer is incremental: it caches each module's output keyed by its content hash. On subsequent requests, only the files that changed are re-transformed. This makes reloads after a code change fast even in large codebases — the bundle update is a diff, not a full rebuild.",
       "heading2": "Fast Refresh and the development loop",
-      "text3": "Fast Refresh is built on top of Metro's hot update protocol. When you save a file, Metro re-transforms only the changed module and its dependents, then pushes the diff to the running app. React applies the update by re-executing the changed module and re-rendering the affected components, preserving component state where possible. The `metro.config.js` file at the project root is the configuration entry point — it lets you add custom transformers, resolver aliases, and serializer plugins."
+      "text3": "Fast Refresh is built on top of Metro's hot update protocol. When you save a file, Metro re-transforms only the changed module and its dependents, then pushes the diff to the running app. React applies the update by re-executing the changed module and re-rendering the affected components, preserving component state where possible. The `metro.config.js` file at the project root is the configuration entry point — it lets you add custom transformers, resolver aliases, and serializer plugins.",
+      "image1": "Metro bundler request and Fast Refresh cycle"
     }
   },
   "the_bridge": {
@@ -110,7 +113,9 @@
       "text1": "In the Old Architecture, the JS thread and the UI thread could not share memory. Every piece of data that needed to cross from JavaScript to native — or back — was serialized into JSON, placed on an asynchronous message queue, deserialized on the other side, and then acted on. This happened for every layout update, every event, and every native API call.",
       "text2": "The asynchronous nature was a fundamental constraint: JavaScript could not call a native function and wait for an immediate return value. All native interactions were fire-and-forget with a callback, which made certain operations — like synchronously measuring a view's size — impossible without a workaround.",
       "heading2": "Why it was replaced",
-      "text3": "At scale, the serialization overhead was significant. Large state updates, long lists, and rapid gesture events all competed for the same Bridge queue. Dropped frames, janky animations, and delayed touch responses were the visible symptoms. The New Architecture eliminates the Bridge entirely — JSI gives the JS engine direct references to native C++ objects, making serialization unnecessary."
+      "text3": "At scale, the serialization overhead was significant. Large state updates, long lists, and rapid gesture events all competed for the same Bridge queue. Dropped frames, janky animations, and delayed touch responses were the visible symptoms. The New Architecture eliminates the Bridge entirely — JSI gives the JS engine direct references to native C++ objects, making serialization unnecessary.",
+      "image1": "JS Thread, Bridge, and native threads communication flow",
+      "image2": "Bridge queue congestion causing UI frame drops"
     }
   },
   "jsi": {
@@ -120,6 +125,7 @@
       "heading1": "What JSI is",
       "text1": "JSI (JavaScript Interface) is a lightweight C++ API that sits between the JavaScript engine and native platform code. Instead of passing messages through a queue, JSI lets JavaScript hold direct references to native C++ objects — called host objects. A JavaScript value backed by a host object can invoke methods, read properties, and share memory with native code synchronously.",
       "text2": "The key difference from the Bridge: there is no serialization. When JS calls a method on a host object, execution goes directly from the JS engine into C++ without packaging the arguments into JSON. The return value comes back the same way. This makes synchronous native calls possible for the first time.",
+      "image1": "Old Bridge vs JSI — JSON serialization vs direct reference",
       "heading2": "What JSI enables",
       "text3": "JSI is the foundation that makes the rest of the New Architecture possible. TurboModules use JSI to expose native module methods directly to JS. Fabric uses JSI to share the C++ shadow tree between the JS reconciler and the native renderer. Reanimated uses JSI to run JavaScript animation worklets directly on the UI thread, eliminating gesture jank."
     }
@@ -130,7 +136,8 @@
     "body": {
       "heading1": "What Fiber replaced",
       "text1": "Before React 16, React's reconciler used a simple recursive algorithm: when state changed, it walked the entire component tree synchronously and flushed all updates at once. This was fast for small trees but caused dropped frames for large ones — the work could not be paused once started.",
-      "text2": "Fiber replaced this with an incremental work loop. Each component is represented as a unit of work (a \"fiber\") that can be paused, resumed, reused, or discarded. React can now split a large render into chunks, yield back to the browser between chunks, and prioritize urgent updates (a key press, a tap) over low-priority ones (off-screen content).",
+      "text2": "Fiber replaced this with an incremental work loop. Each component is represented as a unit of work (a \"fiber\") that can be paused, resumed, reused, or discarded. React can now split a large render into chunks, yield back to the runtime between chunks, and prioritize urgent updates (a key press, a tap) over low-priority ones (off-screen content).",
+      "image1": "Old Reconciler vs Fiber — synchronous vs incremental rendering",
       "heading2": "User-facing impact in React Native",
       "text3": "Fiber's priority scheduling is exposed to application code through the Concurrent features: `useTransition` marks a state update as non-urgent so React can interrupt it if something more important arrives, and `useDeferredValue` delays a derived value until the render is idle. In React Native, Fabric integrates directly with Fiber at the C++ level to support these features on mobile."
     }
@@ -142,6 +149,7 @@
       "heading1": "Native modules without the Bridge",
       "text1": "TurboModules are the New Architecture's replacement for Native Modules. They communicate via JSI, enabling direct calls from JavaScript to native C++ code without serialization. Calls can be synchronous or asynchronous depending on the return type declared in the spec.",
       "text2": "The old Native Module system initialized every registered module at app startup, regardless of whether any JS code ever used it. TurboModules are lazy — a module is instantiated the first time JS imports it. On apps with many native modules, this alone can cut startup time noticeably.",
+      "image1": "Old Native Modules (eager) vs TurboModules (lazy via JSI)",
       "heading2": "Type safety via Codegen",
       "text3": "A TurboModule is defined by a TypeScript spec file that Codegen reads at build time to generate the C++ interface the native implementation must fulfill. Any mismatch between what JS expects and what native provides is caught as a compile error rather than a runtime crash. This spec file is also the source of truth for the method signatures that the JS side calls."
     }
@@ -153,6 +161,7 @@
       "heading1": "What Fabric replaces",
       "text1": "Fabric is the New Architecture's native renderer, replacing the old UIManager. In the old system, React computed the shadow tree in JavaScript, serialized layout instructions across the Bridge, and the native side applied them asynchronously. Fabric moves the shadow tree implementation to C++, shared between the JS reconciler and the native platform via JSI.",
       "text2": "With the shadow tree in C++, layout can be measured synchronously from JavaScript. Operations that previously required a callback — like `measure()` or `measureInWindow()` — can return a value directly. This also enables synchronous layout effects on mount, similar to `useLayoutEffect` semantics in web React.",
+      "image1": "Old UIManager vs Fabric — JS shadow tree vs shared C++ shadow tree",
       "heading2": "Concurrent rendering on mobile",
       "text3": "Because Fabric integrates with React's Fiber reconciler at the C++ level, it supports concurrent rendering features: renders can be interrupted, paused, and prioritized. Transitions, deferred values, and Suspense boundaries all work correctly with Fabric. This is the architectural foundation that makes React Native's future concurrent features possible."
     }
@@ -176,7 +185,8 @@
       "text1": "React Native DevTools is the official debugger built on the Chrome DevTools Protocol (CDP). It replaces the older Chrome Remote JS Debugger and Flipper. Launch it by pressing `j` in the Metro terminal, or from the Dev Menu — shake the device, press Cmd+D on iOS Simulator, or Cmd+M on Android Emulator.",
       "heading2": "What's inside",
       "text2": "The DevTools window bundles four tools: the **JS Debugger** (breakpoints, call stack, watch expressions, step-through execution), **React DevTools** (component tree, inspect props and state in real time), the **Network inspector** (monitor fetch and XMLHttpRequest traffic), and the **Console** (logs and errors with source-mapped stack traces).",
-      "text3": "React Native DevTools requires the Hermes engine and is enabled by default in React Native 0.73+. It does not work with apps running on JavaScriptCore. For production profiling, use the Hermes-specific CDP sampling profiler accessible from the Profiler tab."
+      "text3": "React Native DevTools requires the Hermes engine and is enabled by default in React Native 0.73+. It does not work with apps running on JavaScriptCore. For production profiling, use the Hermes-specific CDP sampling profiler accessible from the Profiler tab.",
+      "image1": "React Native DevTools interface"
     }
   },
   "performance_monitor": {
@@ -187,7 +197,8 @@
       "text1": "The Performance Monitor is a lightweight overlay you can toggle from the Dev Menu. It displays live metrics that update every frame: **UI FPS** (UI thread frame rate — should stay near 60), **JS FPS** (JS thread frame rate — drops signal blocked JS work), **RAM** (JS heap memory), and **Views** (total native views currently mounted in the hierarchy).",
       "heading2": "Reading the numbers",
       "text2": "If UI FPS drops but JS FPS stays high, the bottleneck is in native rendering — a heavy layout pass, too many views, or an expensive shadow tree update. If JS FPS drops, the JS thread is overloaded — look for expensive computations, unnecessary re-renders, or synchronous storage reads on the hot path. The Views counter helps catch view bloat caused by deeply nested layouts or non-virtualized lists.",
-      "text3": "The Performance Monitor is a quick first step, not a replacement for the Profiler. Use it to confirm whether you have a JS thread or a UI thread problem, then open the Profiler to pinpoint the specific component or operation responsible."
+      "text3": "The Performance Monitor is a quick first step, not a replacement for the Profiler. Use it to confirm whether you have a JS thread or a UI thread problem, then open the Profiler to pinpoint the specific component or operation responsible.",
+      "image1": "Performance Monitor overlay"
     }
   },
   "profiler": {
@@ -198,7 +209,8 @@
       "text1": "The Profiler tab in React Native DevTools records a timeline of React render activity. Press Record, interact with the part of the app you want to measure, then press Stop. The Profiler renders a flame chart of every component that committed during the recording — how long each commit took, and which components rendered in each commit.",
       "heading2": "Reading the flame chart",
       "text2": "Each bar represents a component in a commit. Wider bars took longer to render. Components highlighted in warmer colors took the most time relative to their siblings. Click a component to see its render duration and the reason it re-rendered: prop change, state change, context change, or parent re-render.",
-      "text3": "For programmatic profiling, React exports a `Profiler` component that wraps a subtree and fires an `onRender` callback with timing data on every commit. This lets you track render performance in staging or production builds and feed the data into analytics or alerting."
+      "text3": "For programmatic profiling, React exports a `Profiler` component that wraps a subtree and fires an `onRender` callback with timing data on every commit. This lets you track render performance in staging or production builds and feed the data into analytics or alerting.",
+      "image1": "Profiler flame chart in React Native DevTools"
     }
   },
   "logbox": {
@@ -209,7 +221,8 @@
       "text1": "LogBox is the system React Native uses to surface runtime errors and warnings during development. An uncaught JavaScript error renders a red full-screen overlay with the error message, a source-mapped stack trace, and — for known error types — a link to the relevant documentation. A `console.warn()` call appears as a collapsible yellow banner at the bottom of the screen.",
       "heading2": "Suppressing known warnings",
       "text2": "Third-party libraries sometimes emit warnings that you cannot immediately fix. Call `LogBox.ignoreLogs()` at your app's entry point with an array of string patterns or regular expressions to suppress specific messages. The messages are still printed to the Metro console — only the in-app overlay is hidden.",
-      "text3": "Use `LogBox.ignoreAllLogs()` only as a last resort when preparing a demo build. Ignoring all logs hides real issues during development and makes it easy to ship with unnoticed regressions. Prefer targeted suppressions scoped to the exact warning message."
+      "text3": "Use `LogBox.ignoreAllLogs()` only as a last resort when preparing a demo build. Ignoring all logs hides real issues during development and makes it easy to ship with unnoticed regressions. Prefer targeted suppressions scoped to the exact warning message.",
+      "image1": "LogBox error and warning overlays"
     }
   },
   "sourcemaps": {
@@ -221,6 +234,20 @@
       "heading2": "Development vs production",
       "text2": "In development, Metro generates source maps automatically and React Native DevTools uses them transparently — stack traces in the console and LogBox already show your original source files. For production, pass `--sourcemap-output <path>` to the Metro bundle command to write the source map file to disk alongside the bundle.",
       "text3": "Upload the source map to your crash reporting tool (Sentry, Firebase Crashlytics, Bugsnag) so that production crashes are automatically symbolicated — you see the original TypeScript file, line, and column in your dashboard instead of minified code. Always keep the source map matched to the exact build it was generated from; a mismatched map produces garbled or misleading stack traces."
+    }
+  },
+  "native_debugging": {
+    "title": "Native Debugging",
+    "subtitle": "Debug crashes, logs, and native-layer issues on Android and iOS",
+    "body": {
+      "heading1": "Android: Logcat and Android Studio",
+      "text1": "Logcat is Android's system-wide log stream. All native errors, Java and Kotlin exceptions, and native module output appear here. Run `adb logcat` in the terminal to stream logs from a connected device or emulator; filter by tag to reduce noise. Android Studio's Logcat panel provides the same output with filtering, color-coding, and process selection built in.",
+      "text2": "To debug native Java, Kotlin, or C++ code, attach Android Studio's debugger to the running process. Open the `android/` folder in Android Studio, set breakpoints in native source files, then choose **Run → Attach Debugger to Android Process** and select your app. You can pause execution, inspect variables, and step through native frames while the JavaScript side continues running independently.",
+      "heading2": "iOS: Xcode and LLDB",
+      "text3": "Run the app from Xcode or `npx react-native run-ios`, then open the **Debug Navigator** (⌘7) to inspect threads, memory, CPU, and disk usage in real time. The Console pane captures `NSLog` output and native crash reports. For device logs without Xcode open, use **Console.app** on macOS — connect a device and filter by process name to see all OS-level output.",
+      "text4": "LLDB is the debugger embedded in Xcode. Set breakpoints in Swift, Objective-C, or C++ files directly in the editor. When execution pauses, the Debug Console accepts LLDB expressions for inspecting memory addresses and evaluating native values. The **Thread View** shows all active threads at the moment of a crash — the stack trace of the crashing thread points directly to the offending native frame.",
+      "heading3": "What native debugging can catch",
+      "text5": "Native debugging reveals issues invisible to the JavaScript layer: native module crashes (`UnsatisfiedLinkError` on Android, `EXC_BAD_ACCESS` on iOS), memory leaks in native code that cause gradual app slowdown, threading violations such as updating UI from a background thread, and OS-level permission denials that crash silently. If the app crashes with no red error screen and no Metro output, the fault almost certainly originated in the native layer."
     }
   },
   "accessibility_labels": {
@@ -365,7 +392,7 @@
       "heading1": "What the App Sandbox is",
       "text1": "Every iOS app runs in a sandbox — a restricted filesystem container. The app can only read and write within its own sandbox directories: `Documents` (user-visible, iCloud-backed), `Library` (app data, optionally backed up), `tmp` (cleared by the OS between launches), and the app bundle itself (read-only). It cannot access other apps' files or arbitrary filesystem paths.",
       "heading2": "Runtime permission model",
-      "text2": "Access to sensitive capabilities — camera, microphone, location, contacts, photo library, health data, push notifications — requires explicit user approval at runtime. iOS shows a system dialog with the usage description from `Info.plist` on the first request. The user can grant or deny; denied permissions can only be re-enabled in Settings → Privacy. Use `react-native-permissions` for a unified API across iOS and Android in React Native.",
+      "text2": "Access to sensitive capabilities — camera, microphone, location, contacts, photo library, health data, push notifications — requires explicit user approval at runtime. iOS shows a system dialog with the usage description from `Info.plist` on the first request. The user can grant or deny; denied permissions can only be re-enabled in Settings → Privacy.",
       "text3": "Some capabilities also require entitlements — special flags declared in a `.entitlements` file and provisioned in the Apple Developer Portal. Push notifications, HealthKit, iCloud, Sign in with Apple, and App Groups all require entitlements. These are configured in Xcode under Signing & Capabilities. A missing entitlement causes a build rejection or a silent runtime failure — App Store review will catch it if you don't."
     }
   },

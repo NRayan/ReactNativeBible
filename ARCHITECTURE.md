@@ -22,6 +22,7 @@ src/
   stores/
   content/       ← local JSON files
   theme/
+skills/          ← tooling skills for content authoring and maintenance
 ```
 
 ---
@@ -77,11 +78,22 @@ The translation system has two distinct layers with different purposes:
 
 Short labels used by the app shell: navigation tabs, settings screen, shared actions. Keys are namespaced by feature (`settings.title`, `components.props`, `components.tags.interaction`, etc.).
 
-**Layer 2 — Component content** `src/i18n/content/{lang}/components.json`
+**Layer 2 — Feature content** `src/i18n/content/{lang}/`
 
-Long-form content for the components reference: subtitles, descriptions, prop descriptions, and gotchas. Each component gets its own object keyed by component id (`button`, `flatlist`, etc.). Keys are accessed with the `content.` prefix — e.g. `t("content.button.description")`.
+Long-form content for the reference tabs. Each feature has its own file:
 
-**Type safety:** `src/i18n/types.ts` declares `CustomTypeOptions` merging both layers into the `translation` namespace. `src/content/components/types.ts` derives `ComponentContentKey` — a union of all valid `content.*` leaf keys — directly from the English content JSON, so invalid keys are caught at compile time.
+| File | Content |
+|---|---|
+| `components.json` | Subtitles, descriptions, prop descriptions, gotchas for each RN component |
+| `learn.json` | Titles, subtitles, and body blocks for each Learn topic |
+| `quiz.json` | Questions, explanations, and answer options for each section quiz |
+
+All keys are accessed with the `content.` prefix — e.g. `t("content.button.description")`, `t("content.flexbox_basics.title")`.
+
+**Type safety:** `src/i18n/types.ts` declares `CustomTypeOptions` merging both layers into the `translation` namespace. Each feature derives its own content key union directly from the English JSON, so invalid keys are caught at compile time:
+- `ComponentContentKey` — in `src/content/components/types.ts`, derived from `en/components.json`
+- `LearnContentKey` — in `src/features/learn/types.ts`, derived from `en/learn.json`
+- `QuizContentKey` — in `src/features/learn/types.ts`, derived from `en/quiz.json`
 
 **Conventions:**
 - `common` — shared strings used across multiple screens (`close`, `cancel`, `save`, etc.)
@@ -91,9 +103,38 @@ Long-form content for the components reference: subtitles, descriptions, prop de
 
 ---
 
-## Components content system
+## Content systems
 
-The `components` feature has its own content layer separate from the app logic.
+Both the Learn and Components tabs have a dedicated content layer — a set of typed data files that live outside the feature logic and are registered in an `index.ts`.
+
+### Learn content system
+
+```
+src/
+  content/
+    learn/
+      index.ts          ← registers all Section and Topic entries
+      LEARN_CONTENT.md  ← content map: sections and topics planned or implemented
+      assets/           ← images referenced by topic body blocks
+  i18n/
+    content/
+      en/learn.json     ← source of truth for content keys
+      pt/learn.json
+      es/learn.json
+  content/
+    quiz/
+      index.ts          ← registers SectionQuiz entries (questions per section)
+      QUIZ_CONTENT.md   ← content map for quiz questions
+  i18n/
+    content/
+      en/quiz.json      ← source of truth for quiz content keys
+      pt/quiz.json
+      es/quiz.json
+```
+
+`Section` and `Topic` are the central types (defined in `src/features/learn/types.ts`). A `Topic.body` is an ordered array of `ContentBlock` — `heading`, `text`, `code`, or `image`. `heading` and `text` blocks hold `LearnContentKey` values resolved at render time; `code` blocks hold literal strings. `LearnContentKey` is derived directly from `en/learn.json`, so invalid keys are compile errors.
+
+### Components content system
 
 ```
 src/

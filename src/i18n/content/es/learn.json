@@ -52,6 +52,7 @@
       "heading1": "Dos hilos, dos responsabilidades",
       "text1": "React Native ejecuta todo el JavaScript — lógica de componentes, actualizaciones de estado y reconciliación de React — en un hilo JS dedicado, impulsado por el motor Hermes. El hilo UI (también llamado hilo principal) se encarga de todo lo visible: renderización nativa, cálculo de layout, reconocimiento de gestos y animaciones. Ningún hilo puede bloquear al otro sin consecuencias.",
       "text2": "En la Old Architecture, los dos hilos se comunicaban exclusivamente a través del Bridge, que serializaba todos los datos a JSON antes de pasarlos. Esta serialización era el principal cuello de botella: payloads grandes provocaban caídas de frames. La New Architecture reemplaza el Bridge con JSI (JavaScript Interface), que da al motor JS acceso directo a objetos nativos — sin serialización.",
+      "image1": "JS Thread y UI Thread — responsabilidades y comunicación",
       "heading2": "Manteniendo el hilo JS libre",
       "text3": "El trabajo pesado en JavaScript — procesar un gran conjunto de datos, ejecutar una ordenación compleja o leer del almacenamiento de forma síncrona — bloquea a React para programar actualizaciones y retrasa los re-renders. Las animaciones nativas con `useNativeDriver: true` o Reanimated se ejecutan completamente en el hilo UI y no se ven afectadas. Delega el trabajo costoso con `useMemo`, `InteractionManager.runAfterInteractions` o hilos en segundo plano mediante módulos nativos."
     }
@@ -75,6 +76,7 @@
       "text1": "FlatList renderiza solo los elementos dentro de una ventana configurable alrededor del área visible. Los elementos fuera de la ventana se desmontan para liberar memoria. `windowSize` controla cuántas alturas de pantalla de elementos permanecen montados (por defecto: 21 — diez arriba, diez abajo del viewport). `initialNumToRender` controla cuántos elementos se renderizan en el primer pase; `maxToRenderPerBatch` controla cuántos se añaden en cada batch posterior.",
       "heading2": "Props que desbloquean el rendimiento",
       "text2": "`keyExtractor` devuelve una identidad de cadena estable por elemento — sin ella, FlatList no puede reciclar celdas eficientemente. `getItemLayout` informa a FlatList la altura (y el offset) de cada elemento de antemano, omitiendo completamente el pase de medición. Esto es necesario para que `scrollToIndex` funcione y acelera drásticamente el render inicial en listas de altura fija. `removeClippedSubviews` desmonta elementos fuera de pantalla en Android, pero puede causar destellos en blanco al hacer scroll rápido — prueba en dispositivo real antes de activarlo.",
+      "text4": "`extraData` es una prop que indica a FlatList que se re-renderice cuando cambia un estado externo. Por defecto, FlatList solo se re-renderiza cuando `data` cambia. Si tus elementos dependen de estado fuera de la lista — como el ID de un elemento seleccionado — pasa ese valor como `extraData`. Sin ella, tocar un elemento para seleccionarlo no actualizará visualmente la fila, aunque tu estado sea correcto.",
       "heading3": "Evitando re-renders innecesarios",
       "text3": "Definir `renderItem` de forma inline — `renderItem={({ item }) => <ItemRow item={item} />}` — crea una nueva referencia de función en cada render del padre, anulando cualquier optimización con `React.memo` en `ItemRow`. Envuelve `renderItem` con `useCallback` y el componente de elemento con `React.memo`. Pasa solo las props que el elemento necesita — evita pasar el objeto de datos completo cuando solo se muestra un campo."
     }
@@ -99,7 +101,8 @@
       "text1": "Metro es el bundler de JavaScript construido por Meta específicamente para React Native. Durante el desarrollo, Metro inicia un servidor HTTP que transforma y empaqueta tu JavaScript bajo demanda. Cuando la app solicita un módulo, Metro resuelve el grafo de dependencias, transforma JSX y TypeScript a JavaScript plano y entrega un bundle único que el motor JS puede ejecutar.",
       "text2": "El transformer de Metro es incremental: almacena en caché la salida de cada módulo según el hash de su contenido. En solicitudes posteriores, solo los archivos que cambiaron son re-transformados. Esto hace que los reloads sean rápidos tras un cambio en el código, incluso en codebases grandes — la actualización del bundle es un diff, no un rebuild completo.",
       "heading2": "Fast Refresh y el ciclo de desarrollo",
-      "text3": "Fast Refresh está construido sobre el protocolo de actualización en caliente de Metro. Cuando guardas un archivo, Metro re-transforma solo el módulo cambiado y sus dependientes, luego envía el diff a la app en ejecución. React aplica la actualización re-ejecutando el módulo cambiado y re-renderizando los componentes afectados, preservando el estado de los componentes siempre que sea posible. El archivo `metro.config.js` en la raíz del proyecto es el punto de entrada de configuración — permite agregar transformers personalizados, alias de resolver y plugins de serialización."
+      "text3": "Fast Refresh está construido sobre el protocolo de actualización en caliente de Metro. Cuando guardas un archivo, Metro re-transforma solo el módulo cambiado y sus dependientes, luego envía el diff a la app en ejecución. React aplica la actualización re-ejecutando el módulo cambiado y re-renderizando los componentes afectados, preservando el estado de los componentes siempre que sea posible. El archivo `metro.config.js` en la raíz del proyecto es el punto de entrada de configuración — permite agregar transformers personalizados, alias de resolver y plugins de serialización.",
+      "image1": "Ciclo de solicitud y Fast Refresh de Metro"
     }
   },
   "the_bridge": {
@@ -110,7 +113,9 @@
       "text1": "En la Old Architecture, el hilo JS y el hilo UI no podían compartir memoria. Cada dato que necesitaba cruzar de JavaScript a nativo — o viceversa — era serializado a JSON, colocado en una cola de mensajes asíncrona, deserializado al otro lado y solo entonces procesado. Esto ocurría en cada actualización de layout, cada evento y cada llamada a la API nativa.",
       "text2": "La naturaleza asíncrona era una restricción fundamental: JavaScript no podía llamar a una función nativa y esperar un retorno inmediato. Toda interacción nativa era fire-and-forget con callback, lo que hacía imposibles ciertas operaciones — como medir el tamaño de una vista de forma síncrona — sin un workaround.",
       "heading2": "Por qué fue reemplazado",
-      "text3": "A escala, el overhead de serialización era significativo. Grandes actualizaciones de estado, listas largas y eventos de gesto rápidos competían por la misma cola del Bridge. Frames perdidos, animaciones entrecortadas y retrasos en el toque eran los síntomas visibles. La New Architecture elimina el Bridge por completo — JSI da al motor JS referencias directas a objetos C++ nativos, haciendo innecesaria la serialización."
+      "text3": "A escala, el overhead de serialización era significativo. Grandes actualizaciones de estado, listas largas y eventos de gesto rápidos competían por la misma cola del Bridge. Frames perdidos, animaciones entrecortadas y retrasos en el toque eran los síntomas visibles. La New Architecture elimina el Bridge por completo — JSI da al motor JS referencias directas a objetos C++ nativos, haciendo innecesaria la serialización.",
+      "image1": "Flujo de comunicación entre JS Thread, Bridge y hilos nativos",
+      "image2": "Congestión en la cola del Bridge causando caída de frames"
     }
   },
   "jsi": {
@@ -120,6 +125,7 @@
       "heading1": "Qué es JSI",
       "text1": "JSI (JavaScript Interface) es una API C++ ligera que se sitúa entre el motor JavaScript y el código nativo de la plataforma. En lugar de pasar mensajes por una cola, JSI permite que JavaScript mantenga referencias directas a objetos C++ nativos — llamados host objects. Un valor JavaScript respaldado por un host object puede invocar métodos, leer propiedades y compartir memoria con código nativo de forma síncrona.",
       "text2": "La diferencia clave con el Bridge: no hay serialización. Cuando JS llama a un método en un host object, la ejecución va directamente del motor JS a C++ sin empaquetar los argumentos en JSON. El valor de retorno vuelve por el mismo camino. Esto hace posibles las llamadas nativas síncronas por primera vez.",
+      "image1": "Bridge antiguo vs JSI — serialización JSON vs referencia directa",
       "heading2": "Lo que JSI hace posible",
       "text3": "JSI es la base que hace posible el resto de la New Architecture. Los TurboModules usan JSI para exponer métodos de módulos nativos directamente a JS. Fabric usa JSI para compartir el shadow tree C++ entre el reconciliador JS y el renderizador nativo. Reanimated usa JSI para ejecutar worklets de animación JavaScript directamente en el hilo UI, eliminando el jank en gestos."
     }
@@ -131,6 +137,7 @@
       "heading1": "Qué reemplazó Fiber",
       "text1": "Antes de React 16, el reconciliador de React usaba un algoritmo recursivo simple: cuando el estado cambiaba, recorría todo el árbol de componentes de forma síncrona y aplicaba todas las actualizaciones de una vez. Era rápido para árboles pequeños pero causaba frames perdidos en árboles grandes — el trabajo no podía pausarse una vez iniciado.",
       "text2": "Fiber lo reemplazó con un loop de trabajo incremental. Cada componente se representa como una unidad de trabajo (un \"fiber\") que puede pausarse, reanudarse, reutilizarse o descartarse. React ahora puede dividir un render grande en partes, ceder el control entre ellas y priorizar actualizaciones urgentes (una tecla, un toque) sobre las de baja prioridad (contenido fuera de pantalla).",
+      "image1": "Reconciliador antiguo vs Fiber — renderizado síncrono vs incremental",
       "heading2": "Impacto visible en React Native",
       "text3": "La programación por prioridad de Fiber se expone al código de aplicación mediante las features Concurrent: `useTransition` marca una actualización de estado como no urgente para que React pueda interrumpirla si llega algo más importante, y `useDeferredValue` retrasa un valor derivado hasta que el render esté ocioso. En React Native, Fabric se integra directamente con Fiber a nivel C++ para soportar estas features en móvil."
     }
@@ -142,6 +149,7 @@
       "heading1": "Módulos nativos sin el Bridge",
       "text1": "Los TurboModules son el reemplazo de la New Architecture para los Native Modules. Se comunican vía JSI, permitiendo llamadas directas de JavaScript a código C++ nativo sin serialización. Las llamadas pueden ser síncronas o asíncronas según el tipo de retorno declarado en la spec.",
       "text2": "El antiguo sistema de Native Modules inicializaba todos los módulos registrados al arrancar la app, independientemente de si el código JS los usaba. Los TurboModules son lazy — un módulo se instancia la primera vez que JS lo importa. En apps con muchos módulos nativos, esto por sí solo puede reducir el tiempo de arranque de forma notable.",
+      "image1": "Native Modules antiguos (eager) vs TurboModules (lazy via JSI)",
       "heading2": "Tipado seguro mediante Codegen",
       "text3": "Un TurboModule se define mediante un archivo de spec TypeScript que Codegen lee en tiempo de build para generar la interfaz C++ que la implementación nativa debe cumplir. Cualquier incompatibilidad entre lo que JS espera y lo que nativo provee se detecta como error de compilación en lugar de crash en tiempo de ejecución. Este archivo de spec es también la fuente de verdad para las firmas de métodos que llama el lado JS."
     }
@@ -153,6 +161,7 @@
       "heading1": "Qué reemplaza Fabric",
       "text1": "Fabric es el renderizador nativo de la New Architecture, reemplazando al antiguo UIManager. En el sistema anterior, React calculaba el shadow tree en JavaScript, serializaba las instrucciones de layout a través del Bridge y el lado nativo las aplicaba de forma asíncrona. Fabric mueve la implementación del shadow tree a C++, compartida entre el reconciliador JS y la plataforma nativa vía JSI.",
       "text2": "Con el shadow tree en C++, el layout puede medirse de forma síncrona desde JavaScript. Operaciones que antes requerían callback — como `measure()` o `measureInWindow()` — pueden devolver un valor directamente. Esto también habilita efectos de layout síncronos en el montaje, similares a la semántica de `useLayoutEffect` en React para web.",
+      "image1": "UIManager antiguo vs Fabric — shadow tree en JS vs shadow tree C++ compartida",
       "heading2": "Renderización concurrent en móvil",
       "text3": "Dado que Fabric se integra con el reconciliador Fiber de React a nivel C++, soporta features de renderización concurrent: los renders pueden interrumpirse, pausarse y priorizarse. Las transitions, deferred values y boundaries de Suspense funcionan correctamente con Fabric. Esta es la base arquitectónica que hace posibles las futuras features concurrent de React Native."
     }
@@ -176,7 +185,8 @@
       "text1": "React Native DevTools es el debugger oficial construido sobre el Chrome DevTools Protocol (CDP). Reemplaza al antiguo Chrome Remote JS Debugger y Flipper. Ábrelo presionando `j` en el terminal de Metro, o desde el Dev Menu — sacude el dispositivo, presiona Cmd+D en iOS Simulator o Cmd+M en Android Emulator.",
       "heading2": "Qué hay dentro",
       "text2": "La ventana del DevTools reúne cuatro herramientas: el **JS Debugger** (breakpoints, call stack, watch expressions, ejecución paso a paso), **React DevTools** (árbol de componentes, inspección de props y estado en tiempo real), el **Network inspector** (monitoreo de llamadas fetch y XMLHttpRequest) y la **Console** (logs y errores con stack traces mapeados al código fuente).",
-      "text3": "React Native DevTools requiere el motor Hermes y está habilitado por defecto en React Native 0.73+. No funciona con apps que usan JavaScriptCore. Para profiling en producción, usa el sampling profiler CDP específico de Hermes, accesible desde la pestaña Profiler."
+      "text3": "React Native DevTools requiere el motor Hermes y está habilitado por defecto en React Native 0.73+. No funciona con apps que usan JavaScriptCore. Para profiling en producción, usa el sampling profiler CDP específico de Hermes, accesible desde la pestaña Profiler.",
+      "image1": "Interfaz de React Native DevTools"
     }
   },
   "performance_monitor": {
@@ -187,7 +197,8 @@
       "text1": "El Performance Monitor es un overlay ligero que puedes activar desde el Dev Menu. Muestra métricas en vivo que se actualizan cada frame: **UI FPS** (tasa de frames del hilo UI — debe mantenerse cerca de 60), **JS FPS** (tasa de frames del hilo JS — las caídas indican trabajo bloqueando el hilo), **RAM** (memoria del heap JS) y **Views** (total de vistas nativas montadas en la jerarquía).",
       "heading2": "Leyendo los números",
       "text2": "Si el UI FPS baja pero el JS FPS se mantiene alto, el cuello de botella está en la renderización nativa — un pase de layout pesado, demasiadas vistas o una actualización costosa del shadow tree. Si el JS FPS baja, el hilo JS está sobrecargado — busca computaciones costosas, re-renders innecesarios o lecturas síncronas de almacenamiento en el camino crítico. El contador de Views ayuda a detectar el inflado causado por layouts profundamente anidados o listas no virtualizadas.",
-      "text3": "El Performance Monitor es un primer paso rápido, no un reemplazo del Profiler. Úsalo para confirmar si el problema está en el hilo JS o en el hilo UI, y luego abre el Profiler para identificar el componente u operación específica responsable."
+      "text3": "El Performance Monitor es un primer paso rápido, no un reemplazo del Profiler. Úsalo para confirmar si el problema está en el hilo JS o en el hilo UI, y luego abre el Profiler para identificar el componente u operación específica responsable.",
+      "image1": "Overlay del Performance Monitor"
     }
   },
   "profiler": {
@@ -198,7 +209,8 @@
       "text1": "La pestaña Profiler de React Native DevTools graba una línea de tiempo de actividad de renderización de React. Presiona Grabar, interactúa con la parte de la app que quieres medir y luego presiona Detener. El Profiler muestra un flame chart de cada componente que hizo commit durante la grabación — cuánto tardó cada commit y qué componentes renderizaron en cada uno.",
       "heading2": "Leyendo el flame chart",
       "text2": "Cada barra representa un componente en un commit. Las barras más anchas indican mayor duración de renderización. Los componentes con colores más cálidos tardaron más en relación a sus hermanos. Haz clic en un componente para ver su duración de render y el motivo del re-render: cambio de prop, de estado, de contexto o re-render del padre.",
-      "text3": "Para profiling programático, React exporta el componente `Profiler`, que envuelve un subárbol y dispara un callback `onRender` con datos de tiempo en cada commit. Esto permite rastrear el rendimiento de renderización en builds de staging o producción y alimentar los datos en analytics o alertas."
+      "text3": "Para profiling programático, React exporta el componente `Profiler`, que envuelve un subárbol y dispara un callback `onRender` con datos de tiempo en cada commit. Esto permite rastrear el rendimiento de renderización en builds de staging o producción y alimentar los datos en analytics o alertas.",
+      "image1": "Flame chart del Profiler en React Native DevTools"
     }
   },
   "logbox": {
@@ -209,7 +221,8 @@
       "text1": "LogBox es el sistema que React Native usa para mostrar errores y advertencias en tiempo de ejecución durante el desarrollo. Un error JavaScript no capturado muestra un overlay rojo a pantalla completa con el mensaje de error, un stack trace mapeado al código fuente y — para tipos de error conocidos — un enlace a la documentación relevante. Una llamada `console.warn()` aparece como un banner amarillo plegable en la parte inferior de la pantalla.",
       "heading2": "Suprimiendo advertencias conocidas",
       "text2": "Las bibliotecas de terceros a veces emiten advertencias que no se pueden corregir inmediatamente. Llama a `LogBox.ignoreLogs()` en el punto de entrada de tu app con un array de patrones de cadena o expresiones regulares para suprimir mensajes específicos. Los mensajes siguen imprimiéndose en la consola de Metro — solo se oculta el overlay en la app.",
-      "text3": "Usa `LogBox.ignoreAllLogs()` solo como último recurso al preparar una build de demostración. Ignorar todos los logs oculta problemas reales durante el desarrollo y facilita publicar con regresiones inadvertidas. Prefiere supresiones puntuales con el patrón exacto del mensaje de advertencia."
+      "text3": "Usa `LogBox.ignoreAllLogs()` solo como último recurso al preparar una build de demostración. Ignorar todos los logs oculta problemas reales durante el desarrollo y facilita publicar con regresiones inadvertidas. Prefiere supresiones puntuales con el patrón exacto del mensaje de advertencia.",
+      "image1": "Overlays de error y warning del LogBox"
     }
   },
   "sourcemaps": {
@@ -221,6 +234,20 @@
       "heading2": "Desarrollo vs producción",
       "text2": "En desarrollo, Metro genera source maps automáticamente y React Native DevTools los usa de forma transparente — los stack traces en la consola y en LogBox ya muestran tus archivos fuente originales. Para producción, pasa `--sourcemap-output <ruta>` al comando de bundle de Metro para escribir el archivo de source map en disco junto al bundle.",
       "text3": "Sube el source map a tu herramienta de reporte de crashes (Sentry, Firebase Crashlytics, Bugsnag) para que los crashes en producción se simboliquen automáticamente — verás el archivo TypeScript original, línea y columna en tu dashboard en lugar de código minificado. Mantén siempre el source map correspondiente al build exacto en que fue generado; un mapa incorrecto produce stack traces confusos o engañosos."
+    }
+  },
+  "native_debugging": {
+    "title": "Depuración Nativa",
+    "subtitle": "Depura crashes, logs y problemas en la capa nativa en Android e iOS",
+    "body": {
+      "heading1": "Android: Logcat y Android Studio",
+      "text1": "Logcat es el stream de logs del sistema Android. Los errores nativos, las excepciones de Java y Kotlin y la salida de módulos nativos aparecen aquí. Ejecuta `adb logcat` en el terminal para transmitir logs desde un dispositivo o emulador conectado; filtra por etiqueta para reducir el ruido. El panel Logcat de Android Studio ofrece la misma salida con filtrado, codificación de colores y selección de proceso integrados.",
+      "text2": "Para depurar código nativo Java, Kotlin o C++, adjunta el depurador de Android Studio al proceso en ejecución. Abre la carpeta `android/` en Android Studio, establece breakpoints en los archivos nativos y elige **Run → Attach Debugger to Android Process** y selecciona tu app. Puedes pausar la ejecución, inspeccionar variables y recorrer frames nativos mientras el lado JavaScript sigue ejecutándose de forma independiente.",
+      "heading2": "iOS: Xcode y LLDB",
+      "text3": "Ejecuta la app desde Xcode o con `npx react-native run-ios` y abre el **Debug Navigator** (⌘7) para inspeccionar hilos, memoria, CPU y uso de disco en tiempo real. El panel Console captura la salida de `NSLog` y los informes de crash nativos. Para los logs del dispositivo sin Xcode abierto, usa **Console.app** en macOS — conecta el dispositivo y filtra por nombre de proceso para ver toda la salida del sistema operativo.",
+      "text4": "LLDB es el depurador integrado en Xcode. Establece breakpoints en archivos Swift, Objective-C o C++ directamente en el editor. Cuando la ejecución se pausa, la Debug Console acepta expresiones LLDB para inspeccionar direcciones de memoria y evaluar valores nativos. La **Thread View** muestra todos los hilos activos en el momento del crash — el stack trace del hilo que falla aponta directamente al frame nativo responsable.",
+      "heading3": "Qué puede detectar la depuración nativa",
+      "text5": "La depuración nativa revela problemas invisibles para la capa JavaScript: crashes en módulos nativos (`UnsatisfiedLinkError` en Android, `EXC_BAD_ACCESS` en iOS), fugas de memoria en código nativo que causan ralentización progresiva, violaciones de hilo como actualizar la UI desde un hilo secundario, y denegaciones de permisos del sistema operativo que fallan silenciosamente. Si la app se cierra sin pantalla de error roja y sin salida en Metro, el fallo casi con certeza se originó en la capa nativa."
     }
   },
   "accessibility_labels": {
@@ -365,7 +392,7 @@
       "heading1": "Qué es el App Sandbox",
       "text1": "Toda app iOS se ejecuta en un sandbox — un contenedor de sistema de archivos restringido. La app solo puede leer y escribir dentro de sus propios directorios sandbox: `Documents` (visible al usuario, sincronizado con iCloud), `Library` (datos de la app, backup opcional), `tmp` (limpiado por el SO entre lanzamientos) y el propio bundle de la app (solo lectura). No puede acceder a archivos de otras apps ni a rutas arbitrarias del sistema de archivos.",
       "heading2": "Modelo de permisos en tiempo de ejecución",
-      "text2": "El acceso a capacidades sensibles — cámara, micrófono, ubicación, contactos, fototeca, datos de salud, notificaciones push — requiere aprobación explícita del usuario en tiempo de ejecución. iOS muestra un diálogo del sistema con la descripción de uso de `Info.plist` en la primera solicitud. El usuario puede conceder o denegar; los permisos denegados solo pueden reactivarse en Ajustes → Privacidad. Usa `react-native-permissions` para una API unificada entre iOS y Android en React Native.",
+      "text2": "El acceso a capacidades sensibles — cámara, micrófono, ubicación, contactos, fototeca, datos de salud, notificaciones push — requiere aprobación explícita del usuario en tiempo de ejecución. iOS muestra un diálogo del sistema con la descripción de uso de `Info.plist` en la primera solicitud. El usuario puede conceder o denegar; los permisos denegados solo pueden reactivarse en Ajustes → Privacidad.",
       "text3": "Algunas capacidades también requieren entitlements — flags especiales declaradas en un archivo `.entitlements` y aprovisionadas en el Apple Developer Portal. Notificaciones push, HealthKit, iCloud, Sign in with Apple y App Groups requieren entitlements. Se configuran en Xcode bajo Signing & Capabilities. Un entitlement faltante provoca un rechazo en el build o un fallo silencioso en tiempo de ejecución — la revisión de la App Store lo detectará si tú no lo haces antes."
     }
   },

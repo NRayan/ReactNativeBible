@@ -26,6 +26,7 @@
 - Profiler ✓
 - LogBox ✓
 - Sourcemaps ✓
+- Native Debugging ✓
 
 ## Accessibility ✓
 - accessibilityLabel & accessibilityHint ✓

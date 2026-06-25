@@ -17,9 +17,9 @@ export type ContentBlock =
   | { type: "image"; imagePath: number; caption: LearnContentKey }
 
 export type SectionId =
+  | "under_the_hood"
   | "layout"
   | "performance"
-  | "under_the_hood"
   | "debugging"
   | "accessibility"
   | "android"

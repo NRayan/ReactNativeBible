@@ -76,7 +76,7 @@ From the docs (or authoritative source), extract:
 - A concise **subtitle** — one sentence describing what the topic is about
 - **2–4 sections**, each composed of:
   - A `heading` — section title
-  - 1–3 `text` blocks — prose explanation using backticks for code terms
+  - 1–3 `text` blocks — prose explanation; use backticks for code terms and `*word*` (single asterisk) for emphasis — `**double asterisk**` is NOT supported by the RichText component and must never be used
   - Optional `code` blocks — practical TypeScript/TSX snippets showing real usage
 
 Validate all technical claims against the docs before writing. Do not invent API behaviour.
@@ -204,6 +204,19 @@ Use Tabler Icons in outline style. Pick an icon that visually represents the top
 | Gestures | `IconHandFinger` |
 
 When in doubt, pick a generic but related icon — avoid letters-based icons (`IconAB` etc.) for topic entries.
+
+---
+
+## Text formatting in i18n strings
+
+The `RichText` component parses two inline markers only:
+
+| Syntax | Renders as |
+|---|---|
+| `` `code` `` | inline code (green) |
+| `*emphasis*` | bold-style emphasis |
+
+**Never use `**double asterisk**`** — it is not parsed and will appear as literal `**` characters in the UI.
 
 ---
 

@@ -21,9 +21,9 @@ export function CodeBlock({ code, language = "typescript" }: CodeBlockProps) {
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <Box p={4}>
-                    <Text style={{ fontFamily: "monospace", fontSize: 12 }}>
+                    <Text>
                         {tokens.map((token, i) => (
-                            <Text key={i} style={{ color: token.color }}>
+                            <Text variant="code" key={i} style={{ color: token.color }}>
                                 {token.text}
                             </Text>
                         ))}

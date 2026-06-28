@@ -1,4 +1,4 @@
-{
+﻿{
   "sections": {
     "layout": "Layout",
     "performance": "Performance",
@@ -62,7 +62,7 @@
     "subtitle": "Meta's JavaScript engine purpose-built for React Native's startup and memory constraints",
     "body": {
       "heading1": "What Hermes does differently",
-      "text1": "Hermes is a JavaScript engine built by Meta specifically for React Native. Unlike V8 or JavaScriptCore, which parse and compile JavaScript at runtime, Hermes compiles JavaScript to bytecode at **build time**. The app ships pre-compiled bytecode — on startup, the engine loads it directly without a parse or JIT warm-up phase.",
+      "text1": "Hermes is a JavaScript engine built by Meta specifically for React Native. Unlike V8 or JavaScriptCore, which parse and compile JavaScript at runtime, Hermes compiles JavaScript to bytecode at *build time*. The app ships pre-compiled bytecode — on startup, the engine loads it directly without a parse or JIT warm-up phase.",
       "heading2": "Impact on startup and memory",
       "text2": "Skipping runtime compilation directly reduces Time to Interactive (TTI): the engine begins executing code as soon as the bytecode is loaded. Hermes also has a significantly smaller memory footprint than V8, making it well-suited to mid-range and low-end Android devices where memory pressure causes app kills.",
       "text3": "Hermes is enabled by default since React Native 0.70. You can verify the engine at runtime by checking `global.HermesInternal` — it is `null` on JavaScriptCore or V8. Profiling Hermes apps is done through the Hermes-specific CDP protocol exposed in React Native DevTools."
@@ -86,7 +86,7 @@
     "subtitle": "Stabilize computed values and function references to prevent wasted renders",
     "body": {
       "heading1": "The problem they solve",
-      "text1": "Every React render creates new object and function references, even if the underlying value has not changed. A child wrapped in `React.memo` re-renders anyway when it receives a new reference for a prop that is semantically identical. `useMemo` memoizes a computed value; `useCallback` memoizes a function. Both return the **same reference** across renders until their dependency array changes.",
+      "text1": "Every React render creates new object and function references, even if the underlying value has not changed. A child wrapped in `React.memo` re-renders anyway when it receives a new reference for a prop that is semantically identical. `useMemo` memoizes a computed value; `useCallback` memoizes a function. Both return the *same reference* across renders until their dependency array changes.",
       "heading2": "useMemo",
       "text2": "Use `useMemo` for expensive computations — filtering or sorting a large array, deriving data from a big list, computing chart data — or when the result is passed as a prop to a memoized child. Avoid it for cheap operations: the overhead of running the dependency comparison and storing the cached value can exceed the cost of just recomputing.",
       "heading3": "useCallback",
@@ -184,7 +184,7 @@
       "heading1": "A unified debugging environment",
       "text1": "React Native DevTools is the official debugger built on the Chrome DevTools Protocol (CDP). It replaces the older Chrome Remote JS Debugger and Flipper. Launch it by pressing `j` in the Metro terminal, or from the Dev Menu — shake the device, press Cmd+D on iOS Simulator, or Cmd+M on Android Emulator.",
       "heading2": "What's inside",
-      "text2": "The DevTools window bundles four tools: the **JS Debugger** (breakpoints, call stack, watch expressions, step-through execution), **React DevTools** (component tree, inspect props and state in real time), the **Network inspector** (monitor fetch and XMLHttpRequest traffic), and the **Console** (logs and errors with source-mapped stack traces).",
+      "text2": "The DevTools window bundles four tools: the *JS Debugger* (breakpoints, call stack, watch expressions, step-through execution), *React DevTools* (component tree, inspect props and state in real time), the *Network inspector* (monitor fetch and XMLHttpRequest traffic), and the *Console* (logs and errors with source-mapped stack traces).",
       "text3": "React Native DevTools requires the Hermes engine and is enabled by default in React Native 0.73+. It does not work with apps running on JavaScriptCore. For production profiling, use the Hermes-specific CDP sampling profiler accessible from the Profiler tab.",
       "image1": "React Native DevTools interface"
     }
@@ -194,7 +194,7 @@
     "subtitle": "A real-time overlay that shows thread health and memory at a glance",
     "body": {
       "heading1": "What the overlay shows",
-      "text1": "The Performance Monitor is a lightweight overlay you can toggle from the Dev Menu. It displays live metrics that update every frame: **UI FPS** (UI thread frame rate — should stay near 60), **JS FPS** (JS thread frame rate — drops signal blocked JS work), **RAM** (JS heap memory), and **Views** (total native views currently mounted in the hierarchy).",
+      "text1": "The Performance Monitor is a lightweight overlay you can toggle from the Dev Menu. It displays live metrics that update every frame: *UI FPS* (UI thread frame rate — should stay near 60), *JS FPS* (JS thread frame rate — drops signal blocked JS work), *RAM* (JS heap memory), and *Views* (total native views currently mounted in the hierarchy).",
       "heading2": "Reading the numbers",
       "text2": "If UI FPS drops but JS FPS stays high, the bottleneck is in native rendering — a heavy layout pass, too many views, or an expensive shadow tree update. If JS FPS drops, the JS thread is overloaded — look for expensive computations, unnecessary re-renders, or synchronous storage reads on the hot path. The Views counter helps catch view bloat caused by deeply nested layouts or non-virtualized lists.",
       "text3": "The Performance Monitor is a quick first step, not a replacement for the Profiler. Use it to confirm whether you have a JS thread or a UI thread problem, then open the Profiler to pinpoint the specific component or operation responsible.",
@@ -242,10 +242,10 @@
     "body": {
       "heading1": "Android: Logcat and Android Studio",
       "text1": "Logcat is Android's system-wide log stream. All native errors, Java and Kotlin exceptions, and native module output appear here. Run `adb logcat` in the terminal to stream logs from a connected device or emulator; filter by tag to reduce noise. Android Studio's Logcat panel provides the same output with filtering, color-coding, and process selection built in.",
-      "text2": "To debug native Java, Kotlin, or C++ code, attach Android Studio's debugger to the running process. Open the `android/` folder in Android Studio, set breakpoints in native source files, then choose **Run → Attach Debugger to Android Process** and select your app. You can pause execution, inspect variables, and step through native frames while the JavaScript side continues running independently.",
+      "text2": "To debug native Java, Kotlin, or C++ code, attach Android Studio's debugger to the running process. Open the `android/` folder in Android Studio, set breakpoints in native source files, then choose *Run → Attach Debugger to Android Process* and select your app. You can pause execution, inspect variables, and step through native frames while the JavaScript side continues running independently.",
       "heading2": "iOS: Xcode and LLDB",
-      "text3": "Run the app from Xcode or `npx react-native run-ios`, then open the **Debug Navigator** (⌘7) to inspect threads, memory, CPU, and disk usage in real time. The Console pane captures `NSLog` output and native crash reports. For device logs without Xcode open, use **Console.app** on macOS — connect a device and filter by process name to see all OS-level output.",
-      "text4": "LLDB is the debugger embedded in Xcode. Set breakpoints in Swift, Objective-C, or C++ files directly in the editor. When execution pauses, the Debug Console accepts LLDB expressions for inspecting memory addresses and evaluating native values. The **Thread View** shows all active threads at the moment of a crash — the stack trace of the crashing thread points directly to the offending native frame.",
+      "text3": "Run the app from Xcode or `npx react-native run-ios`, then open the *Debug Navigator* (⌘7) to inspect threads, memory, CPU, and disk usage in real time. The Console pane captures `NSLog` output and native crash reports. For device logs without Xcode open, use *Console.app* on macOS — connect a device and filter by process name to see all OS-level output.",
+      "text4": "LLDB is the debugger embedded in Xcode. Set breakpoints in Swift, Objective-C, or C++ files directly in the editor. When execution pauses, the Debug Console accepts LLDB expressions for inspecting memory addresses and evaluating native values. The *Thread View* shows all active threads at the moment of a crash — the stack trace of the crashing thread points directly to the offending native frame.",
       "heading3": "What native debugging can catch",
       "text5": "Native debugging reveals issues invisible to the JavaScript layer: native module crashes (`UnsatisfiedLinkError` on Android, `EXC_BAD_ACCESS` on iOS), memory leaks in native code that cause gradual app slowdown, threading violations such as updating UI from a background thread, and OS-level permission denials that crash silently. If the app crashes with no red error screen and no Metro output, the fault almost certainly originated in the native layer."
     }
@@ -290,7 +290,7 @@
     "subtitle": "Verify your app works end-to-end with the built-in screen readers on iOS and Android",
     "body": {
       "heading1": "Enabling the screen readers",
-      "text1": "**VoiceOver** (iOS) is enabled in Settings → Accessibility → VoiceOver, or via the Accessibility Shortcut (triple-click the side button). **TalkBack** (Android) is enabled in Settings → Accessibility → TalkBack. Both use a swipe-based gesture model: swipe right to move to the next element, swipe left for the previous, double-tap to activate, and a two-finger swipe up or down to scroll.",
+      "text1": "*VoiceOver* (iOS) is enabled in Settings → Accessibility → VoiceOver, or via the Accessibility Shortcut (triple-click the side button). *TalkBack* (Android) is enabled in Settings → Accessibility → TalkBack. Both use a swipe-based gesture model: swipe right to move to the next element, swipe left for the previous, double-tap to activate, and a two-finger swipe up or down to scroll.",
       "heading2": "What to verify",
       "text2": "Navigate the entire user flow using only the screen reader — no glancing at the screen to orient yourself. Check that every interactive element is reachable by swiping, announces a meaningful label and role, and performs the expected action on double-tap. Verify that modals trap focus, that loading and success states are announced, and that error messages are read without requiring the user to manually find them.",
       "heading3": "Simulator tooling",
@@ -302,7 +302,7 @@
     "subtitle": "The toolchain that compiles, packages, and deploys your React Native app on Android",
     "body": {
       "heading1": "What the Android SDK contains",
-      "text1": "The Android SDK is a collection of tools, libraries, and platform APIs installed on your development machine. The components React Native relies on are: **platform tools** (`adb` for device communication), **build tools** (`aapt2` for resource compilation, `d8` for dex conversion), and the **platform** itself — the `android.jar` that provides the Android API surface your code compiles against. Each major Android release ships a new platform version.",
+      "text1": "The Android SDK is a collection of tools, libraries, and platform APIs installed on your development machine. The components React Native relies on are: *platform tools* (`adb` for device communication), *build tools* (`aapt2` for resource compilation, `d8` for dex conversion), and the *platform* itself — the `android.jar` that provides the Android API surface your code compiles against. Each major Android release ships a new platform version.",
       "heading2": "SDK Manager and ANDROID_HOME",
       "text2": "The SDK is managed via Android Studio's SDK Manager or the standalone `sdkmanager` CLI. Installed SDKs live under the directory pointed to by the `ANDROID_HOME` (or `ANDROID_SDK_ROOT`) environment variable — typically `~/Library/Android/sdk` on macOS. React Native's build scripts use this variable to locate `adb`, the emulator, and the build tools. If it is unset, builds fail with a path-not-found error.",
       "text3": "React Native requires a specific minimum SDK version that changes across major RN releases. Check the official environment setup docs when creating a new project or upgrading. Keeping platform tools and build tools up to date via the SDK Manager avoids subtle build failures caused by version mismatches between tools."
@@ -412,7 +412,7 @@
     "subtitle": "How iOS and Android verify your app's identity before installation and distribution",
     "body": {
       "heading1": "iOS signing",
-      "text1": "iOS apps must be signed with a certificate issued by Apple. Two types are used: a **Development** certificate (for running on physical devices during development) and a **Distribution** certificate (for TestFlight and App Store). Each certificate is paired with a provisioning profile — a file that binds a certificate, an App ID, and either a set of device UDIDs (development) or a distribution method (App Store/Ad Hoc). Together they form the signing identity Xcode uses when building your app.",
+      "text1": "iOS apps must be signed with a certificate issued by Apple. Two types are used: a *Development* certificate (for running on physical devices during development) and a *Distribution* certificate (for TestFlight and App Store). Each certificate is paired with a provisioning profile — a file that binds a certificate, an App ID, and either a set of device UDIDs (development) or a distribution method (App Store/Ad Hoc). Together they form the signing identity Xcode uses when building your app.",
       "heading2": "Android signing",
       "text2": "Android apps are signed with a keystore file — a binary that holds one or more key pairs generated with `keytool`. For release builds, reference the keystore in `android/app/build.gradle` under a `signingConfigs` block. Store the keystore password and key alias in environment variables or `~/.gradle/gradle.properties`, never hardcoded in a build file that lives in version control.",
       "heading3": "Protect your Android keystore",
@@ -436,7 +436,7 @@
     "subtitle": "Google's portal for publishing, testing, and managing your Android app on the Play Store",
     "body": {
       "heading1": "Release tracks",
-      "text1": "Google Play Console uses a track model: **Internal** (up to 100 testers, instant availability), **Closed Testing** (alpha, invite-only), **Open Testing** (beta, anyone can opt in), and **Production**. The same `.aab` file moves from internal to production by promotion — no re-upload needed. This lets you build confidence incrementally before a full rollout.",
+      "text1": "Google Play Console uses a track model: *Internal* (up to 100 testers, instant availability), *Closed Testing* (alpha, invite-only), *Open Testing* (beta, anyone can opt in), and *Production*. The same `.aab` file moves from internal to production by promotion — no re-upload needed. This lets you build confidence incrementally before a full rollout.",
       "heading2": "Generating a release AAB",
       "text2": "Google Play requires Android App Bundle (`.aab`) format for new apps. Build it with `./gradlew bundleRelease`. The AAB includes all code and resources split by ABI, screen density, and language; Play generates optimized split APKs for each device at install time, reducing download size. Sign the AAB with your upload key before uploading to the console.",
       "heading3": "Play App Signing",
@@ -450,7 +450,7 @@
       "heading1": "How OTA updates work",
       "text1": "OTA (Over-the-Air) updates let you ship changes to the JavaScript bundle and static assets without a new native build submission. The app checks a remote server at launch, downloads a new bundle if one is available, and loads it on the next cold start. Only the JavaScript layer is updatable this way — changes to native code, new native modules, or updated native SDKs always require a full store submission.",
       "heading2": "CodePush and EAS Update",
-      "text2": "The two main OTA solutions for React Native are **Microsoft CodePush** (via `react-native-code-push`, hosted by App Center) and **Expo EAS Update** (works with both managed Expo and bare React Native). Both publish a bundle to a named channel (production, staging); the app downloads and applies it on the next launch. EAS Update integrates with the Expo toolchain and supports staged rollouts, rollbacks, and branch-based deployments.",
+      "text2": "The two main OTA solutions for React Native are *Microsoft CodePush* (via `react-native-code-push`, hosted by App Center) and *Expo EAS Update* (works with both managed Expo and bare React Native). Both publish a bundle to a named channel (production, staging); the app downloads and applies it on the next launch. EAS Update integrates with the Expo toolchain and supports staged rollouts, rollbacks, and branch-based deployments.",
       "heading3": "Store policy limits",
       "text3": "OTA updates must comply with App Store and Play Store policies. Apple's guidelines prohibit using OTA to change the core purpose of the app or to add functionality that would normally require review. In practice, OTA is safe for bug fixes, content changes, UI adjustments, and feature flags. Avoid using it to introduce new privacy-sensitive flows or to bypass review for features that access protected device capabilities."
     }

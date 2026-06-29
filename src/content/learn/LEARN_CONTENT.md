@@ -14,6 +14,7 @@
 ## Under the Hood ✓
 - Metro ✓
 - The Bridge (Old Architecture) ✓
+- New Architecture ✓
 - JSI ✓
 - Fiber ✓
 - TurboModules ✓

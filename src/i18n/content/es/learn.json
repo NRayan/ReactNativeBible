@@ -118,6 +118,20 @@
       "image2": "Congestión en la cola del Bridge causando caída de frames"
     }
   },
+  "new_architecture": {
+    "title": "Nueva Arquitectura",
+    "subtitle": "La revisión completa que reemplazó el Bridge con comunicación nativa síncrona y tipada",
+    "body": {
+      "heading1": "Por qué el Bridge tenía que desaparecer",
+      "text1": "La Arquitectura Antigua dependía de un *bridge asíncrono* para mover cada dato entre JavaScript y nativo. Actualizaciones de diseño, eventos de gesto, llamadas a APIs nativas — todo tenía que serializarse en JSON, encolarse, enviarse por el bridge y deserializarse en el otro extremo. Este pipeline era lento por diseño y no podía hacerse síncrono sin importar la velocidad del dispositivo.",
+      "text2": "El bridge también hacía imposible que JavaScript mantuviera una referencia directa a un objeto nativo o llamara código nativo esperando un valor de retorno inmediato. Todo era fire-and-forget. Esta restricción descartaba toda una clase de patrones — mediciones síncronas de diseño, procesamiento inline de gestos, memoria compartida entre hilos — de los que dependen las UIs móviles modernas.",
+      "heading2": "Los tres pilares",
+      "text3": "*JSI* (JavaScript Interface) es la capa C++ que reemplaza el bridge: JavaScript mantiene referencias reales a objetos nativos y llama código nativo de forma síncrona, sin serialización. Los *TurboModules* reconstruyen el sistema de módulos nativos sobre JSI — los módulos se cargan de forma lazy en el primer uso y sus contratos de API se verifican en tiempo de build por Codegen. *Fabric* es el nuevo motor de renderizado: el árbol de componentes vive en C++, las consultas de diseño son síncronas y el renderizador se integra directamente con la capa de vistas nativas de cada plataforma.",
+      "heading3": "Disponibilidad y migración",
+      "text4": "La Nueva Arquitectura se lanzó como opt-in en React Native 0.68 y se convirtió en el predeterminado para nuevos proyectos en React Native 0.74. Habilitarla en una app existente requiere un cambio de una línea en `android/gradle.properties` y en `ios/Podfile`. La gran mayoría de las bibliotecas populares de la comunidad ya tienen soporte.",
+      "image1": "Nueva Arquitectura — threads, JSI, Fabric, TurboModules y Codegen"
+    }
+  },
   "jsi": {
     "title": "JSI",
     "subtitle": "La capa C++ que permite a JavaScript hablar directamente con el nativo sin serialización",

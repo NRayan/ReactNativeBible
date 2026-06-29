@@ -118,6 +118,20 @@
       "image2": "Bridge queue congestion causing UI frame drops"
     }
   },
+  "new_architecture": {
+    "title": "New Architecture",
+    "subtitle": "The complete overhaul that replaced the Bridge with synchronous, type-safe native communication",
+    "body": {
+      "heading1": "Why the Bridge had to go",
+      "text1": "The Old Architecture relied on an *asynchronous bridge* to move every piece of data between JavaScript and native. Layout updates, gesture events, native API calls — all had to be serialized into JSON, queued, sent across the bridge, and deserialized on the other side. This pipeline was slow by design and could not be made synchronous regardless of device speed.",
+      "text2": "The bridge also made it impossible for JavaScript to hold a direct reference to a native object or call native code and wait for an immediate return value. Everything was fire-and-forget. This constraint ruled out a whole class of patterns — synchronous layout measurements, inline gesture processing, shared memory between threads — that modern mobile UIs depend on.",
+      "heading2": "The three pillars",
+      "text3": "*JSI* (JavaScript Interface) is the C++ layer that replaces the bridge: JavaScript holds real references to native host objects and calls native code synchronously, with no serialization. *TurboModules* rebuild the native module system on top of JSI — modules are loaded lazily on first use and their API contracts are enforced at build time by Codegen. *Fabric* is the new rendering engine: the component tree lives in C++, layout queries are synchronous, and the renderer integrates directly with each platform's host view layer.",
+      "heading3": "Availability and migration",
+      "text4": "The New Architecture shipped as opt-in from React Native 0.68 and became the default for new projects in React Native 0.74. Enabling it on an existing app requires a single-line change in `android/gradle.properties` and in `ios/Podfile`. The vast majority of popular community libraries already support it.",
+      "image1": "New Architecture — threads, JSI, Fabric, TurboModules and Codegen"
+    }
+  },
   "jsi": {
     "title": "JSI",
     "subtitle": "The C++ layer that lets JavaScript talk directly to native without serialization",

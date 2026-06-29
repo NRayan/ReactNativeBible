@@ -1,4 +1,5 @@
 import { TablerIconName } from "@components/Icon";
+import { CodeLanguage } from "@components/CodeBlock/types";
 import en from "../../i18n/content/en/learn.json";
 import enQuiz from "../../i18n/content/en/quiz.json";
 
@@ -13,7 +14,7 @@ export type LearnContentKey = `content.${NestedKeyOf<typeof en>}`
 export type ContentBlock =
     { type: "heading"; value: LearnContentKey }
   | { type: "text"; value: LearnContentKey }
-  | { type: "code"; language: string; value: string }
+  | { type: "code"; language: CodeLanguage; value: string }
   | { type: "image"; imagePath: number; caption: LearnContentKey }
 
 export type SectionId =

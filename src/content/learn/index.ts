@@ -36,6 +36,22 @@ export const sections: Section[] = [
                 ],
             },
             {
+                id: "new_architecture",
+                icon: "IconArrowIteration",
+                title: "content.new_architecture.title",
+                subtitle: "content.new_architecture.subtitle",
+                body: [
+                    { type: "heading", value: "content.new_architecture.body.heading1" },
+                    { type: "text", value: "content.new_architecture.body.text1" },
+                    { type: "text", value: "content.new_architecture.body.text2" },
+                    { type: "heading", value: "content.new_architecture.body.heading2" },
+                    { type: "text", value: "content.new_architecture.body.text3" },
+                    { type: "image", imagePath: require("./assets/new_architecture_overview.png"), caption: "content.new_architecture.body.image1" },
+                    { type: "heading", value: "content.new_architecture.body.heading3" },
+                    { type: "text", value: "content.new_architecture.body.text4" },
+                ],
+            },
+            {
                 id: "jsi",
                 icon: "IconPlugConnected",
                 title: "content.jsi.title",
@@ -132,7 +148,7 @@ export const sections: Section[] = [
                     { type: "text", value: "content.flexbox_basics.body.text2" },
                     {
                         type: "code",
-                        language: "typescript",
+                        language: "tsx",
                         value: "import { View, StyleSheet } from \"react-native\";\n\nexport function CenteredLayout() {\n  return (\n    <View style={styles.container}>\n      <View style={styles.box} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: \"center\",\n    alignItems: \"center\",\n  },\n  box: {\n    width: 80,\n    height: 80,\n    backgroundColor: \"#67e8f9\",\n  },\n});",
                     },
                     { type: "heading", value: "content.flexbox_basics.body.heading2" },

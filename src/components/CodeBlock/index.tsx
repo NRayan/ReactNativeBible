@@ -1,10 +1,11 @@
 import { ScrollView } from "react-native";
 import { Box, Text, Separator } from "../index";
-import { hljs, parseTokens } from "./CodeBlock.utils";
+import { hljs, parseTokens, languageLabels } from "./CodeBlock.utils";
+import type { CodeLanguage } from "./types";
 
 type CodeBlockProps = {
     code: string;
-    language?: string;
+    language?: CodeLanguage;
 };
 
 export function CodeBlock({ code, language = "typescript" }: CodeBlockProps) {
@@ -14,7 +15,7 @@ export function CodeBlock({ code, language = "typescript" }: CodeBlockProps) {
     return (
         <Box bgColor="surface" border rounded="large" fullWidth>
             <Box px={4} py={3}>
-                <Text variant="caption">{language.charAt(0).toUpperCase() + language.slice(1)}</Text>
+                <Text variant="caption">{languageLabels[language] ?? language}</Text>
             </Box>
 
             <Separator />

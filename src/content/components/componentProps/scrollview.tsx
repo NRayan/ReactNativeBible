@@ -9,7 +9,7 @@ function ScrollViewPreview({ focused }: PreviewProps) {
             showsVerticalScrollIndicator={focused}
             scrollEnabled={focused}
             contentContainerStyle={{ gap: s(1), paddingHorizontal: s(8), paddingVertical: s(2), alignItems: "center" }}
-            style={{ flexGrow: 0 }}>
+            style={{ flex: 1 }}>
             {Array.from({ length: 100 }, (_, i) => <Text key={i} variant="body">Item {i + 1}</Text>)}
         </ScrollView>
     );

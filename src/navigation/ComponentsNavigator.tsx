@@ -1,12 +1,11 @@
 import { ComponentDetailScreen } from "@features/components/screens/ComponentDetailScreen";
 import { ComponentsScreen } from "@features/components/screens/ComponentsScreen";
-import type { RNComponent } from "@features/components/types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 
 export type ComponentsStackParamList = {
   ComponentsList: undefined;
-  ComponentDetail: { component: RNComponent };
+  ComponentDetail: { componentId: string };
 };
 
 const Stack = createNativeStackNavigator<ComponentsStackParamList>();

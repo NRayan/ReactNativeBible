@@ -25,7 +25,7 @@ function SectionListPreview({ focused }: PreviewProps) {
             )}
             showsVerticalScrollIndicator={focused}
             scrollEnabled={focused}
-            style={{ flexGrow: 0 }}
+            style={{ flex: 1 }}
             contentContainerStyle={{ paddingHorizontal: s(8), paddingVertical: s(2) }}
             stickySectionHeadersEnabled={false}
         />

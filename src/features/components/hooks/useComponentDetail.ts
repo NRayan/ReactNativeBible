@@ -1,13 +1,14 @@
 import { COMPONENT_TAGS } from "../constants";
-import type { RNComponent } from "@features/components/types";
+import { components } from "@content/components";
 import { useTranslation } from "react-i18next";
 
 type UseComponentDetailParams = {
-  component: RNComponent;
+  componentId: string;
 };
 
-export function useComponentDetail({ component }: UseComponentDetailParams) {
+export function useComponentDetail({ componentId }: UseComponentDetailParams) {
     const { t } = useTranslation();
+    const component = Object.values(components).flat().find(c => c.id === componentId)!;
     const tag = COMPONENT_TAGS.find(ct => ct.id === component.tag)!;
 
     const translatedComponent = {

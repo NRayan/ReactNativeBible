@@ -12,7 +12,7 @@ function FlatListPreview({ focused }: PreviewProps) {
             keyExtractor={(item) => item}
             showsVerticalScrollIndicator={focused}
             scrollEnabled={focused}
-            style={{ flexGrow: 0 }}
+            style={{ flex: 1 }}
         />
     );
 }

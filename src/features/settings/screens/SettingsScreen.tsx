@@ -1,9 +1,9 @@
-import { Badge, Box, Icon, IconTile, PressableBox, Separator, Text, Toolbar } from "@components";
+import { Badge, Box, Icon, IconTile, PressableBox, Separator, Switch, Text, Toolbar } from "@components";
 import { STACK_LIBS } from "@content/settings/stack";
 import { useLanguageStore } from "@stores/language";
 import { useThemeStore } from "@stores/theme";
 import { s } from "@theme/spacing";
-import { ScrollView, Switch } from "react-native";
+import { ScrollView } from "react-native";
 import { useSettings } from "../hooks/useSettings";
 
 type SettingsRowProps = { 
@@ -14,14 +14,14 @@ type SettingsRowProps = {
 
 export function SettingsRow({ children, onPress, small }: SettingsRowProps) {
     return (
-        <PressableBox row align="center" px={4} h={s(small ? 12 : 16)} onPress={onPress}>
+        <PressableBox row align="center" justify="flex-end" px={4} h={s(small ? 12 : 16)} onPress={onPress}>
             {children}
         </PressableBox>
     );
 }
 
 export function SettingsScreen() {
-    const { toggleTheme, mode, theme: { colors } } = useThemeStore();
+    const { toggleTheme, mode } = useThemeStore();
     const { language } = useLanguageStore();
     const { handleLanguagePress, handleCloseApp, handleGithubPress, strings, appVersion } = useSettings();
 
@@ -38,7 +38,7 @@ export function SettingsScreen() {
                                 <IconTile icon="IconMoon" bgColor="background"/>
                                 <Text>{strings.darkTheme}</Text>
                             </Box>
-                            <Switch value={mode === "dark"} thumbColor={mode === "dark" ? colors.accent : colors["text-muted"]} trackColor={{ false: colors["text-disabled"], true: colors["text-disabled"] }} onValueChange={toggleTheme}/>
+                            <Switch value={mode === "dark"} onValueChange={toggleTheme} />
                         </SettingsRow>
                         <Separator />
                         <SettingsRow onPress={handleLanguagePress}>

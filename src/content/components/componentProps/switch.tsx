@@ -1,12 +1,10 @@
 import type { RNComponent } from "@content/components/types";
-import { useThemeStore } from "@stores/theme";
+import { Switch } from "@components";
 import { useState } from "react";
-import { Switch } from "react-native";
 
 function SwitchPreview() {
-    const { theme: { colors } } = useThemeStore();
     const [value, setValue] = useState(false);
-    return <Switch value={value} onValueChange={setValue} thumbColor={value ? colors.accent : colors["text-secondary"]} />;
+    return <Switch value={value} onValueChange={setValue} />;
 }
 
 export const switchComponent: RNComponent = {

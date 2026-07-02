@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal as RNModal, Platform } from "react-native";
+import { Modal as RNModal } from "react-native";
 import { useModalStore } from "@stores/modal";
 import { Box } from "../Box";
 import { PressableBox } from "../PressableBox";
@@ -12,7 +12,6 @@ export function Modal() {
             visible={!!content}
             animationType="fade"
             transparent
-            presentationStyle={Platform.OS === "ios" ? "pageSheet" : undefined}
             onRequestClose={close}
         >
             <Box fullWidth fullHeight style={{ backgroundColor: "rgba(0,0,0,0.7)" }} justify="center" align="center">

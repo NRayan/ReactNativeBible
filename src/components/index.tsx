@@ -13,3 +13,4 @@ export { Separator } from "./Separator";
 export { PressableBox } from "./PressableBox";
 export { Toolbar } from "./Toolbar";
 export { Modal } from "./Modal";
+export { Switch } from "./Switch";

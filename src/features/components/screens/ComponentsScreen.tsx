@@ -23,7 +23,7 @@ export function ComponentsScreen() {
                             <NativeComponentCard
                                 key={comp.id}
                                 component={comp}
-                                onPress={() => navigation.navigate("ComponentDetail", { component: comp })}
+                                onPress={() => navigation.navigate("ComponentDetail", { componentId: comp.id })}
                             />
                         ))}
                     </Box>

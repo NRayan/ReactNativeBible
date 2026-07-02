@@ -1,8 +1,10 @@
 import { useModalStore } from "@stores/modal";
 import { LanguagePicker } from "../components/LanguagePicker";
 import { t } from "i18next";
-import { BackHandler } from "react-native";
+import { BackHandler, Linking } from "react-native";
 import { getVersion } from "react-native-device-info";
+
+const GITHUB_URL = "https://github.com/NRayan/ReactNativeBible";
 
 export function useSettings()
 {
@@ -18,6 +20,11 @@ export function useSettings()
         BackHandler.exitApp();
     }
 
+    function handleGithubPress()
+    {
+        Linking.openURL(GITHUB_URL);
+    }
+
     return {
         strings: {
             title: t("settings.title"),
@@ -31,5 +38,6 @@ export function useSettings()
         appVersion: getVersion(),
         handleLanguagePress,
         handleCloseApp,
+        handleGithubPress,
     };
 }

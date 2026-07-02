@@ -68,7 +68,7 @@ export function ComponentDetailScreen({ route }: Props) {
 
                 <Box onTouchStart={()=>setFocused(false)} fullWidth gap={2}>
                     <Text variant="section-label">{strings.code}</Text>
-                    <CodeBlock code={component.codeSnippet}/>
+                    <CodeBlock code={component.codeSnippet} language="tsx"/>
                 </Box>
 
             </ScrollView>

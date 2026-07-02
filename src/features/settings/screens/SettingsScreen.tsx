@@ -1,10 +1,10 @@
 import { Badge, Box, Icon, IconTile, PressableBox, Separator, Text, Toolbar } from "@components";
 import { STACK_LIBS } from "@content/settings/stack";
+import { useLanguageStore } from "@stores/language";
 import { useThemeStore } from "@stores/theme";
 import { s } from "@theme/spacing";
 import { ScrollView, Switch } from "react-native";
 import { useSettings } from "../hooks/useSettings";
-import { useLanguageStore } from "@stores/language";
 
 type SettingsRowProps = { 
     children: React.ReactNode;
@@ -21,9 +21,9 @@ export function SettingsRow({ children, onPress, small }: SettingsRowProps) {
 }
 
 export function SettingsScreen() {
-    const { toggleTheme, mode } = useThemeStore();
+    const { toggleTheme, mode, theme: { colors } } = useThemeStore();
     const { language } = useLanguageStore();
-    const { handleLanguagePress, handleCloseApp, strings, appVersion } = useSettings();
+    const { handleLanguagePress, handleCloseApp, handleGithubPress, strings, appVersion } = useSettings();
 
     return (
         <Box flex={1} bgColor="background">
@@ -38,7 +38,7 @@ export function SettingsScreen() {
                                 <IconTile icon="IconMoon" bgColor="background"/>
                                 <Text>{strings.darkTheme}</Text>
                             </Box>
-                            <Switch value={mode === "dark"} onValueChange={toggleTheme}/>
+                            <Switch value={mode === "dark"} thumbColor={mode === "dark" ? colors.accent : colors["text-muted"]} trackColor={{ false: colors["text-disabled"], true: colors["text-disabled"] }} onValueChange={toggleTheme}/>
                         </SettingsRow>
                         <Separator />
                         <SettingsRow onPress={handleLanguagePress}>
@@ -95,6 +95,14 @@ export function SettingsScreen() {
                         <SettingsRow>
                             <Text flex={1}>React Native Bible</Text>
                             <Badge title={appVersion}/>
+                        </SettingsRow>
+                        <Separator/>
+                        <SettingsRow onPress={handleGithubPress}>
+                            <Box row align="center" gap={2} flex={1}>
+                                <IconTile icon="IconBrandGithub" bgColor="background"/>
+                                <Text>GitHub</Text>
+                            </Box>
+                            <Icon name="IconChevronRight" size={16} color="text-disabled"/>
                         </SettingsRow>
                     </Box>
                 </Box>

@@ -1,4 +1,4 @@
-import { Box, Icon, PressableBox, Text } from "@components";
+import { Box, Icon, PressableBox, Separator, Text } from "@components";
 import type { RNComponent } from "@features/components/types";
 import React from "react";
 import { useNativeComponentCard } from "../hooks/useNativeComponentCard";
@@ -16,7 +16,7 @@ export function NativeComponentCard({ component, onPress }: NativeComponentCardP
             <Box h={100} bgColor="background" align="center" justify="center">
                 <component.previewComponent focused={false} />
             </Box>
-
+            <Separator/>
             <Box row bgColor="surface" py={3} px={4} gap={2} align="center">
                 <Box flex={1}>
                     <Text variant="body-emphasis" color="text-primary" flex={1}>{component.name}</Text>

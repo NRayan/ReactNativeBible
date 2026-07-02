@@ -1,4 +1,5 @@
 import { Badge, Box, Icon, IconTile, PressableBox, Separator, Text, Toolbar } from "@components";
+import { STACK_LIBS } from "@content/settings/stack";
 import { useThemeStore } from "@stores/theme";
 import { s } from "@theme/spacing";
 import { ScrollView, Switch } from "react-native";
@@ -22,7 +23,7 @@ export function SettingsRow({ children, onPress, small }: SettingsRowProps) {
 export function SettingsScreen() {
     const { toggleTheme, mode } = useThemeStore();
     const { language } = useLanguageStore();
-    const { handleLanguagePress, handleCloseApp, strings } = useSettings();
+    const { handleLanguagePress, handleCloseApp, strings, appVersion } = useSettings();
 
     return (
         <Box flex={1} bgColor="background">
@@ -31,7 +32,7 @@ export function SettingsScreen() {
 
                 <Box gap={2}>
                     <Text variant="section-label">{strings.preferences}</Text>
-                    <Box bgColor="surface" fullWidth rounded="large">
+                    <Box bgColor="surface" fullWidth rounded="large" border>
                         <SettingsRow onPress={toggleTheme}>
                             <Box row align="center" gap={2} flex={1}>
                                 <IconTile icon="IconMoon" bgColor="background"/>
@@ -55,7 +56,7 @@ export function SettingsScreen() {
 
                 <Box gap={2}>
                     <Text variant="section-label">App</Text>
-                    <Box bgColor="surface" fullWidth rounded="large">
+                    <Box bgColor="surface" fullWidth rounded="large" border>
                         <SettingsRow onPress={()=>null}>
                             <Box row align="center" gap={2} flex={1}>
                                 <IconTile icon="IconStar" bgColor="background"/>
@@ -75,35 +76,25 @@ export function SettingsScreen() {
 
                 <Box gap={2}>
                     <Text variant="section-label">Stack</Text>
-                    <Box bgColor="surface" fullWidth rounded="large">
-                        <SettingsRow small>
-                            <Text flex={1}>react-native</Text>
-                            <Badge title="0.76.0"/>
-                        </SettingsRow>
-                        <Separator/>
-                        <SettingsRow small>
-                            <Text flex={1}>react-navigation</Text>
-                            <Badge title="7.0.0"/>
-                        </SettingsRow>
-                        <Separator/>
-                        <SettingsRow small>
-                            <Text flex={1}>nativewind</Text>
-                            <Badge title="4.0.36"/>
-                        </SettingsRow>
-                        <Separator/>
-                        <SettingsRow small>
-                            <Text flex={1}>typescript</Text>
-                            <Badge title="5.0.0"/>
-                        </SettingsRow>
+                    <Box bgColor="surface" fullWidth rounded="large" border>
+                        {STACK_LIBS.map((item, index) => (
+                            <Box key={item.lib}>
+                                <SettingsRow small>
+                                    <Text flex={1}>{item.lib}</Text>
+                                    <Badge title={item.version}/>
+                                </SettingsRow>
+                                {index < STACK_LIBS.length - 1 && <Separator/>}
+                            </Box>
+                        ))}
                     </Box>
                 </Box>
 
                 <Box gap={2}>
                     <Text variant="section-label">{strings.about}</Text>
-                    <Box bgColor="surface" fullWidth rounded="large">
+                    <Box bgColor="surface" fullWidth rounded="large" border>
                         <SettingsRow>
                             <Text flex={1}>React Native Bible</Text>
-                            <Badge title="v1.0.0"/>
+                            <Badge title={appVersion}/>
                         </SettingsRow>
                     </Box>
                 </Box>

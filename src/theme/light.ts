@@ -1,8 +1,8 @@
 import type { ColorTokens } from "./types";
 
 export const lightColors: ColorTokens = {
-    "background": "#fafafa",
-    "surface": "#f4f4f5",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
     "surface-pressed": "#efefef",
     "border": "#e4e4e7",
     "text-primary": "#09090b",

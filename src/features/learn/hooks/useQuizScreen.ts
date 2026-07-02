@@ -66,10 +66,20 @@ export function useQuizScreen({ section, navigation }: UseQuizScreenParams) {
         return "default";
     }
 
+    const isAnswerCorrect = selectedOptionId === null
+        ? null
+        : question.options[letters.indexOf(selectedOptionId)]?.isCorrect ?? false;
+
+    const verdict = isAnswerCorrect === null
+        ? ""
+        : isAnswerCorrect
+            ? `*${t("quiz.correct")}.* `
+            : `*${t("quiz.wrong")}.* `;
+
     const strings = {
         sectionTitle: t(section.title),
         question: t(question.question),
-        explanation: t(question.explanation),
+        explanation: verdict + t(question.explanation),
         options: question.options.map((opt, index) => {
             const id = letters[index];
             return {
@@ -80,10 +90,6 @@ export function useQuizScreen({ section, navigation }: UseQuizScreenParams) {
             };
         }),
     };
-
-    const isAnswerCorrect = selectedOptionId === null
-        ? null
-        : question.options[letters.indexOf(selectedOptionId)]?.isCorrect ?? false;
 
     return {
         strings,

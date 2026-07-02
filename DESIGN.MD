@@ -34,8 +34,8 @@ The aesthetic is flat, minimal, and developer-focused — no gradients, no shado
 
 | Token | Value | Usage |
 |---|---|---|
-| `background` | `#fafafa` | App background |
-| `surface` | `#f4f4f5` | Cards, code blocks |
+| `background` | `#FAFAFA` | App background |
+| `surface` | `#FFFFFF` | Cards, code blocks |
 | `surface-pressed` | `#efefef` | Pressed state (TouchableOpacity, Pressable) |
 | `border` | `#e4e4e7` | All borders (0.5px) |
 | `text-primary` | `#09090b` | Headings, titles |

@@ -10,7 +10,8 @@
       "Bash(Select-Object -ExpandProperty Name)",
       "PowerShell(Rename-Item *)",
       "PowerShell(New-Item *)",
-      "PowerShell(Move-Item *)"
+      "PowerShell(Move-Item *)",
+      "Skill(update-config)"
     ]
   }
 }

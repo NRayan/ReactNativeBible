@@ -2,6 +2,7 @@ import { useModalStore } from "@stores/modal";
 import { LanguagePicker } from "../components/LanguagePicker";
 import { t } from "i18next";
 import { BackHandler } from "react-native";
+import { getVersion } from "react-native-device-info";
 
 export function useSettings()
 {
@@ -27,6 +28,7 @@ export function useSettings()
             about: t("settings.about"),
             close: t("common.close"),
         },
+        appVersion: getVersion(),
         handleLanguagePress,
         handleCloseApp,
     };

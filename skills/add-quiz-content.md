@@ -1,6 +1,6 @@
 ---
 name: add-quiz-content
-description: Adds quiz questions to the Learn tab of the React Native Bible app. Use this skill whenever the user wants to add quiz questions for a section, says something like "add quiz for Layout", "create questions for the Performance section", or asks to populate quiz content. This skill handles researching the correct answers from official docs, writing plausible distractors, i18n content in three languages, and registering the questions in the quiz index.
+description: Adds quiz questions to the Learn tab of the React Native Bible app. Use this skill whenever the user wants to add quiz questions for a section, says something like "add quiz for Layout", "create questions for the Performance section", or asks to populate quiz content. This skill handles pulling the planned questions from the content map, verifying answers against the app's own content, writing plausible distractors, i18n content in three languages, and registering the questions in the quiz index.
 ---
 
 # Add Quiz Content
@@ -14,6 +14,8 @@ Adds questions to a `SectionQuiz` entry — i18n content in three languages and 
 - Never choose which section or topic to write questions about — always wait for the user to specify
 - Never generate quiz questions unless explicitly asked (e.g. "add quiz questions about Flexbox")
 - If the user's request is ambiguous about the topic, ask for clarification before proceeding
+- **Use only the questions already listed for that section in `QUIZ_CONTENT.md`.** Do not invent additional questions, and do not skip questions that are mapped there, unless the user explicitly asks for something different from what's mapped
+- If a section has no entry yet in `QUIZ_CONTENT.md`, stop and tell the user — do not draft the question map yourself as part of this skill
 
 ---
 
@@ -24,7 +26,7 @@ src/
   content/
     quiz/
       index.ts                  ← register the SectionQuiz here
-      QUIZ_CONTENT.md           ← content map: all sections and questions planned or implemented
+      QUIZ_CONTENT.md           ← content map: all sections and questions, each with a base answer
   i18n/
     content/
       en/quiz.json             ← English content (source of truth)
@@ -35,7 +37,7 @@ src/
       types.ts                  ← SectionQuiz, QuizQuestion, QuizOption, QuizContentKey
 ```
 
-> **`QUIZ_CONTENT.md` is the content map.** It lists every section and question — planned and implemented. After adding new questions, update this file to keep the map in sync with what actually exists in `index.ts`.
+> **`QUIZ_CONTENT.md` is the content map.** It lists every section's questions along with a short base answer for each — the intended correct-answer direction, not final copy. After adding new questions, update this file if question wording changed during writing, to keep the map in sync with what actually exists in `index.ts`.
 
 ---
 
@@ -68,22 +70,17 @@ type SectionQuiz = {
 
 ---
 
-## Step 1 — Research the correct answers
+## Step 1 — Pull the question and verify the answer
 
-**This step is mandatory. Never write questions from memory.**
+**This step is mandatory. Never write final content from memory, and never skip verification just because a base answer already exists.**
 
-For each question you plan to write, fetch the authoritative source:
+For each question mapped to the target section in `QUIZ_CONTENT.md`:
 
-```
-https://reactnative.dev/docs/{topic-slug}
-```
+1. Take the question text and base answer already written there — this gives you the question and the direction of the correct answer, not the final explanation or the wrong options
+2. Verify that base answer against the app's own content — the relevant topic(s) in `src/content/learn/index.ts` and `src/i18n/content/en/learn.json` (or `learn.md` if available), since the questions were written to match what the app actually teaches
+3. If the app's content doesn't fully support the base answer, or is more precise/different in some detail, use the app's content as the source of truth and flag the discrepancy to the user rather than silently rewriting the map
 
-Or search for the specific API/behaviour being tested. Extract:
-- The **exact correct answer** — verify the value, name, or behaviour directly from the docs
-- **Why the correct answer is correct** — this becomes the `explanation`
-- **What makes each wrong answer plausible** — see distractor rules below
-
-Do not invent API behaviour. If you cannot verify a claim, do not write a question about it.
+Only after this verification should you move to drafting the full question, explanation, and distractors. Do not invent API behaviour beyond what's confirmed either in `QUIZ_CONTENT.md` or the app's own content.
 
 ---
 
@@ -91,7 +88,7 @@ Do not invent API behaviour. If you cannot verify a claim, do not write a questi
 
 ### Distractor quality rules — the most important part of this skill
 
-Every wrong option must be **technically plausible** and require knowledge to rule out. A reader who has skimmed the topic should be genuinely unsure; only someone who studied it carefully should get it right.
+Every wrong option must be **technically plausible** and require knowledge to rule out — but must not stray far from the correct answer. A reader who has skimmed the topic should be genuinely unsure; only someone who studied it carefully should get it right.
 
 **Distractor patterns that work:**
 
@@ -105,11 +102,11 @@ Every wrong option must be **technically plausible** and require knowledge to ru
 **Distractor patterns that are banned:**
 
 - Options that are obviously unrelated (a layout question should never have a performance concept as an option)
-- Answers that are far shorter or simpler than the correct answer — length and complexity must be comparable across all options
+- Answers that are far shorter, simpler, or more extreme than the correct answer — length, complexity, and plausibility must be comparable across all options; a distractor should never be a wild swing that's easy to rule out on sight
 - Nonsense or placeholder values (`"none"`, `"auto"`, `"default"` when those aren't real values for the prop)
 - Trivially wrong answers that any developer would dismiss on sight
 
-**Calibration check:** after writing the options, ask yourself: *"Would an experienced React Native developer who hasn't studied this specific detail pick one of the wrong answers?"* If yes, the distractors are good. If the wrong answers are obvious, rewrite them.
+**Calibration check:** after writing the options, ask yourself: *"Would an experienced React Native developer who hasn't studied this specific detail pick one of the wrong answers?"* If yes, the distractors are good. If the wrong answers are obvious or absurdly far from the correct one, rewrite them.
 
 ### Question style
 
@@ -157,6 +154,7 @@ Add questions to **`src/i18n/content/en/quiz.json`** under the matching section 
 - `{question_id}` is sequential: `"q1"`, `"q2"`, `"q3"`…
 - `options` keys are `"1"` through `"6"` — use only as many as needed (minimum 4)
 - `explanation` must state **why the correct answer is correct** and briefly explain why the most tempting wrong answer is wrong
+- **Never reference an option by its position number** (e.g. "Option 2", "the third option"). Options are shuffled at runtime, so position numbers are meaningless to the user. If you need to call out a distractor, describe its content instead — e.g. "The option about lazy loading…", "The option that mentions bytecode precompilation…"
 
 ### Example
 
@@ -244,9 +242,10 @@ If the file already exists, add a new `SectionQuiz` entry or append questions to
 
 Before finishing, verify:
 
-- [ ] Every correct answer was verified against the official docs or a reliable source — no answers written from memory
+- [ ] Every question used matches one already listed for that section in `QUIZ_CONTENT.md` — no invented questions
+- [ ] Every base answer was verified against the app's own content (`learn/index.ts` / `learn.json`) — no answers written from memory
 - [ ] Every wrong option is plausible — an experienced developer could be tripped up by it
-- [ ] No option is obviously wrong due to being too short, too vague, or unrelated to the topic
+- [ ] No option is obviously wrong due to being too short, too vague, too extreme, or unrelated to the topic
 - [ ] All options have comparable length and complexity
 - [ ] `en/quiz.json` has the new questions with `question`, `explanation`, and all `options` keys (`"1"`–`"4"` minimum)
 - [ ] `pt/quiz.json` and `es/quiz.json` have the **exact same key structure** as `en`

@@ -12,7 +12,11 @@
     },
     "quiz": {
         "progress": "Question {{current}} of {{total}}",
-        "result": "Result"
+        "result": "Result",
+        "correct": "Correct",
+        "wrong": "Wrong",
+        "tryAgain": "Try again",
+        "backToTopics": "Back to topics"
     },
     "components": {
         "title": "Components",

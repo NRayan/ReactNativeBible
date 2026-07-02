@@ -23,8 +23,8 @@ export function QuizResultScreen({ route, navigation }: Props) {
                 </Box>
 
                 <Box gap={3}>
-                    <Button variant="primary" title="Try again" onPress={onTryAgain} />
-                    <Button variant="outline" title="Back to topics" onPress={onBackToTopics} />
+                    <Button variant="primary" title={strings.tryAgain} onPress={onTryAgain} />
+                    <Button variant="outline" title={strings.backToTopics} onPress={onBackToTopics} />
                 </Box>
             </Box>
         </Box>

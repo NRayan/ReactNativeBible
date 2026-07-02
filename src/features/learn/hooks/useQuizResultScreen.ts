@@ -26,6 +26,8 @@ export function useQuizResultScreen({ correct, total, sectionId, navigation }: U
         title: t("quiz.result"),
         score: `${correct}/${total}`,
         resultMessage: t(`content.quizResult.${level}.${randomIndex}`),
+        tryAgain: t("quiz.tryAgain"),
+        backToTopics: t("quiz.backToTopics"),
     };
 
     function onTryAgain() {

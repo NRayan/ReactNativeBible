@@ -1,81 +1,555 @@
-{
-  "quizResult": {
-    "bad": {
-      "1": "Todavía no lo logras — ¡sigue estudiando! 📚",
-      "2": "Todo experto fue alguna vez principiante. ¡Inténtalo de nuevo! 💪",
-      "3": "¡No te rindas, lo conseguirás! 🔄"
-    },
-    "medium": {
-      "1": "¡Buen esfuerzo! Un poco más de práctica y lo dominarás 🎯",
-      "2": "¡Vas por buen camino! Repasa los temas e inténtalo de nuevo 📖",
-      "3": "¡Buen progreso! Esfuérzate un poco más la próxima vez 🚀"
-    },
-    "good": {
-      "1": "¡Excelente trabajo! Realmente dominas el tema 🏆",
-      "2": "¡Sobresaliente! Estás en llamas 🔥",
-      "3": "¡Lo lograste! Lo estás dominando todo 🎉"
-    }
-  },
-  "layout": {
-    "q1": {
-      "question": "¿Cuál es el valor predeterminado de `flexDirection` en React Native?",
-      "explanation": "`flexDirection` tiene el valor predeterminado `\"column\"` en React Native, por lo que los hijos se apilan verticalmente. Esto es lo opuesto al CSS de la web, que tiene `\"row\"` como predeterminado. Cambiar a `\"row\"` hace que los hijos se alineen horizontalmente.",
-      "options": {
-        "1": "\"row\"",
-        "2": "\"column\"",
-        "3": "\"column-reverse\"",
-        "4": "\"row-reverse\""
-      }
-    },
-    "q2": {
-      "question": "¿Cuál es el valor predeterminado de `alignContent` en React Native?",
-      "explanation": "React Native establece `alignContent` como `\"flex-start\"` por defecto, por lo que las líneas agrupadas se alinean al inicio del eje transversal. El CSS de la web usa `\"stretch\"` por defecto, haciendo que las líneas se expandan para llenar el contenedor — una fuente común de confusión para quienes vienen de la web.",
-      "options": {
-        "1": "\"stretch\"",
-        "2": "\"flex-start\"",
-        "3": "\"center\"",
-        "4": "\"flex-end\""
-      }
-    },
-    "q3": {
-      "question": "¿Cuál es el valor predeterminado de `position` en React Native?",
-      "explanation": "React Native establece `position` como `\"relative\"` por defecto, por lo que los elementos participan en el flujo normal de Flexbox. En el CSS de la web, el valor por defecto es `\"static\"`. Cabe destacar que `\"static\"` existe en React Native, pero solo en la New Architecture, y no forma un bloque contenedor para descendientes con posición absoluta.",
-      "options": {
-        "1": "\"static\"",
-        "2": "\"relative\"",
-        "3": "\"absolute\"",
-        "4": "\"fixed\""
-      }
-    },
-    "q4": {
-      "question": "¿Un elemento con `position: \"absolute\"` en React Native se posiciona relativo a qué ancestro?",
-      "explanation": "En React Native, un elemento con posición absoluta siempre se posiciona relativo a su padre más cercano, independientemente del valor de `position` de ese padre. En el CSS de la web, la referencia es el ancestro más cercano cuyo `position` sea distinto de `\"static\"` — una diferencia clave que confunde a los desarrolladores web.",
-      "options": {
-        "1": "Su ancestro más cercano con `position: \"relative\"`",
-        "2": "Su padre más cercano, independientemente del valor de `position` que tenga",
-        "3": "Su ancestro más cercano con `position: \"relative\"` o `position: \"absolute\"`",
-        "4": "El `View` raíz de la aplicación"
-      }
-    },
-    "q5": {
-      "question": "¿Cuál afirmación sobre `useWindowDimensions` es correcta?",
-      "explanation": "`useWindowDimensions` vuelve a renderizar el componente automáticamente cada vez que el tamaño de la ventana cambia — por ejemplo, al rotar el dispositivo. No se necesita ninguna suscripción manual. `Dimensions.get()`, en cambio, devuelve un snapshot estático y requiere `Dimensions.addEventListener` para rastrear los cambios.",
-      "options": {
-        "1": "Requiere llamar a `Dimensions.addEventListener` para mantenerse actualizado cuando el dispositivo rota",
-        "2": "Vuelve a renderizar el componente automáticamente cada vez que el tamaño de la ventana cambia",
-        "3": "Devuelve el tamaño completo de la pantalla del dispositivo, incluida la barra de estado y la barra de navegación",
-        "4": "Debe llamarse dentro de `useEffect` para evitar leer valores de dimensiones desactualizados"
-      }
-    },
-    "q6": {
-      "question": "En Android, ¿qué excluye `Dimensions.get(\"window\")` que sí incluye `Dimensions.get(\"screen\")`?",
-      "explanation": "`Dimensions.get(\"window\")` devuelve el área visible de la app en Android, excluyendo la barra de estado (salvo que sea translúcida) y la barra de navegación inferior. `Dimensions.get(\"screen\")` devuelve la pantalla completa del dispositivo, incluidas esas áreas del sistema. En iOS, ambos valores suelen ser iguales.",
-      "options": {
-        "1": "Nada — ambos valores son idénticos en todas las plataformas",
-        "2": "Solo la barra de estado, pero no la barra de navegación inferior",
-        "3": "La barra de estado y la barra de navegación inferior (cuando no son translúcidas)",
-        "4": "El factor de escala de densidad de píxeles y el factor de escala de fuente"
-      }
-    }
-  }
+﻿{
+    "quizResult":  {
+                       "bad":  {
+                                   "1":  "Todavía no lo logras — ¡sigue estudiando! 📚",
+                                   "2":  "Todo experto fue alguna vez principiante. ¡Inténtalo de nuevo! 💪",
+                                   "3":  "¡No te rindas, lo conseguirás! 🔄"
+                               },
+                       "medium":  {
+                                      "1":  "¡Buen esfuerzo! Un poco más de práctica y lo dominarás 🎯",
+                                      "2":  "¡Vas por buen camino! Repasa los temas e inténtalo de nuevo 📖",
+                                      "3":  "¡Buen progreso! Esfuérzate un poco más la próxima vez 🚀"
+                                  },
+                       "good":  {
+                                    "1":  "¡Excelente trabajo! Realmente dominas el tema 🏆",
+                                    "2":  "¡Sobresaliente! Estás en llamas 🔥",
+                                    "3":  "¡Lo lograste! Lo estás dominando todo 🎉"
+                                }
+                   },
+    "under_the_hood":  {
+                           "q1":  {
+                                      "question":  "¿Cuál era el principal problema de rendimiento del Bridge en la Arquitectura Antigua?",
+                                      "explanation":  "El Bridge serializaba cada mensaje a JSON y lo enrutaba por una cola asíncrona compartilhada — payloads grandes, actualizaciones frecuentes de gestos y listas largas competían por el mismo cuello de botella. La opción sobre llamadas nativas ejecutándose en el hilo principal describe un problema de concurrencia en escenarios específicos, no la cola de serialización estructural que era la restricción fundamental del Bridge.",
+                                      "options":  {
+                                                      "1":  "El motor JS ejecutaba todas las llamadas nativas en el hilo principal, bloqueando las actualizaciones de UI durante procesamientos intensivos",
+                                                      "2":  "Serializar todos los datos a JSON y enrutarlos a través de una cola asíncrona compartilhada creaba un cuello de botella estructural para actualizaciones grandes, listas largas y gestos rápidos",
+                                                      "3":  "El Bridge procesaba mensajes en un único hilo en segundo plano, impidiendo que múltiples llamadas nativas se ejecutaran en paralelo",
+                                                      "4":  "El Bridge carecía de un mecanismo de batching, causando un round-trip separado por cada llamada a setState independientemente del tamaño de la actualización"
+                                                  }
+                                  },
+                           "q2":  {
+                                      "question":  "¿Qué permite JSI que el Bridge no permitía?",
+                                      "explanation":  "JSI expone una API de host objects en C++ que permite al motor JS mantener referencias reales a objetos nativos e invocar métodos en ellos de forma síncrona, sin ningún paso de serialización JSON. La opción sobre la shadow tree siendo trasladada a C++ se refiere a Fabric, que es un sistema separado construido sobre JSI.",
+                                      "options":  {
+                                                      "1":  "Que JS despache llamadas nativas en un hilo dedicado en segundo plano, evitando completamente la cola asíncrona compartilhada",
+                                                      "2":  "Que JS mantenga referencias directas a objetos C++ nativos y llame a sus métodos de forma síncrona, sin ninguna serialización",
+                                                      "3":  "Que los módulos nativos mantengan su propio event loop independiente del hilo JS",
+                                                      "4":  "Que la shadow tree sea computada en C++ nativo en lugar de dentro del hilo JS"
+                                                  }
+                                  },
+                           "q3":  {
+                                      "question":  "¿Por qué los TurboModules mejoran el tiempo de inicio en comparación con los Native Modules anteriores?",
+                                      "explanation":  "Los TurboModules usan lazy loading — el código nativo de un módulo solo se instancia cuando JS lo solicita por primera vez, por lo que cualquier módulo que nunca se usa en una sesión no añade ningún costo al inicio. La opción sobre precompilar specs de módulos a C++ en tiempo de build describe Codegen, que genera contratos de tipos pero no elimina la instanciación de módulos en runtime.",
+                                      "options":  {
+                                                      "1":  "Eliminan el paso de serialización JSON de la inicialización de módulos, reduciendo el tiempo de parseo para cada módulo registrado",
+                                                      "2":  "Inicializan todos los módulos en paralelo en un pool de hilos dedicado, reduciendo el tiempo total de inicio",
+                                                      "3":  "Un módulo solo se instancia la primera vez que JS lo solicita, por lo que los módulos no utilizados no añaden ningún costo al inicio",
+                                                      "4":  "Precompilan las specs de módulos a C++ en tiempo de build, eliminando el overhead de registro en runtime"
+                                                  }
+                                  },
+                           "q4":  {
+                                      "question":  "¿Qué traslada Fabric a C++ en comparación con el antiguo UIManager?",
+                                      "explanation":  "Fabric traslada la shadow tree — la estructura de datos que representa la jerarquía de componentes para el layout — de JS a C++ compartilhado, donde tanto el reconciler del lado JS como el renderer nativo pueden acceder a ella de forma síncrona mediante JSI. La opción sobre el propio reconciler JS siendo trasladado a C++ es la alternativa más tentadora, pero la lógica de diffing de React sigue ejecutándose en JS.",
+                                      "options":  {
+                                                      "1":  "El reconciler JS, que ahora se ejecuta en C++ junto con la shadow tree para una integración más estrecha con el pipeline de renderización",
+                                                      "2":  "La shadow tree — anteriormente computada en JS — que ahora reside en C++ compartilhado, accesible al reconciler y al rendering nativo sin serialización",
+                                                      "3":  "El driver de animación, permitiendo que las actualizaciones de layout frame a frame eviten el Bridge en cada fotograma",
+                                                      "4":  "El motor de layout, reemplazando los bindings existentes de Yoga con una implementación C++ completamente personalizada"
+                                                  }
+                                  },
+                           "q5":  {
+                                      "question":  "¿Cuál es el rol de Codegen en la Nueva Arquitectura?",
+                                      "explanation":  "Codegen lee archivos de interfaz TypeScript que describen APIs de módulos o componentes nativos y genera código C++ en tiempo de build, convirtiendo cualquier discrepancia JS/nativo en un error de compilación en lugar de un crash en runtime. La opción sobre generar tipos TypeScript desde headers nativos invierte el flujo real — Codegen va de specs TypeScript a C++, no de headers nativos a TypeScript.",
+                                      "options":  {
+                                                      "1":  "Compila bundles JS a bytecode nativo para que el motor JS pueda analizarlos y ejecutarlos más rápido en el inicio",
+                                                      "2":  "Genera definiciones de tipos TypeScript desde headers de módulos nativos para mantener la documentación sincronizada con el código nativo",
+                                                      "3":  "Valida tipos de props en runtime y muestra las violaciones del contrato JS/nativo como advertencias en la consola",
+                                                      "4":  "Genera código C++ desde specs TypeScript en tiempo de build, convirtiendo cualquier discrepancia JS/nativo en un error de build en lugar de un crash en runtime"
+                                                  }
+                                  },
+                           "q6":  {
+                                      "question":  "¿Qué introdujo Fiber que el antiguo reconciler de pila no tenía?",
+                                      "explanation":  "Fiber reestructuró el rendering en pequeñas unidades de trabajo pausables, permitiendo al scheduler interrumpir renderizaciones de baja prioridad y atender actualizaciones urgentes — como la entrada del usuario — primero, luego reanudar. La opción sobre el agrupamiento de múltiples llamadas setState en un único paso de re-render describe una optimización anterior a Fiber e independiente de su modelo de priorización.",
+                                      "options":  {
+                                                      "1":  "Un algoritmo de diffing que compara los árboles de elementos anterior y siguiente antes de confirmar cualquier cambio en el entorno host",
+                                                      "2":  "Agrupamiento de múltiples llamadas setState en un único paso síncrono de re-render para reducir el trabajo de reconciliación redundante",
+                                                      "3":  "Unidades de trabajo pausables y reanudables, permitiendo a React dividir el rendering en fragmentos y priorizar actualizaciones urgentes sobre las de menor prioridad",
+                                                      "4":  "Un pipeline de server-render en streaming que envía HTML en fragmentos progresivos y los hidrata incrementalmente en el cliente"
+                                                  }
+                                  },
+                           "q7":  {
+                                      "question":  "¿Por qué la Arquitectura Antigua no podía comunicarse de forma síncrona entre JS y nativo, independientemente de la velocidad del dispositivo?",
+                                      "explanation":  "El Bridge fue diseñado exclusivamente para mensajes asíncronos de tipo fire-and-forget — no había mecanismo para bloquear JS y esperar un valor de retorno nativo, por diseño, no por limitación de hardware. La opción sobre JS ser single-threaded parece fundamental, pero describe la consecuencia de bloquear el hilo, no el motivo por el que el Bridge era async-only.",
+                                      "options":  {
+                                                      "1":  "JS es single-threaded, por lo que bloquearlo mientras espera una respuesta nativa congelaría toda la UI",
+                                                      "2":  "Los módulos nativos requerían acceso al hilo principal para operaciones de UIKit y Views de Android, haciendo que las llamadas síncronas desde JS fueran inseguras",
+                                                      "3":  "El motor JS (JavaScriptCore) carecía de la interfaz C de función foránea necesaria para llamadas síncronas entre lenguajes",
+                                                      "4":  "El Bridge fue diseñado exclusivamente para mensajes asíncronos fire-and-forget — la comunicación síncrona era arquitectónicamente imposible, no una limitación de hardware"
+                                                  }
+                                  },
+                           "q8":  {
+                                      "question":  "¿Cuál afirmación describe correctamente cómo se relacionan JSI, TurboModules, Fabric y Codegen en la Nueva Arquitectura?",
+                                      "explanation":  "JSI es la capa C++ fundamental que permite la comunicación síncrona de JS al nativo; TurboModules y Fabric son sistemas de nivel superior que aprovechan JSI — uno para acceso a módulos nativos, el otro para el pipeline de renderización. Codegen genera los stubs de tipos C++ en tiempo de build que ambos sistemas utilizan para garantizar el contrato JS/nativo. La opción que presenta Codegen como la fundación invierte la dependencia real — Codegen produce artefactos que se integran en sistemas basados en JSI, pero JSI en sí mismo no depende de Codegen.",
+                                      "options":  {
+                                                      "1":  "JSI es la fundación compartida que permite la comunicación síncrona JS-a-nativo; TurboModules y Fabric se construyen sobre él — TurboModules para módulos nativos, Fabric para el pipeline de renderización; Codegen genera los contratos C++ que mantienen JS y nativo sincronizados en tiempo de build",
+                                                      "2":  "Codegen es la capa fundamental que genera tanto los bindings de JSI como las interfaces de TurboModules/Fabric; el propio JSI es producido por Codegen y se sitúa sobre esos bindings generados",
+                                                      "3":  "TurboModules y Fabric son independientes de JSI — cada uno reemplaza un canal del Bridge con su propia capa de comunicación síncrona; Codegen solo valida contratos de tipos en runtime",
+                                                      "4":  "Fabric es la capa central que reemplaza el Bridge; JSI es una utilidad interna integrada dentro de Fabric; TurboModules siguen siendo asíncronos pero cambian de JSON a un formato de serialización binario"
+                                                  }
+                                  }
+                       },
+    "layout":  {
+                   "q1":  {
+                              "question":  "¿Cuál es el valor predeterminado de `flexDirection` en React Native y cómo difiere de la web?",
+                              "explanation":  "React Native establece `flexDirection` en `\"column\"` de forma predeterminada, por lo que los hijos se apilan verticalmente sin ninguna configuración explícita. La opción que indica `\"row\"` es la respuesta incorrecta más tentadora porque CSS en la web usa `\"row\"` como valor predeterminado — pero React Native invierte deliberadamente esa convención.",
+                              "options":  {
+                                              "1":  "`\"row\"` — igual que el valor predeterminado de CSS en la web, los hijos se organizan horizontalmente por defecto",
+                                              "2":  "`\"column\"` — a diferencia del valor predeterminado `\"row\"` de la web, los hijos se apilan verticalmente por defecto",
+                                              "3":  "`\"column-reverse\"` — los hijos se apilan de abajo hacia arriba, lo opuesto al valor predeterminado de la web",
+                                              "4":  "`\"row-reverse\"` — los hijos se organizan horizontalmente de derecha a izquierda, sin equivalente en los valores predeterminados de la web"
+                                          }
+                          },
+                   "q2":  {
+                              "question":  "¿Cómo se comportan `justifyContent` y `alignItems` cuando `flexDirection` cambia de `\"column\"` a `\"row\"`?",
+                              "explanation":  "En flexbox, `justifyContent` siempre controla el eje principal y `alignItems` controla el eje transversal. Cambiar `flexDirection` a `\"row\"` rota el eje principal de vertical a horizontal, por lo que `justifyContent` pasa a posicionar los hijos de izquierda a derecha y `alignItems` los alinea de arriba a abajo. La opción que dice que `justifyContent` continúa controlando la alineación vertical es la respuesta incorrecta más tentadora — olvida que los ejes siguen a `flexDirection`.",
+                              "options":  {
+                                              "1":  "`justifyContent` sigue controlando la alineación vertical independientemente de `flexDirection`",
+                                              "2":  "Tanto `justifyContent` como `alignItems` controlan el mismo eje, por lo que su comportamiento no cambia",
+                                              "3":  "Los ejes se invierten: `justifyContent` pasa a controlar la alineación horizontal y `alignItems` la vertical",
+                                              "4":  "`alignItems` asume el control del eje principal y `justifyContent` se vuelve secundario"
+                                          }
+                          },
+                   "q3":  {
+                              "question":  "¿Con respecto a qué elemento se posiciona un `position: \"absolute\"`?",
+                              "explanation":  "En React Native, un elemento con posición absoluta siempre se desplaza en relación a su padre directo, independientemente del valor de `position` de ese padre. La opción que exige que el padre tenga `position: \"relative\"` describe el comportamiento de CSS en la web — React Native omite ese requisito.",
+                              "options":  {
+                                              "1":  "Su elemento padre inmediato, independientemente de si el padre tiene posicionamiento `\"relative\"` o `\"absolute\"`",
+                                              "2":  "El contenedor raíz de la app, similar al comportamiento de `position: fixed` en la web",
+                                              "3":  "Su elemento padre inmediato solo si ese padre tiene explícitamente `position: \"relative\"` definido",
+                                              "4":  "El ancestro más cercano que tenga `width` y `height` distintos de cero definidos en su estilo"
+                                          }
+                          },
+                   "q4":  {
+                              "question":  "Cuando dos elementos con posición absoluta se superponen, ¿qué decide cuál aparece encima?",
+                              "explanation":  "`zIndex` controla el orden de apilamiento, y el valor más alto gana. Es importante destacar que la comparación de `zIndex` se limita a los hermanos dentro del mismo padre — un elemento no puede escapar del contexto de apilamiento de su padre. La opción que dice que solo el orden en JSX decide es un error común; el orden de renderizado solo importa cuando los valores de `zIndex` son iguales o no están definidos.",
+                              "options":  {
+                                              "1":  "El elemento definido después en JSX siempre se renderiza encima, independientemente de cualquier propiedad de estilo",
+                                              "2":  "El elemento con el mayor valor de `elevation` se renderiza encima, y `zIndex` no tiene efecto",
+                                              "3":  "El elemento con el menor valor de `zIndex` se renderiza encima, siguiendo la convención de pila invertida",
+                                              "4":  "`zIndex` — el elemento con el valor mayor se renderiza encima, pero solo dentro del mismo padre"
+                                          }
+                          },
+                   "q5":  {
+                              "question":  "¿Cuál es la diferencia principal entre `Dimensions.get(\"window\")` y `useWindowDimensions()`?",
+                              "explanation":  "`Dimensions.get(\"window\")` captura las dimensiones en el momento en que se llama y nunca actualiza la UI por sí solo. `useWindowDimensions` es un hook de React que suscribe el componente a los cambios de dimensión, por lo que una rotación de pantalla o cambio de tamaño de ventana desencadena un re-render automáticamente. La opción que invierte este comportamiento — afirmando que `Dimensions.get` es el reactivo — es el distractor más peligroso porque ambas APIs acceden a los mismos datos subyacentes.",
+                              "options":  {
+                                              "1":  "`Dimensions.get` devuelve los tamaños de window y screen; `useWindowDimensions` solo devuelve el tamaño de la window",
+                                              "2":  "`Dimensions.get` devuelve un snapshot estático en el momento de la llamada; `useWindowDimensions` es un hook que hace que el componente se re-renderice cuando las dimensiones cambian",
+                                              "3":  "`useWindowDimensions` debe llamarse dentro de un `useEffect` para mantenerse reactivo a los cambios de orientación",
+                                              "4":  "`Dimensions.get` activa re-renders automáticamente ante cambios de orientación; `useWindowDimensions` se usa solo para lecturas únicas"
+                                          }
+                          }
+               },
+    "performance":  {
+                        "q1":  {
+                                   "question":  "¿Por qué las animaciones con `useNativeDriver: true` se mantienen fluidas incluso cuando el hilo JS está bloqueado?",
+                                   "explanation":  "Con `useNativeDriver: true`, React Native serializa la configuración de la animación y la envía al lado nativo antes de que comience la reproducción, por lo que el hilo de UI controla el bucle de animación completamente por su cuenta. El distractor más tentador — que los fotogramas se almacenan en caché antes de comenzar — es incorrecto: no existe tal caché; el runtime nativo interpola los valores sobre la marcha. Lo que realmente aísla la animación es la frontera entre hilos: el hilo JS no tiene ningún papel durante la reproducción.",
+                                   "options":  {
+                                                   "1":  "Almacenan en caché todos los fotogramas antes de comenzar, eliminando cualquier intervención del hilo JS durante la reproducción",
+                                                   "2":  "Se ejecutan completamente en el hilo de UI, que no se ve afectado por bloqueos en el hilo JS",
+                                                   "3":  "Usan un hilo de animación dedicado con mayor prioridad que tanto el hilo JS como el de UI",
+                                                   "4":  "Agrupan las actualizaciones de animación en una única llamada síncrona enviada antes de que el hilo JS pueda ocuparse"
+                                               }
+                               },
+                        "q2":  {
+                                   "question":  "¿Cuál es la principal diferencia entre cómo Hermes y V8/JavaScriptCore manejan la compilación de JavaScript?",
+                                   "explanation":  "Hermes precompila JavaScript a bytecode durante el proceso de build, por lo que el dispositivo omite el análisis y la compilación al iniciar la app, mejorando directamente el Time to Interactive. La opción que sugiere que Hermes aplica compilación JIT en runtime es la realidad invertida — JIT es exactamente lo que hacen V8 y JSC. Hermes intercambia velocidad de ejecución máxima por un inicio más rápido y predecible.",
+                                   "options":  {
+                                                   "1":  "Hermes compila JavaScript a bytecode en tiempo de build, por lo que la app se distribuye con código precompilado listo para ejecutar — V8 y JSC analizan y compilan en runtime, retrasando el inicio",
+                                                   "2":  "Hermes aplica compilación JIT en runtime, mientras que V8 y JSC dependen de la ejecución interpretada desde el principio",
+                                                   "3":  "Hermes solo soporta un subconjunto de JavaScript moderno, mientras que V8 y JSC soportan completamente la especificación ES2020",
+                                                   "4":  "Hermes ejecuta JavaScript directamente en el hilo de UI, mientras que V8 y JSC usan un hilo JS dedicado"
+                                               }
+                               },
+                        "q3":  {
+                                   "question":  "¿Por qué `keyExtractor` es esencial para el rendimiento de `FlatList`?",
+                                   "explanation":  "Sin claves estables, el reconciliador de React trata cada ítem como un elemento nuevo en cada re-render y debe desmontar y recrear toda la lista. La opción que afirma que `keyExtractor` informa a `FlatList` qué ítems están fuera de la ventana de renderizado es incorrecta — esa responsabilidad pertenece a la lógica de ventana del motor de virtualización, no a las claves. `keyExtractor` se trata de identidad, no de visibilidad.",
+                                   "options":  {
+                                                   "1":  "Permite que `getItemLayout` calcule los offsets de los ítems sin montar cada componente individualmente",
+                                                   "2":  "Evita que se rendericen ítems duplicados cuando el array de datos contiene entradas con contenido idéntico",
+                                                   "3":  "Proporciona a cada ítem una identidad estable, permitiendo que `FlatList` recicle celdas eficientemente en lugar de recrearlas en cada actualización de datos",
+                                                   "4":  "Informa al motor de virtualización de `FlatList` qué ítems están fuera de la ventana de renderizado para que puedan desmontarse antes"
+                                               }
+                               },
+                        "q4":  {
+                                   "question":  "¿Qué permite omitir `getItemLayout` en `FlatList`, y por qué eso importa para `scrollToIndex`?",
+                                   "explanation":  "`getItemLayout` expone la altura de cada ítem y su offset desde el inicio de la lista, por lo que `FlatList` nunca necesita montar y medir ítems para conocer sus posiciones. Sin esta información, `scrollToIndex` no puede calcular el offset de desplazamiento destino y falla para ítems que aún no se han renderizado. La opción que afirma que elimina la necesidad de `keyExtractor` confunde dos props sin relación con responsabilidades completamente distintas.",
+                                   "options":  {
+                                                   "1":  "Prerenderiza todos los ítems durante el montaje para que `scrollToIndex` pueda localizarlos instantáneamente sin recorrer la lista",
+                                                   "2":  "Elimina la dependencia de `keyExtractor`, ya que las posiciones de los ítems ya se conocen de forma estática",
+                                                   "3":  "Omite la etapa de medición por ítem al proporcionar altura y offset de antemano — sin él, `scrollToIndex` no puede calcular correctamente la posición de desplazamiento destino",
+                                                   "4":  "Precalcula qué ítems están dentro de la ventana de renderizado actual para que el motor de virtualización pueda ampliarla con anticipación"
+                                               }
+                               },
+                        "q5":  {
+                                   "question":  "¿Por qué definir `renderItem` de forma inline rompe la optimización de `React.memo` en el componente de ítem?",
+                                   "explanation":  "`React.memo` realiza una comparación superficial de props entre renders; cuando `renderItem` se define inline, produce un nuevo objeto de función en cada render del padre, por lo que la comparación siempre falla y el ítem se re-renderiza aunque sus datos no hayan cambiado. La opción que sugiere que las funciones inline pierden su ámbito de closure es un error conceptual — los closures en JavaScript capturan variables correctamente independientemente de dónde se defina la función.",
+                                   "options":  {
+                                                   "1":  "Las funciones inline pierden su ámbito de closure en cada re-render, haciendo que el componente de ítem lea props desactualizadas",
+                                                   "2":  "Se crea una nueva referencia de función en cada render del componente padre, por lo que `React.memo` detecta una prop diferente y re-renderiza el ítem aunque sus datos no hayan cambiado",
+                                                   "3":  "Las funciones arrow inline impiden que Hermes aplique optimizaciones de bytecode en la ruta de renderizado del componente de ítem",
+                                                   "4":  "El reconciliador de React trata las funciones inline como anónimas y omite la etapa de comparación de props, remontando siempre el componente de ítem"
+                                               }
+                               },
+                        "q6":  {
+                                   "question":  "¿Cuándo tiene sentido usar `useMemo`, y cuándo puede costar más de lo que ayuda?",
+                                   "explanation":  "El overhead de `useMemo` — asignar el closure, almacenar dependencias y compararlas en cada render — no es trivial; para operaciones rápidas como sumar dos números, esta gestión puede costar más que simplemente recomputar. La opción que afirma que `useMemo` siempre es beneficioso porque las comparaciones ocurren fuera del hilo principal es incorrecta: la comparación de dependencias se ejecuta de forma síncrona en el hilo JS durante el render.",
+                                   "options":  {
+                                                   "1":  "`useMemo` siempre es beneficioso porque el scheduler de React realiza las comparaciones de dependencias fuera del hilo principal, haciendo el overhead negligible",
+                                                   "2":  "Es más efectivo dentro de callbacks de `useEffect`, ya que evita que el efecto se reejecuteé cuando el valor computado no ha cambiado",
+                                                   "3":  "Es más útil cuando el valor se deriva de un contexto, porque `useMemo` almacena en caché automáticamente el snapshot anterior del contexto y evita recálculos innecesarios",
+                                                   "4":  "Vale la pena para cómputos costosos — ordenar arrays grandes, filtrar listas voluminosas — o cuando el resultado alimenta un componente hijo memoizado; para operaciones simples, el costo de comparar dependencias puede superar el de simplemente recomputar"
+                                               }
+                               },
+                        "q7":  {
+                                   "question":  "¿Cuándo tiene sentido usar `useCallback`, y qué ocurre si la función no está memoizada en ese caso?",
+                                   "explanation":  "Una función definida inline dentro de un componente recibe una nueva referencia en cada render; cuando esa función es prop de un componente `React.memo`, la comparación superficial falla y el hijo se re-renderiza innecesariamente, o cuando aparece en el array de dependencias de un `useEffect`, el efecto se re-ejecuta en cada render. La opción sobre la lógica asíncrona es un error conceptual común — `useCallback` no preserva ni cancela promises en curso; eso requiere lógica de cancelación separada como AbortController.",
+                                   "options":  {
+                                                   "1":  "Es más útil cuando la función contiene lógica asíncrona, ya que una nueva referencia cancelaría cualquier promise en curso del render anterior",
+                                                   "2":  "Tiene sentido cuando la función se pasa como prop a un componente `React.memo` o aparece en el array de dependencias de otro hook — sin él, se crea una nueva referencia en cada render, rompiendo la memoización o re-ejecutando el hook",
+                                                   "3":  "Es más útil cuando la función lee de un contexto, ya que una nueva referencia obliga a los consumidores del contexto a re-suscribirse en cada render",
+                                                   "4":  "Es necesario cuando las funciones se definen dentro de bucles, asegurando que el mismo índice se capture de forma consistente entre renders"
+                                               }
+                               },
+                        "q8":  {
+                                   "question":  "¿Por qué se recomienda `FlatList` en lugar de `ScrollView` para listas grandes?",
+                                   "explanation":  "`FlatList` mantiene una ventana de renderizado — una franja de ítems alrededor del área visible — y desmonta los ítems que la abandonan, manteniendo el uso de memoria proporcional al tamaño de la ventana en lugar del tamaño total de la lista. `ScrollView` no tiene este mecanismo y renderiza todos los hijos de inmediato, por lo que una lista de cientos de ítems provoca un render inicial pesado y un alto consumo de memoria continuo. La opción sobre la física de scroll con momentum nativo es incorrecta: ambos componentes usan la misma implementación nativa de ScrollView para el scroll con momentum.",
+                                   "options":  {
+                                                   "1":  "`FlatList` usa física de desplazamiento con momentum nativo que `ScrollView` no puede replicar, resultando en menos fotogramas perdidos durante swipes rápidos",
+                                                   "2":  "`FlatList` agrupa las actualizaciones de estado de los ítems a través de una cola de prioridad, mientras `ScrollView` las aplica de forma síncrona y bloquea el hilo JS",
+                                                   "3":  "`FlatList` renderiza solo los ítems dentro de una ventana configurable alrededor del área visible y desmonta el resto, liberando memoria; `ScrollView` renderiza todos los ítems a la vez, haciendo que las listas grandes sean lentas de montar y pesadas en memoria",
+                                                   "4":  "`FlatList` coloca cada ítem en su propia layer nativa para que la GPU pueda componerlos de forma independiente, mientras `ScrollView` rasteriza todo el contenido en un único bitmap"
+                                               }
+                               }
+                    },
+    "debugging":  {
+                      "q1":  {
+                                 "question":  "¿Qué es React Native DevTools y qué herramientas reúne en una sola interfaz?",
+                                 "explanation":  "React Native DevTools es el depurador oficial todo-en-uno que se conecta mediante el Chrome DevTools Protocol y agrupa el JS Debugger, React DevTools, Network inspector y Console en un mismo lugar — pero requiere Hermes y no funciona con JavaScriptCore. El distractor más tentador nombra correctamente el Chrome DevTools Protocol y la misma lista de herramientas, pero afirma falsamente que funciona con cualquier engine JS; esa restricción de engine es la limitación clave.",
+                                 "options":  {
+                                                 "1":  "Un sucesor de Flipper construido sobre el Chrome DevTools Protocol que agrupa el JS Debugger, React DevTools y Network inspector, y funciona tanto con Hermes como con JavaScriptCore",
+                                                 "2":  "El depurador oficial integrado, construido sobre el Chrome DevTools Protocol, que combina el JS Debugger, React DevTools, Network inspector y Console en un solo lugar — pero únicamente cuando la app corre con Hermes",
+                                                 "3":  "Una app Electron independiente construida sobre el V8 Inspector Protocol que unifica el JS Debugger, React DevTools y Profiler; requiere el cliente Expo Go para establecer la conexión",
+                                                 "4":  "Una extensión de Chrome que se conecta al servidor WebSocket de Metro y ofrece el JS Debugger y React DevTools; compatible con cualquier engine JavaScript soportada por React Native"
+                                             }
+                             },
+                      "q2":  {
+                                 "question":  "En el Performance Monitor, el UI FPS cae notablemente mientras el JS FPS se mantiene alto — ¿qué indica eso?",
+                                 "explanation":  "Cuando el JS FPS permanece alto, el hilo JavaScript está sano; la caída del UI FPS apunta a un cuello de botella en la capa de renderizado nativo, como un layout pass costoso, un shadow tree demasiado grande o demasiadas views nativas siendo medidas al mismo tiempo. La opción que culpa al reconciliador de React y al overhead de serialización del bridge es plausible, pero está equivocada — ese tipo de presión también haría caer el JS FPS.",
+                                 "options":  {
+                                                 "1":  "El hilo JavaScript está ejecutando una tarea síncrona costosa, como un reducer complejo o una comparación profunda de objetos, impidiendo que el hilo de UI reciba actualizaciones de frame a tiempo",
+                                                 "2":  "El reconciliador de React está re-renderizando demasiados componentes en un solo batch, saturando el bridge con overhead de serialización aunque las funciones de render individuales sean baratas",
+                                                 "3":  "El cuello de botella está en la capa de renderizado nativo — un layout pass pesado, un shadow tree demasiado grande o demasiadas views nativas siendo actualizadas en el mismo frame",
+                                                 "4":  "Metro está recompilando un módulo en hot reload y bloqueando temporalmente ambos hilos hasta que el nuevo bundle se inyecta en la app en ejecución"
+                                             }
+                             },
+                      "q3":  {
+                                 "question":  "¿Qué información muestra el flame chart del React Profiler sobre cada componente, y qué dispara una nueva barra de commit en la línea de tiempo?",
+                                 "explanation":  "El flame chart registra la duración de render de cada componente en cada commit capturado durante la sesión de profiling, e indica el motivo de cada re-render — cambio de prop, state, context o un padre que re-renderizó. La opción que describe el tiempo total acumulado a lo largo de toda la sesión es engañosa; el flame chart está organizado por commit, no como un ranking global de componentes más lentos.",
+                                 "options":  {
+                                                 "1":  "Una línea de tiempo de todas las solicitudes de red agrupadas por componente, mostrando qué llamada fetch disparó cada actualización del árbol y cuánto tardó el re-render resultante",
+                                                 "2":  "El tiempo total acumulado de render de cada componente a lo largo de toda la sesión de profiling, ordenado de más lento a más rápido, sin indicar por qué ocurrieron los re-renders individuales",
+                                                 "3":  "La duración de render de cada componente en cada commit registrado en la sesión, junto con el motivo del re-render — cambio de prop, state, context o re-render del componente padre",
+                                                 "4":  "El costo de actualización de la jerarquía de views nativas por frame, agrupando mutaciones del shadow tree por componente para identificar qué props dispararon un layout pass en el hilo de UI"
+                                             }
+                             },
+                      "q4":  {
+                                 "question":  "¿Por qué se necesita un source map para interpretar un stack trace de crash en producción?",
+                                 "explanation":  "El bundle de producción está minificado y todos los módulos se concatenan en un único archivo, por lo que sin un source map el stack trace muestra identificadores ofuscados y offsets en bytes sin relación alguna con el código TypeScript original — el source map restaura ese mapeo. La opción que menciona el bytecode de Hermes tiene algo de verdad — Hermes sí compila a bytecode — pero el problema central que hace indispensables los source maps es la minificación y la concatenación de módulos, no el formato de bytecode en sí.",
+                                 "options":  {
+                                                 "1":  "Los source maps son necesarios porque el engine JS ejecuta bytecode en lugar de JavaScript puro en producción, y el source map es el único artefacto que vincula las direcciones de bytecode con los nombres de función originales",
+                                                 "2":  "El bundle de producción concatena todos los módulos en un único archivo con identificadores minificados y sin correspondencia de líneas con el código TypeScript original — el source map restaura ese mapeo",
+                                                 "3":  "Sin un source map, el stack trace omite los frames asíncronos porque las cadenas de promesas se colapsan durante el bundling, haciendo imposible rastrear el flujo de llamada entre await boundaries",
+                                                 "4":  "Los source maps son necesarios porque React Native elimina todos los error boundaries en builds de producción, y el reporte de crash crudo solo contiene direcciones de hilos nativos que requieren resolución mediante source map"
+                                             }
+                             },
+                      "q5":  {
+                                 "question":  "¿Cómo se comporta LogBox de forma diferente ante un error no capturado versus una llamada a console.warn()?",
+                                 "explanation":  "LogBox diferencia la gravedad por el tratamiento visual: un error no capturado genera un overlay rojo a pantalla completa con el stack trace completo que bloquea toda la interacción, mientras que console.warn() muestra un banner amarelo colapsable en la parte inferior de la pantalla sin bloquear el UI. La opción que afirma que ambos muestran overlays a pantalla completa es el distractor más tentador, pero está equivocada respecto a los warnings — el banner amarillo es colapsable y no bloquea la pantalla.",
+                                 "options":  {
+                                                 "1":  "Ambos producen un overlay a pantalla completa, pero un error no capturado lo muestra en rojo y console.warn() en amarillo; cualquiera puede descartarse tocando fuera del overlay",
+                                                 "2":  "Un error no capturado se suprime silenciosamente en desarrollo y solo aparece en la consola de Metro, mientras que console.warn() dispara un overlay rojo porque las advertencias se tratan como fatales en modo strict",
+                                                 "3":  "Un error no capturado genera un overlay rojo a pantalla completa con el stack trace completo, bloqueando toda la interacción; console.warn() aparece como un banner amarillo colapsable en la parte inferior de la pantalla sin bloquear el UI",
+                                                 "4":  "Un error no capturado hace que Metro reinicie el bundler y reinyecte el módulo, mientras que console.warn() añade una entrada al panel de log interno de la app, visible solo con el menú de desarrollo abierto"
+                                             }
+                             },
+                      "q6":  {
+                                 "question":  "La app falla instantáneamente sin pantalla roja y sin ninguna salida en Metro — ¿dónde está probablemente el problema?",
+                                 "explanation":  "La ausencia de pantalla roja y de cualquier salida en Metro significa que el engine JavaScript nunca tuvo oportunidad de reportar un error, lo que apunta directamente a la capa nativa — un native module que crasheó, un kill por falta de memoria o un segfault que solo Logcat, Android Studio, Xcode o LLDB pueden revelar. La opción que sugiere que un error boundary está suprimiendo la pantalla roja es tentadora, pero no explica la falta de output en Metro, que seguiría apareciendo ante cualquier excepción JavaScript.",
+                                 "options":  {
+                                                 "1":  "El crash probablemente se origina en un timer JavaScript en segundo plano que se disparó después de que la conexión con Metro se perdió; reactivar la configuración keepalive en metro.config.js suele exponer el error",
+                                                 "2":  "Un source map ausente está ocultando el stack trace; generar un debug build con source maps inline y volver a ejecutar generalmente expone el error JavaScript en LogBox",
+                                                 "3":  "El problema está casi con certeza en la capa nativa — un native module que falló, un evento de OOM o un SIGSEGV — detectable únicamente con herramientas de plataforma como Logcat y Android Studio en Android o Xcode y LLDB en iOS",
+                                                 "4":  "La pantalla roja está siendo suprimida por un error boundary en lo alto del árbol de la app; inspeccionar la salida del componentDidCatch de ese boundary en la consola de Metro revelará la excepción original"
+                                             }
+                             }
+                  },
+    "accessibility":  {
+                          "q1":  {
+                                     "question":  "¿Cuál es la diferencia entre accessibilityLabel y accessibilityHint?",
+                                     "explanation":  "El accessibilityLabel nombra el elemento y se lee de inmediato al recibir foco. El accessibilityHint se lee tras una pausa y describe lo que ocurre al activar el elemento, usado solo cuando el resultado no es obvio a partir del label. Un error frecuente es invertir los dos — poner la descripción de la acción en el label.",
+                                     "options":  {
+                                                     "1":  "accessibilityLabel se lee al recibir foco; accessibilityHint lo reemplaza cuando el usuario hace una pausa en el elemento — juntos forman una descripción en dos partes de la misma acción",
+                                                     "2":  "accessibilityLabel anuncia lo que es el elemento; accessibilityHint describe lo que ocurre al activarlo, leído tras una pausa — se usa cuando el resultado no es obvio a partir del label",
+                                                     "3":  "accessibilityLabel describe la acción que ocurre al activar el elemento; accessibilityHint proporciona el nombre accesible, que el lector de pantalla anuncia primero",
+                                                     "4":  "Ambas props anuncian el nombre del elemento, pero accessibilityHint es preferida en elementos interactivos porque admite descripciones más largas sin truncamiento"
+                                                 }
+                                 },
+                          "q2":  {
+                                     "question":  "¿Por qué no se debe incluir el papel del elemento dentro de accessibilityLabel — por ejemplo, escribir \"Eliminar botón\" en lugar de \"Eliminar\"?",
+                                     "explanation":  "El lector de pantalla ya anuncia el papel automáticamente desde accessibilityRole, por lo que repetirlo en el label produce un anuncio redundante y verboso. Una respuesta tentadora es que React Native emite una advertencia por esto — no lo hace; la duplicación es un problema de UX, no un error de validación.",
+                                     "options":  {
+                                                     "1":  "El lector de pantalla ya anuncia el papel desde accessibilityRole, por lo que incluirlo en el label produce un anuncio redundante y verboso",
+                                                     "2":  "React Native emite una advertencia en desarrollo cuando el label contiene una palabra clave de papel conocida, tratándolo como una configuración incorrecta que podría corromper el árbol de accesibilidad",
+                                                     "3":  "Incluir el papel en accessibilityLabel desactiva el anuncio automático de papel, haciendo que el elemento se lea sin ningún contexto de papel",
+                                                     "4":  "Los lectores de pantalla ignoran la última palabra de accessibilityLabel cuando accessibilityRole está definido, por lo que el papel añadido al label se descarta silenciosamente"
+                                                 }
+                                 },
+                          "q3":  {
+                                     "question":  "¿Qué problema resuelve AccessibilityInfo.announceForAccessibility() que un cambio visual silencioso no resolvería?",
+                                     "explanation":  "La API envía una cadena directamente al lector de pantalla, haciendo que anuncie un mensaje sin elemento visual correspondiente — por ejemplo, confirmando una actualización de carrito en segundo plano. Una confusión frecuente es pensar que esta API mueve el foco, lo cual no hace; el manejo de foco requiere un enfoque diferente.",
+                                     "options":  {
+                                                     "1":  "Mueve el foco programáticamente a un elemento específico, evitando que el lector de pantalla pierda su posición tras una navegación o cierre de modal",
+                                                     "2":  "Actualiza el accessibilityLabel dinámicamente sin disparar un re-render, manteniendo el árbol de accesibilidad sincronizado con estados de UI transitorios",
+                                                     "3":  "Notifica al lector de pantalla sobre un cambio de estado sin representación visual perceptible — por ejemplo, anunciando \"artículo añadido al carrito\" tras una acción en segundo plano que no genera ningún elemento nuevo en la UI",
+                                                     "4":  "Encola múltiples anuncios para que se lean en secuencia cuando varios cambios de estado ocurren al mismo tiempo, evitando que el habla se superponga"
+                                                 }
+                                 },
+                          "q4":  {
+                                     "question":  "¿En qué orden navegan los lectores de pantalla por los elementos en pantalla y qué NO afecta ese orden?",
+                                     "explanation":  "Los lectores de pantalla recorren el árbol de componentes en orden de documento — de arriba a abajo, de izquierda a derecha. Propiedades puramente visuales como position: \"absolute\" y zIndex reposicionan elementos en pantalla pero no cambian su lugar en el árbol de componentes, por lo que el orden de lectura no se altera. Creer que el layout visual guía la lectura es el malentendido más común.",
+                                     "options":  {
+                                                     "1":  "Los lectores de pantalla siguen el orden z, leyendo primero los elementos con valores de zIndex mayores; los elementos con position: \"absolute\" siempre se leen después de todos los elementos en flujo",
+                                                     "2":  "La navegación sigue el layout visual de arriba a abajo, de izquierda a derecha; los elementos con position: \"absolute\" se reordenan para coincidir con su posición visual en pantalla",
+                                                     "3":  "Los lectores de pantalla navegan en el orden del árbol de componentes, de arriba a abajo, de izquierda a derecha; el posicionamiento visual mediante position: \"absolute\" o zIndex no cambia ese orden",
+                                                     "4":  "El orden de navegación lo determina accessibilityRole; los elementos con papel \"header\" siempre se leen primero, seguidos de los elementos interactivos y luego el texto estático"
+                                                 }
+                                 },
+                          "q5":  {
+                                     "question":  "¿Qué ocurre al establecer accessible={true} en un contenedor con múltiples hijos?",
+                                     "explanation":  "Todos los hijos se fusionan en una única unidad enfocable anunciada con el accessibilityLabel del contenedor, evitando que el lector de pantalla se detenga en cada hijo individualmente. Una alternativa plausible pero incorrecta es que esto hace que cada hijo sea independientemente enfocable — ese es, en realidad, el comportamiento predeterminado sin la prop.",
+                                     "options":  {
+                                                     "1":  "Hace que todos los hijos directos sean independientemente enfocables en secuencia, asegurando que cada elemento interactivo dentro del contenedor sea alcanzable por el lector de pantalla",
+                                                     "2":  "Colapsa todos los hijos en un único elemento accesible anunciado con el accessibilityLabel del contenedor, evitando la lectura fragmentada de tarjetas o elementos de lista",
+                                                     "3":  "Propaga el accessibilityLabel del contenedor a cada hijo individualmente, de modo que cada elemento anidado se anuncia con el label del padre como prefijo",
+                                                     "4":  "Marca el contenedor como un landmark de accesibilidad al que los usuarios de lector de pantalla pueden saltar directamente usando el rotor o atajos de navegación rápida"
+                                                 }
+                                 },
+                          "q6":  {
+                                     "question":  "¿Qué se debe verificar al probar un flujo completo usando solo VoiceOver o TalkBack, sin mirar la pantalla?",
+                                     "explanation":  "Una prueba de accesibilidad completa cubre la alcanzabilidad de cada elemento interactivo deslizando, labels y papeles significativos, comportamiento correcto en el doble toque, retención de foco en modales y anuncios para todos los estados de carga y resultado. Una brecha común es detenerse tras confirmar que los labels existen — el papel correcto, las acciones esperadas, el manejo de foco y los anuncios dinámicos también deben verificarse.",
+                                     "options":  {
+                                                     "1":  "Que cada elemento interactivo es alcanzable deslizando, anuncia un label y papel significativos, realiza la acción esperada al doble toque, que los modales retienen el foco y que los estados de carga, éxito y error son anunciados",
+                                                     "2":  "Que cada elemento tiene un accessibilityLabel único y que elementos adyacentes no comparten el mismo papel — la unicidad estructural es el criterio principal para un flujo accesible",
+                                                     "3":  "Que el orden de deslizamiento coincide con el orden de lectura visual y que cada pantalla tiene al menos un elemento con accessibilityRole establecido como \"header\" para habilitar la navegación por landmarks",
+                                                     "4":  "Que todos los botones responden al doble toque y que las imágenes tienen accessibilityLabel definido — verificar el contenido de texto es opcional ya que los lectores de pantalla leen los componentes Text simples automáticamente"
+                                                 }
+                                 }
+                      },
+    "android":  {
+                    "q1":  {
+                               "question":  "¿Cuál es el propósito principal del archivo `AndroidManifest.xml`?",
+                               "explanation":  "Toda app Android debe tener `AndroidManifest.xml`. Declara la identidad de la app y todos sus componentes — Activity, Service, BroadcastReceiver, ContentProvider. Android se negará a ejecutar cualquier componente no registrado allí. También declara permisos, intent filters para deep links y el atributo `android:exported` requerido en componentes que responden a intents externos. La opción sobre configuración de Gradle describe `build.gradle`, no el manifiesto.",
+                               "options":  {
+                                               "1":  "Define la configuración de build de Gradle — dependencias, versiones del SDK y configuración de firma",
+                                               "2":  "Declara el nombre del paquete de la app, todos los componentes (activities, services, receivers, providers) y metadatos que el sistema operativo y Play Store necesitan — Android no ejecutará un componente no registrado",
+                                               "3":  "Almacena los recursos de strings y valores de localización de la app para uso en todo el build Android",
+                                               "4":  "Configura qué bundle de JavaScript debe servir Metro cuando la app inicia en Android"
+                                           }
+                           },
+                    "q2":  {
+                               "question":  "¿Qué hace el script `gradlew` en un proyecto React Native Android?",
+                               "explanation":  "`gradlew` (Gradle Wrapper) lee `gradle/wrapper/gradle-wrapper.properties` y descarga la versión exacta de Gradle definida allí si no está ya en caché. Esto garantiza que todos los desarrolladores y máquinas de CI usen la misma versión de Gradle, evitando fallos de build del tipo \"funciona en mi máquina\". Ejecutar `npx react-native run-android` llama a `./gradlew assembleDebug` internamente. La opción sobre iniciar Metro describe el bundler Metro, que es un proceso separado.",
+                               "options":  {
+                                               "1":  "Inicia el bundler Metro para Android y observa cambios en archivos JS para activar el hot reload",
+                                               "2":  "Instala componentes del Android SDK y actualiza las herramientas de build a la versión requerida por el proyecto",
+                                               "3":  "Es un wrapper que descarga y ejecuta la versión exacta de Gradle definida en `gradle-wrapper.properties`, asegurando builds consistentes en todas las máquinas",
+                                               "4":  "Se conecta a un emulador Android en ejecución y activa la recarga del bundle JS cuando cambian archivos fuente"
+                                           }
+                           },
+                    "q3":  {
+                               "question":  "¿Cuál es la diferencia entre `compileSdkVersion` y `targetSdkVersion`?",
+                               "explanation":  "`compileSdkVersion` es el Android SDK contra el que se compila el código — mantenlo siempre en la versión más reciente para acceder a las APIs actuales. `targetSdkVersion` indica al sistema operativo para qué versión de Android fue diseñada y probada la app; el SO lo usa para decidir si aplica comportamientos de compatibilidad retroactiva. Google Play requiere que `targetSdkVersion` esté a menos de un año de la versión más reciente. La opción que afirma que ambos deben ser idénticos para la submisión en Play es incorrecta.",
+                               "options":  {
+                                               "1":  "`compileSdkVersion` es la versión mínima de Android para instalar la app; `targetSdkVersion` es la versión máxima en que puede ejecutarse",
+                                               "2":  "`compileSdkVersion` es la versión del SDK contra la que se compila el código, mantenida en la más reciente; `targetSdkVersion` le indica a Android para qué versión fue diseñada y probada la app, afectando comportamientos de compatibilidad",
+                                               "3":  "Ambos se refieren a la misma versión del SDK — Google Play requiere que sean idénticos para la submisión en la tienda",
+                                               "4":  "`compileSdkVersion` determina qué versión del plugin de Gradle ejecuta el build; `targetSdkVersion` establece el nivel mínimo de API requerido para la instalación"
+                                           }
+                           },
+                    "q4":  {
+                               "question":  "¿Dónde deben declararse los permisos de Android y qué paso extra se requiere en API 23+?",
+                               "explanation":  "Todos los permisos deben declararse en `AndroidManifest.xml` con `<uses-permission>` — eso siempre es obligatorio. En Android 6.0+ (API 23+), los permisos \"peligrosos\" (cámara, ubicación, micrófono, almacenamiento) también requieren aprobación explícita del usuario en runtime mediante `PermissionsAndroid`. Declarar en el manifiesto es el prerequisito pero no concede el permiso automáticamente. La opción que afirma que los permisos peligrosos no necesitan entrada en el manifiesto es incorrecta.",
+                               "options":  {
+                                               "1":  "En `build.gradle` bajo un bloque `permissions` — se conceden automáticamente en la instalación para todos los niveles de API",
+                                               "2":  "En `AndroidManifest.xml` con `<uses-permission>`, y en API 23+ los permisos peligrosos también requieren aprobación del usuario en runtime mediante `PermissionsAndroid`",
+                                               "3":  "En un archivo `permissions.json` en la raíz del proyecto — se solicita al usuario en el primer inicio aprobar todos los permisos listados",
+                                               "4":  "En `AndroidManifest.xml` solo para permisos normales — los permisos peligrosos se solicitan mediante `PermissionsAndroid` sin necesidad de entrada en el manifiesto"
+                                           }
+                           },
+                    "q5":  {
+                               "question":  "¿Qué es el Android SDK y cuáles de sus componentes usa React Native más directamente?",
+                               "explanation":  "El Android SDK proporciona todo lo necesario para construir y comunicarse con dispositivos Android. El pipeline de build de React Native depende de: `adb` (comunicación con dispositivos, parte de platform tools), `aapt2` y `d8` (compilación de recursos y conversión dex, parte de build tools) y `android.jar` (la superficie de API contra la que se compila el código). `ANDROID_HOME` apunta a la ubicación de instalación del SDK. La opción sobre Gradle describe el sistema de build, que usa el SDK pero no es el SDK en sí.",
+                               "options":  {
+                                               "1":  "El Android Runtime (ART) que ejecuta código Kotlin y Java compilado directamente en el dispositivo",
+                                               "2":  "El ecosistema de plugins de Android Studio — un conjunto de extensiones IDE para depurar y perfilar apps React Native",
+                                               "3":  "Una colección de herramientas y bibliotecas que incluye platform tools (`adb`), build tools (`aapt2`, `d8`) y el `android.jar` contra el que se compila el código — `ANDROID_HOME` apunta a él",
+                                               "4":  "El sistema de build Gradle y su motor de resolución de dependencias compatible con Maven"
+                                           }
+                           },
+                    "q6":  {
+                               "question":  "¿Qué es el JDK y por qué es necesario para compilar una app React Native Android?",
+                               "explanation":  "Gradle — el sistema de build que orquesta todo el build Android — se ejecuta en la Java Virtual Machine. Sin un JDK instalado y `JAVA_HOME` configurado, Gradle no puede iniciarse. React Native 0.73+ requiere JDK 17. Una incompatibilidad entre la versión del JDK instalada y la requerida es una de las causas más frecuentes de fallos de \"configuración de entorno\". La opción sobre polyfills confunde el JDK con una preocupación de runtime de JavaScript — no tiene nada que ver con las APIs JS dentro de Hermes.",
+                               "options":  {
+                                               "1":  "El JavaScript Development Kit — un conjunto de polyfills que hace disponibles las APIs JS modernas dentro de Hermes en Android",
+                                               "2":  "Una colección de herramientas de depuración Android — `adb` y el emulador Android están incluidos dentro del instalador del JDK",
+                                               "3":  "El Java Development Kit — Gradle se ejecuta en la JVM, por lo que debe instalarse un JDK y `JAVA_HOME` debe apuntar a él; una incompatibilidad de versión es uno de los fallos de configuración más comunes",
+                                               "4":  "El JSON Development Kit — React Native lo usa para validar specs TypeScript de módulos nativos durante el build de Gradle"
+                                           }
+                           },
+                    "q7":  {
+                               "question":  "¿Qué es un Android API Level y cómo afecta a una app React Native en la práctica?",
+                               "explanation":  "Cada lanzamiento del Android OS se mapea a un entero de API Level (ej.: Android 14 = API 34). El nivel determina qué APIs existen en el dispositivo en runtime. Usar `Platform.Version` en JavaScript permite proteger rutas de código — sin esa protección, llamar a una API de nivel superior en un dispositivo más antiguo causa un crash en runtime. El mínimo actual de React Native es API 24 (Android 7.0). La opción que describe API Level como versión del plugin de Gradle lo confunde con un valor de configuración de build.",
+                               "options":  {
+                                               "1":  "Un número que identifica la versión del plugin de Gradle usada en la configuración de build Android",
+                                               "2":  "El número de versión del Android Studio instalado en la máquina del desarrollador",
+                                               "3":  "Un flag en `AndroidManifest.xml` que establece el nivel mínimo de calidad de renderizado de la app en cada dispositivo",
+                                               "4":  "Un entero que identifica cada lanzamiento del Android OS y determina qué APIs del framework están disponibles en runtime — llamar a una API más nueva en un dispositivo más antiguo causa un crash sin un guard de versión"
+                                           }
+                           }
+                },
+    "ios":  {
+                "q1":  {
+                           "question":  "¿Cuál es el propósito del archivo `Info.plist` en un proyecto de React Native para iOS?",
+                           "explanation":  "Info.plist es un archivo XML de clave-valor que iOS lee antes de que la app se inicie — contiene el bundle identifier, el nombre de la app, la versión, las orientaciones soportadas, los URL schemes y los strings de descripción de uso que activan los prompts de permiso. No es un archivo de configuración de build como build.gradle de Android; esa confusión es el error más frecuente, ya que build.gradle controla la compilación, no los metadatos en tiempo de ejecución.",
+                           "options":  {
+                                           "1":  "Un archivo XML de clave-valor que iOS lee antes de iniciar la app, declarando el bundle identifier, nombre de visualización, versión, orientaciones soportadas, URL schemes y strings de descripción de uso requeridos para los prompts de permiso.",
+                                           "2":  "El equivalente iOS de build.gradle de Android — define flavors de build, configuraciones de firma y targets de compilación que el sistema de build de Xcode lee durante la compilación.",
+                                           "3":  "Un archivo generado por CocoaPods tras ejecutar pod install que mapea los nombres de módulos nativos a sus implementaciones en Objective-C para el bridge de React Native.",
+                                           "4":  "Un archivo de configuración en tiempo de ejecución que lee el Metro bundler para determinar qué módulos nativos y polyfills están disponibles en la plataforma iOS."
+                                       }
+                       },
+                "q2":  {
+                           "question":  "¿Qué hace CocoaPods en un proyecto de React Native para iOS?",
+                           "explanation":  "CocoaPods es un gestor de dependencias: lee el Podfile, descarga las bibliotecas nativas especificadas, las integra al proyecto y genera el .xcworkspace que une todo. No es Xcode en sí mismo — un error habitual es creer que CocoaPods compila los módulos, pero quien compila es Xcode; CocoaPods solo resuelve e integra las dependencias.",
+                           "options":  {
+                                           "1":  "Un plugin del sistema de build integrado en Xcode que compila módulos nativos en Objective-C y Swift desde el código fuente y los enlaza en el binario .ipa final durante el paso de archive.",
+                                           "2":  "El gestor de dependencias de iOS que lee el Podfile, descarga y enlaza módulos nativos — tanto las bibliotecas first-party de React Native como pods de terceros — y genera el .xcworkspace que Xcode debe utilizar.",
+                                           "3":  "Un wrapper de línea de comandos alrededor de npm install que resuelve dependencias nativas iOS declaradas en package.json y coloca los frameworks compilados en la carpeta ios/Frameworks.",
+                                           "4":  "La herramienta que gestiona la firma de código y los perfiles de aprovisionamiento, obteniendo certificados del portal de desarrolladores de Apple e incorporándolos a la app antes de cada build."
+                                       }
+                       },
+                "q3":  {
+                           "question":  "¿Qué comando instala las dependencias iOS en un proyecto de React Native y qué archivo debe abrirse en Xcode después?",
+                           "explanation":  "Ejecutar pod install dentro de la carpeta ios/ resuelve el Podfile y genera el .xcworkspace, que agrupa tanto el proyecto de la app como los pods instalados. Siempre debes abrir el .xcworkspace — abrir el .xcodeproj directamente omite todos los targets gestionados por CocoaPods y el build falla con errores de linker por símbolos faltantes.",
+                           "options":  {
+                                           "1":  "Ejecutar npm install desde la raíz del proyecto; CocoaPods se activa automáticamente mediante un postinstall hook y el .xcodeproj se actualiza con los nuevos targets nativos.",
+                                           "2":  "Ejecutar pod install dentro de la carpeta ios/; luego abrir el .xcodeproj, que CocoaPods actualiza para que Xcode encuentre todas las bibliotecas de pods enlazadas.",
+                                           "3":  "Ejecutar pod install dentro de la carpeta ios/; esto resuelve el Podfile y genera el .xcworkspace — siempre abre el .xcworkspace en Xcode, nunca el .xcodeproj.",
+                                           "4":  "Ejecutar pod update desde la raíz del proyecto; regenera tanto el .xcworkspace como el .xcodeproj, y el .xcworkspace solo es necesario en entornos de CI."
+                                       }
+                       },
+                "q4":  {
+                           "question":  "¿Qué es el iOS Deployment Target y por qué es importante?",
+                           "explanation":  "El Deployment Target es la versión mínima de iOS que los usuarios necesitan para ejecutar la app. Debe configurarse de forma consistente tanto en el Podfile (platform :ios) como en las Build Settings de Xcode; una discrepancia hace que el linker emita advertencias o falle porque los pods pueden compilarse contra un mínimo diferente al de la app. La opción que sugiere que Xcode y el Podfile resuelven sus mínimos de forma independiente es incorrecta — deben coincidir.",
+                           "options":  {
+                                           "1":  "La versión más reciente de iOS que la app soporta explícitamente para revisión en la App Store, declarada solo en App Store Connect y usada para habilitar funcionalidades específicas de versión como Live Activities.",
+                                           "2":  "Una configuración de CocoaPods que especifica qué pods se compilan para el Simulator frente a un dispositivo real; una discrepancia entre estos dos targets provoca que la app se cierre inesperadamente al iniciar en hardware físico.",
+                                           "3":  "La versión de iOS que Xcode usa para seleccionar el SDK correcto durante la compilación; no necesita coincidir con el Podfile porque CocoaPods resuelve su propia versión mínima de forma independiente a Xcode.",
+                                           "4":  "La versión mínima de iOS necesaria para ejecutar la app, configurada tanto en el Podfile como en las Build Settings de Xcode; cuando estos valores difieren, el sistema de build produce advertencias o errores de linker y ciertos pods pueden negarse a instalarse."
+                                       }
+                       },
+                "q5":  {
+                           "question":  "¿Dónde deben declararse los permisos de iOS en un proyecto de React Native y qué ocurre si faltan?",
+                           "explanation":  "Cada permiso sensible requiere una clave de descripción de uso en Info.plist (por ejemplo, NSCameraUsageDescription para la cámara). Si la clave está ausente, iOS termina la app inmediatamente cuando se llama a la API de permiso — no aparece ningún diálogo y no se muestra ningún error visible al usuario, lo que hace que el crash sea fácil de diagnosticar incorrectamente. La pestaña Signing & Capabilities de Xcode gestiona entitlements (como Push Notifications o iCloud), no strings de descripción de permisos de privacidad.",
+                           "options":  {
+                                           "1":  "En Info.plist, añadiendo un string de descripción de uso para cada permiso sensible (ej.: NSCameraUsageDescription); iOS termina la app silenciosamente en tiempo de ejecución — sin error visible al usuario — si la clave está ausente cuando se llama a la API de permiso.",
+                                           "2":  "En el Podfile, pasando un hash de permisos al helper use_native_modules!; CocoaPods inserta entonces las claves necesarias en Info.plist automáticamente durante el pod install.",
+                                           "3":  "En la pestaña Signing & Capabilities de Xcode, activando los entitlements relevantes; el sistema inyecta automáticamente en Info.plist las claves de descripción de uso correspondientes en tiempo de build.",
+                                           "4":  "En un archivo permissions.json en la raíz del proyecto, que los scripts de build de Metro de React Native fusionan en Info.plist durante la fase de bundle de JavaScript."
+                                       }
+                       },
+                "q6":  {
+                           "question":  "¿Qué es el iOS Simulator y en qué se diferencia de un dispositivo real?",
+                           "explanation":  "El Simulator ejecuta código Mac compilado nativamente (x86_64 o ARM64), no código ARM de iOS, por lo que es rápido pero produce un target binario diferente al de un dispositivo real o una build de la App Store. No puede replicar funcionalidades de hardware como las notificaciones push vía APNs, la cámara o el NFC. El error habitual es pensar que el Simulator emula completamente la CPU del dispositivo; en realidad es un proceso nativo del Mac, no un emulador.",
+                           "options":  {
+                                           "1":  "Una máquina virtual que emula completamente la CPU ARM de un iPhone real, produciendo el mismo binario que una build de la App Store; la principal limitación es el rendimiento más lento debido al overhead de la emulación de instrucciones ARM en el Mac.",
+                                           "2":  "Un entorno de pruebas en la nube proporcionado por Xcode Cloud que ejecuta la app en hardware Apple real en los centros de datos de Apple; las diferencias respecto a dispositivos locales se limitan a la latencia de red.",
+                                           "3":  "Un proceso que ejecuta código Mac compilado nativamente (x86_64 o ARM64), lo que lo hace rápido pero produce un target binario diferente al de un dispositivo real; las funcionalidades de hardware como las notificaciones push vía APNs, la cámara y el NFC no están disponibles.",
+                                           "4":  "Un plugin de Xcode que refleja la pantalla de un iPhone conectado al Mac y redirige la ejecución de JavaScript a Node.js en la máquina host; soporta todas las funcionalidades de hardware del dispositivo pero requiere un dispositivo físico conectado por USB."
+                                       }
+                       }
+            },
+    "publishing":  {
+                       "q1":  {
+                                  "question":  "¿Cuál es la función de un archivo keystore al publicar una aplicación Android?",
+                                  "explanation":  "El keystore almacena el par de claves que se usa para firmar el APK o AAB. Google Play vincula todas las actualizaciones futuras a esa clave de firma — perder el keystore impide publicar actualizaciones en el listing existente, a menos que el Play App Signing esté habilitado. La opción que describe el keystore como un certificado emitido por Google es el distractor más tentador: la firma se realiza con tu propia clave, no con una emitida por Google.",
+                                  "options":  {
+                                                  "1":  "Un archivo que almacena el historial de versiones y las notas de cambios del app que Google Play muestra a los usuarios",
+                                                  "2":  "Un archivo binario que contiene los pares de claves usados para firmar el APK o AAB — Google Play vincula todas las actualizaciones futuras a esa clave de firma, y perderla impide publicar actualizaciones en el listing existente salvo que el Play App Signing esté activo",
+                                                  "3":  "Un contenedor cifrado para API keys y secretos que Gradle inyecta en la app durante el build",
+                                                  "4":  "Un certificado emitido por Google Play que autoriza a una cuenta de desarrollador a distribuir apps en la tienda"
+                                              }
+                              },
+                       "q2":  {
+                                  "question":  "¿Cuál es la diferencia entre un debug build y un release build en React Native?",
+                                  "explanation":  "El release build se genera con `./gradlew assembleRelease` o `bundleRelease` y pasa por optimizaciones como R8, produciendo los artefactos que se envían a distribución. La opción que afirma que la diferencia es solo sobre cómo se carga el JavaScript es el distractor más tentador — Metro se usa en desarrollo, pero la distinción real abarca todo el pipeline de optimización y firma.",
+                                  "options":  {
+                                                  "1":  "El release build se genera con `./gradlew assembleRelease` o `bundleRelease` y pasa por optimizaciones como R8; el debug build con `assembleDebug` es más rápido de generar, pero no es el artefacto adecuado para distribución",
+                                                  "2":  "El release build empaqueta el JavaScript en tiempo de build; el debug build siempre obtiene el bundle de Metro en tiempo de ejecución, haciendo que la distinción sea puramente sobre cómo se carga el JS",
+                                                  "3":  "Los debug builds son APKs sin firmar que pueden instalarse en cualquier dispositivo; los release builds requieren la firma del keystore únicamente porque Play Store lo exige, sin otra diferencia significativa en el pipeline",
+                                                  "4":  "El release build incluye todos los módulos nativos; el debug build elimina los no utilizados para reducir el tamaño, lo que puede causar comportamientos diferentes en tiempo de ejecución"
+                                              }
+                              },
+                       "q3":  {
+                                  "question":  "¿Qué puede y qué no puede actualizarse mediante OTA en React Native?",
+                                  "explanation":  "Las actualizaciones OTA reemplazan únicamente el bundle JavaScript y los assets estáticos empaquetados en él. El código nativo se compila en el binario en tiempo de build y no puede reemplazarse tras la instalación. La opción sobre módulos nativos con API sin cambios es el distractor más tentador — incluso si la API no cambia, el binario nativo compilado debe pasar por la tienda.",
+                                  "options":  {
+                                                  "1":  "Las actualizaciones OTA pueden reemplazar el bundle JavaScript, los assets estáticos y cualquier módulo nativo enlazado en el build, siempre que la API pública del módulo no haya cambiado",
+                                                  "2":  "Cualquier archivo empaquetado en el APK o AAB puede actualizarse OTA, incluidas las bibliotecas nativas, siempre que la app solicite la actualización y el usuario conceda permiso de almacenamiento",
+                                                  "3":  "Las actualizaciones OTA solo pueden reemplazar la capa JavaScript y los assets estáticos empaquetados; cualquier cambio en código nativo, nuevos módulos nativos o SDKs nativos actualizados requiere un envío completo a la tienda",
+                                                  "4":  "Las actualizaciones OTA funcionan para el bundle JavaScript y archivos de configuración nativos como `AndroidManifest.xml`, pero no para assets de imagen que superen un límite de tamaño determinado"
+                                              }
+                              },
+                       "q4":  {
+                                  "question":  "¿Para qué sirve App Store Connect?",
+                                  "explanation":  "App Store Connect es el portal web donde los desarrolladores gestionan toda su presencia en la App Store — desde metadatos y capturas de pantalla hasta el envío de builds para revisión y la distribución de betas por TestFlight. La opción que lo describe como un servicio de CI/CD es el distractor más tentador: TestFlight forma parte de App Store Connect, pero el portal en sí no es un servicio de build ni de CI.",
+                                  "options":  {
+                                                  "1":  "Una herramienta de línea de comandos para macOS que automatiza la firma y notarización de binarios iOS antes de enviarlos a la cola de revisión de Apple",
+                                                  "2":  "Un plugin de Xcode encargado de gestionar provisioning profiles, certificados y el bundle identifier de la app durante la fase de build",
+                                                  "3":  "Un servicio de CI/CD de Apple que compila, prueba y distribuye builds iOS a testers internos sin pasar por el proceso de revisión de la App Store",
+                                                  "4":  "El portal web de Apple para gestionar listings de apps, metadatos, capturas de pantalla, envío de builds para revisión y distribución por TestFlight"
+                                              }
+                              },
+                       "q5":  {
+                                  "question":  "¿Cuál es la función de un provisioning profile en la publicación para iOS?",
+                                  "explanation":  "Un provisioning profile vincula tres elementos: el certificado de firma (quién realiza el build), el App ID (qué app) y los dispositivos autorizados o el canal de distribución. Junto con el certificado, forma la identidad de firma completa que Xcode necesita. La opción que confunde el provisioning profile con el propio certificado de firma es el distractor más tentador — el certificado prueba la identidad, mientras que el provisioning profile autoriza el despliegue.",
+                                  "options":  {
+                                                  "1":  "Un token emitido por Apple que otorga a Xcode permiso para compilar una app en un dispositivo específico, reemplazando la necesidad de un certificado de desarrollador en macOS Sonoma y versiones posteriores",
+                                                  "2":  "Un archivo que vincula un certificado de firma, un App ID y un conjunto de dispositivos autorizados o un método de distribución — junto con el certificado, forma la identidad de firma que Xcode utiliza",
+                                                  "3":  "Un registro en el servidor de App Store Connect que vincula el hash binario de un build a un listing específico, impidiendo que el mismo IPA se reutilice con un bundle identifier diferente",
+                                                  "4":  "Una configuración de proyecto de Xcode que especifica la versión mínima de iOS y las familias de dispositivos compatibles, que Apple valida durante el proceso de revisión"
+                                              }
+                              },
+                       "q6":  {
+                                  "question":  "¿Cuál es la diferencia entre `versionCode` y `versionName` en Android?",
+                                  "explanation":  "`versionCode` es el entero que Google Play compara para decidir si un build enviado supera al anterior — debe aumentar en cada subida. `versionName` es la cadena que se muestra a los usuarios y no tiene un formato obligatorio. El distractor más tentador invierte completamente los roles, describiendo `versionName` como el entero auto-incrementado y `versionCode` como la etiqueta legible.",
+                                  "options":  {
+                                                  "1":  "`versionCode` es un entero interno que Google Play usa para determinar el orden de los builds y garantizar rutas de actualización; `versionName` es la cadena legible para los usuarios, como \"1.2.0\"",
+                                                  "2":  "`versionName` es el contador entero que Google Play incrementa automáticamente con cada envío; `versionCode` es la etiqueta legible que define el desarrollador, como \"2.1.0\"",
+                                                  "3":  "`versionCode` es una cadena como \"1.0.0\" que aparece en el listing de la tienda, mientras que `versionName` es el entero interno que el dispositivo usa para decidir si instalar una actualización",
+                                                  "4":  "Tanto `versionCode` como `versionName` deben incrementarse en cada release; `versionCode` es el valor mostrado a los usuarios y `versionName` controla el versionado interno en el dispositivo"
+                                              }
+                              }
+                   }
 }

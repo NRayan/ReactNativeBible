@@ -2,7 +2,7 @@ import { Badge, Box, Icon, IconTile, PressableBox, Separator, Switch, Text, Tool
 import { STACK_LIBS } from "@content/settings/stack";
 import { useLanguageStore } from "@stores/language";
 import { useThemeStore } from "@stores/theme";
-import { s } from "@theme/spacing";
+import { s, size } from "@theme/spacing";
 import { ScrollView } from "react-native";
 import { useSettings } from "../hooks/useSettings";
 
@@ -28,9 +28,9 @@ export function SettingsScreen() {
     return (
         <Box flex={1} bgColor="background">
             <Toolbar title={strings.title} subtitle="React Native Bible"/>
-            <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6) }}>
+            <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6), alignItems: "center" }}>
 
-                <Box gap={2}>
+                <Box fullWidth maxW={size["max-content-width"]} gap={2}>
                     <Text variant="section-label">{strings.preferences}</Text>
                     <Box bgColor="surface" fullWidth rounded="large" border>
                         <SettingsRow onPress={toggleTheme}>
@@ -54,7 +54,7 @@ export function SettingsScreen() {
                     </Box>
                 </Box>
 
-                <Box gap={2}>
+                <Box fullWidth maxW={size["max-content-width"]} gap={2}>
                     <Text variant="section-label">App</Text>
                     <Box bgColor="surface" fullWidth rounded="large" border>
                         <SettingsRow onPress={()=>null}>
@@ -74,7 +74,7 @@ export function SettingsScreen() {
                     </Box>
                 </Box>
 
-                <Box gap={2}>
+                <Box fullWidth maxW={size["max-content-width"]} gap={2}>
                     <Text variant="section-label">Stack</Text>
                     <Box bgColor="surface" fullWidth rounded="large" border>
                         {STACK_LIBS.map((item, index) => (
@@ -89,7 +89,7 @@ export function SettingsScreen() {
                     </Box>
                 </Box>
 
-                <Box gap={2}>
+                <Box fullWidth maxW={size["max-content-width"]} gap={2}>
                     <Text variant="section-label">{strings.about}</Text>
                     <Box bgColor="surface" fullWidth rounded="large" border>
                         <SettingsRow>

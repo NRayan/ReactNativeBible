@@ -44,7 +44,6 @@ export type BoxProps = Omit<ViewProps, "style" | "children"> & {
     borderColor?: keyof ColorTokens;
     border?: boolean;
     rounded?: keyof RadiusTokens;
-    opacity?: number;
 
     position?: "absolute" | "relative";
     top?: number;
@@ -65,7 +64,7 @@ export function buildBoxStyle(props: Omit<BoxProps, "style" | "children">, theme
         gap, rowGap, columnGap,
         fullWidth, fullHeight,
         w, h, minW, minH, maxW, maxH,
-        bgColor, borderColor, border, rounded, opacity,
+        bgColor, borderColor, border, rounded,
         position, top, bottom, left, right,
     } = props;
 
@@ -109,7 +108,6 @@ export function buildBoxStyle(props: Omit<BoxProps, "style" | "children">, theme
         ...((borderColor !== undefined || border) && { borderColor: colors[borderColor ?? "border"] }),
         ...(border && { borderWidth: size["border-width"] }),
         ...(rounded !== undefined && { borderRadius: radius[rounded] }),
-        ...(opacity !== undefined && { opacity }),
 
         ...(position !== undefined && { position }),
         ...(top !== undefined && { top: s(top) }),
@@ -128,7 +126,7 @@ export function Box({ style, children, ...props }: BoxProps) {
         gap, rowGap, columnGap,
         fullWidth, fullHeight,
         w, h, minW, minH, maxW, maxH,
-        bgColor, borderColor, border, rounded, opacity,
+        bgColor, borderColor, border, rounded,
         position, top, bottom, left, right,
         ...viewProps
     } = props;
@@ -139,7 +137,7 @@ export function Box({ style, children, ...props }: BoxProps) {
         gap, rowGap, columnGap,
         fullWidth, fullHeight,
         w, h, minW, minH, maxW, maxH,
-        bgColor, borderColor, border, rounded, opacity,
+        bgColor, borderColor, border, rounded,
         position, top, bottom, left, right,
     }, theme);
     return <View {...viewProps} style={[computedStyle, style]}>{children}</View>;

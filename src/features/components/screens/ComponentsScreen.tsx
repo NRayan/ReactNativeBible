@@ -2,7 +2,7 @@ import { Box, Text, Toolbar } from "@components";
 import type { ComponentsStackParamList } from "@navigation/ComponentsNavigator";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { s } from "@theme/spacing";
+import { s, size } from "@theme/spacing";
 import React from "react";
 import { ScrollView } from "react-native";
 import { NativeComponentCard } from "../components/NativeComponentCard";
@@ -15,9 +15,9 @@ export function ComponentsScreen() {
     return (
         <Box flex={1} bgColor="background">
             <Toolbar title={strings.title} subtitle="React Native Bible" />
-            <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6) }}>
+            <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6), alignItems: "center" }}>
                 {sections.map(section => (
-                    <Box key={section.tag} gap={4}>
+                    <Box key={section.tag} fullWidth maxW={size["max-content-width"]} gap={4}>
                         <Text>{section.label}</Text>
                         {section.items.map(comp => (
                             <NativeComponentCard

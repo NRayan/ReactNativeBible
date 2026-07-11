@@ -13,9 +13,9 @@ export function QuizScreen({ route, navigation }: Props) {
     const { strings, questionIndex, totalQuestions, hasAnswered, isAnswerCorrect, isLastQuestion, setQuestionIndex, handleOptionPress, handleQuizComplete } = useQuizScreen({ section: route.params.section, navigation });
 
     return (
-        <Box flex={1} bgColor="background" gap={2}>
+        <Box flex={1} bgColor="background" gap={2} align="center">
             <Toolbar title={strings.sectionTitle} showBackButton />
-            <Box flex={1} gap={4}>
+            <Box flex={1} gap={4} fullWidth maxW={size["max-content-width"]}>
 
                 <ScrollView contentContainerStyle={{ padding: s(4), gap: s(6), paddingBottom: s(5) + size["touch-target-min"] }}>
 

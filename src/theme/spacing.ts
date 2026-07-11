@@ -13,4 +13,5 @@ export const radius: RadiusTokens = {
 export const size: SizeTokens = {
     "border-width": 0.5,
     "touch-target-min": 44,
+    "max-content-width": 620,
 };

@@ -1,6 +1,7 @@
 import type { LearnStackParamList } from "@navigation/LearnNavigator";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Box, Button, Icon, Text, Toolbar } from "@components";
+import { size } from "@theme/spacing";
 import { useQuizResultScreen } from "../hooks/useQuizResultScreen";
 
 type Props = NativeStackScreenProps<LearnStackParamList, "QuizResult">;
@@ -10,9 +11,9 @@ export function QuizResultScreen({ route, navigation }: Props) {
     const { strings, iconColor, bgColor, onTryAgain, onBackToTopics } = useQuizResultScreen({ correct, total, sectionId, navigation });
 
     return (
-        <Box flex={1} bgColor="background">
+        <Box flex={1} bgColor="background" align="center">
             <Toolbar title={strings.title} showBackButton />
-            <Box flex={1} p={4}>
+            <Box flex={1} p={4} fullWidth maxW={size["max-content-width"]}>
                 
                 <Box flex={1} align="center" justify="center" gap={2}>
                     <Box h={70} w={70} justify="center" align="center" rounded="default" border borderColor={iconColor} bgColor={bgColor}>

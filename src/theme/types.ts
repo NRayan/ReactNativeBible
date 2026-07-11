@@ -43,6 +43,7 @@ export type RadiusTokens = {
 export type SizeTokens = {
   "border-width": number;
   "touch-target-min": number;
+  "max-content-width": number;
 };
 
 export type Theme = {

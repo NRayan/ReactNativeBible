@@ -20,10 +20,10 @@ export function TopicScreen({ route, navigation }: Props) {
     }, [topicIndex]);
 
     return (
-        <Box flex={1} bgColor="background">
+        <Box flex={1} bgColor="background" align="center">
             <Toolbar title={strings.sectionTitle} showBackButton />
 
-            <Box flex={1} align="flex-start" pt={4} gap={2}>
+            <Box flex={1} align="flex-start" pt={4} gap={2} fullWidth maxW={size["max-content-width"]}>
 
                 <Box px={4}>
                     <Chip title={strings.topicTitle} subtitle={strings.position} icon={section.topics[topicIndex].icon}/>

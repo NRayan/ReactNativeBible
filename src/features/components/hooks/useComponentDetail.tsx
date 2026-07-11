@@ -1,6 +1,8 @@
 import { COMPONENT_TAGS } from "../constants";
 import { components } from "@content/components";
 import { useTranslation } from "react-i18next";
+import { useModalStore } from "@stores/modal";
+import { ComponentPreview } from "../components/ComponentPreview";
 
 type UseComponentDetailParams = {
   componentId: string;
@@ -8,6 +10,7 @@ type UseComponentDetailParams = {
 
 export function useComponentDetail({ componentId }: UseComponentDetailParams) {
     const { t } = useTranslation();
+    const { open } = useModalStore();
     const component = Object.values(components).flat().find(c => c.id === componentId)!;
     const tag = COMPONENT_TAGS.find(ct => ct.id === component.tag)!;
 
@@ -28,5 +31,7 @@ export function useComponentDetail({ componentId }: UseComponentDetailParams) {
         tagTitle: t(`components.tags.${tag.id}`),
     };
 
-    return { component: translatedComponent, tag, strings };
+    const handlePreviewPress = !component.hasScroll ? undefined : ()=>open(<ComponentPreview component={component} />);
+
+    return { component: translatedComponent, tag, strings, handlePreviewPress };
 }

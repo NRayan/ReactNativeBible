@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — React Native Bible</title>
+<style>
+  :root {
+    --background: #09090b;
+    --surface: #18181b;
+    --border: #27272a;
+    --text-primary: #fafafa;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --text-disabled: #52525b;
+    --accent: #67e8f9;
+    --accent-foreground: #083344;
+    --surface-accent: #083344;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text-secondary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+    margin-bottom: 20px;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  h1 {
+    color: var(--text-primary);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .lede {
+    font-size: 16px;
+    color: var(--text-primary);
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 48px;
+  }
+
+  .lede strong {
+    color: var(--accent);
+  }
+
+  h2 {
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 44px 0 14px;
+  }
+
+  h2 .num {
+    color: var(--text-disabled);
+    font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+    font-weight: 400;
+    margin-right: 10px;
+  }
+
+  p { font-size: 14.5px; margin: 0 0 14px; }
+
+  ul {
+    margin: 0 0 14px;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  li {
+    font-size: 14.5px;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--text-disabled);
+  }
+
+  code {
+    font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.9em;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--text-primary);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(103, 232, 249, 0.35);
+  }
+
+  a:hover { border-bottom-color: var(--accent); }
+
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--border);
+    font-size: 12.5px;
+    color: var(--text-disabled);
+  }
+
+  .footer a { color: var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">React Native Bible</div>
+    <h1>Privacy Policy</h1>
+    <div class="meta">Effective July 11, 2026</div>
+
+    <div class="lede">
+      <strong>Short version:</strong> React Native Bible doesn't collect, store, transmit, or share any personal data. There's no account, no backend, and no analytics. Everything the app does happens locally on your device.
+    </div>
+
+    <h2><span class="num">01</span>How the app works</h2>
+    <p>React Native Bible is an offline-first reference app. All content — sections, topics, quizzes, and component references — ships inside the app itself and is stored locally on your device. The app does not communicate with any server, and it has no login, account system, or user profile of any kind.</p>
+
+    <h2><span class="num">02</span>Data we collect</h2>
+    <p>None. The app does not collect names, emails, device identifiers, location, usage analytics, crash reports, or any other personal or usage data. Nothing you do inside the app — reading a topic, taking a quiz, changing a setting — is transmitted anywhere.</p>
+
+    <h2><span class="num">03</span>Local storage on your device</h2>
+    <p>The app saves a small amount of data locally on your device using standard on-device storage (<code>AsyncStorage</code>), such as your selected language, theme, and quiz progress. This information never leaves your device, is never sent to us, and is removed automatically if you uninstall the app.</p>
+
+    <h2><span class="num">04</span>Third parties</h2>
+    <p>React Native Bible does not integrate with any third-party analytics, advertising, or tracking service. No data is shared with affiliates, partners, or service providers, because none are involved in how the app operates.</p>
+
+    <h2><span class="num">05</span>Children's privacy</h2>
+    <p>Since the app collects no data from anyone, this includes children. React Native Bible does not knowingly or unknowingly gather personal information from users of any age.</p>
+
+    <h2><span class="num">06</span>Changes to this policy</h2>
+    <p>If this policy ever changes — for example, if a future version of the app adds a feature that involves data collection — this page will be updated and the "Effective" date above will reflect the change.</p>
+
+    <h2><span class="num">07</span>Contact</h2>
+    <p>Questions about this policy or the app can be sent to <a href="mailto:norton_rayan@hotmail.com">norton_rayan@hotmail.com</a>.</p>
+
+    <div class="footer">
+      React Native Bible is an open-source project. Source available at
+      <a href="https://github.com/NRayan/ReactNativeBible" target="_blank" rel="noopener">github.com/NRayan/ReactNativeBible</a>.
+    </div>
+  </div>
+</body>
+</html>

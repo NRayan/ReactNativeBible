@@ -11,7 +11,8 @@
       "PowerShell(Rename-Item *)",
       "PowerShell(New-Item *)",
       "PowerShell(Move-Item *)",
-      "Skill(update-config)"
+      "Skill(update-config)",
+      "Bash(git status *)"
     ]
   }
 }

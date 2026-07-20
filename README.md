@@ -4,15 +4,19 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6?style=flat&logo=typescript)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat)
 
-A free, open source reference app for intermediate and advanced React Native developers. All content is available offline — no backend, no authentication.
+A free, open source reference app for intermediate and advanced React Native developers. Fully offline — no backend, no authentication, no tracking. Available in English, Portuguese, and Spanish.
+
+[Get it on Google Play](https://play.google.com/store/apps/details?id=com.reactnativebible)
 
 ---
 
 ## What's inside
 
-**Learn** — thematic sections covering topics like Architecture, Performance, Navigation, and Under the Hood. Each topic includes text, code examples, and a quiz.
+**Learn** — in-depth topics organized by section: Layout, Performance, Under the Hood, Debugging, Accessibility, Android, iOS, and Publishing. Each topic includes text, code examples, and images where relevant.
 
-**Components** — a reference for React Native's built-in components, organized by category, with descriptions and usage variants.
+**Components** — a reference for React Native's core components, with live, interactive previews (not just static prop tables).
+
+**Quizzes** — multiple-choice questions built into each Learn section, with explanations for both the correct answer and common misconceptions.
 
 ---
 
@@ -20,9 +24,11 @@ A free, open source reference app for intermediate and advanced React Native dev
 
 - React Native CLI
 - TypeScript
-- React Navigation
 - Zustand
+- React Navigation
+- i18next / react-i18next
 - AsyncStorage
+- highlight.js
 - Jest
 
 ---
@@ -51,6 +57,12 @@ npm run ios
 # Android
 npm run android
 ```
+
+---
+
+## Contributing
+
+Issues and pull requests are welcome. Commits follow [Conventional Commits](https://www.conventionalcommits.org/) with explicit scopes (e.g. `feat(learn):`, `fix(components):`).
 
 ---
 

@@ -1,0 +1,10 @@
+React Native Bible es una app de referencia gratuita y offline para desarrolladores de React Native de nivel intermedio y avanzado.
+Cubre las partes de React Native que son fáciles de usar pero difíciles de entender de verdad — la New Architecture, JSI, Fabric, TurboModules, optimización de rendimiento, accesibilidad, debugging nativo y todo el camino hasta publicar en Android e iOS.
+Qué incluye
+Learn — temas a fondo organizados por categoría: layout, rendimiento, por debajo del capó, debugging, accesibilidad, Android, iOS y publicación. Cada tema explica no solo qué hace una API, sino por qué funciona de esa manera.
+Components — una referencia práctica de los componentes principales de React Native, con previews interactivos de verdad — que puedes presionar, escribir y desplazar — no solo tablas estáticas de props.
+Quizzes — pon a prueba lo que aprendiste con preguntas de opción múltiple integradas en cada sección de Learn, con explicaciones tanto de la respuesta correcta como de los errores más comunes.
+Hecha para respetar tu tiempo y tus datos
+Sin cuenta. Sin inicio de sesión. Sin backend. Sin ningún tipo de analytics ni rastreo. Todo el contenido viene incluido en la app y funciona 100% offline — en el avión, en el metro, donde sea.
+Disponible en inglés, portugués y español.
+React Native Bible es open source. Contribuciones, correcciones y sugerencias son bienvenidas en GitHub.

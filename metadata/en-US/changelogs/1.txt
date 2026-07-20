@@ -1,0 +1,10 @@
+First release of React Native Bible 🎉
+
+An offline reference app for React Native developers:
+- In-depth Learn topics — New Architecture, performance, debugging, accessibility, and more
+- Interactive Components reference with live previews
+- Built-in quizzes to test your knowledge
+- 100% offline, no account, no tracking
+- Available in English, Portuguese, and Spanish
+
+Open source — feedback and contributions welcome on GitHub.

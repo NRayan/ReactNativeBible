@@ -1,0 +1,98 @@
+name: Publicar Metadados da Loja
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_code:
+        description: 'versionCode para o changelog (deixe vazio para pular changelog)'
+        required: false
+        type: string
+      changelog_en:
+        description: 'Changelog em en-US (opcional)'
+        required: false
+        type: string
+      changelog_pt:
+        description: 'Changelog em pt-BR (opcional)'
+        required: false
+        type: string
+      changelog_es:
+        description: 'Changelog em es-419 (opcional)'
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      version_code:
+        required: false
+        type: string
+      changelog_en:
+        required: false
+        type: string
+      changelog_pt:
+        required: false
+        type: string
+      changelog_es:
+        required: false
+        type: string
+
+jobs:
+  validate-secrets:
+    uses: ./.github/workflows/validate-secrets.yml
+    secrets: inherit
+
+  publish-metadata:
+    needs: validate-secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Instalar Fastlane
+        run: gem install fastlane
+
+      - name: Restaurar Service Account Key do Google
+        run: |
+          cat > google-service-account.json << 'EOF'
+          ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          EOF
+
+      - name: Gerar changelogs (se version_code foi informado)
+        if: ${{ inputs.version_code != '' }}
+        run: |
+          mkdir -p fastlane/metadata/android/en-US/changelogs
+          mkdir -p fastlane/metadata/android/pt-BR/changelogs
+          mkdir -p fastlane/metadata/android/es-419/changelogs
+
+          echo "${{ inputs.changelog_en != '' && inputs.changelog_en || 'Bug fixes and improvements.' }}" \
+            > fastlane/metadata/android/en-US/changelogs/${{ inputs.version_code }}.txt
+
+          echo "${{ inputs.changelog_pt != '' && inputs.changelog_pt || 'Correções e melhorias.' }}" \
+            > fastlane/metadata/android/pt-BR/changelogs/${{ inputs.version_code }}.txt
+
+          echo "${{ inputs.changelog_es != '' && inputs.changelog_es || 'Correcciones y mejoras.' }}" \
+            > fastlane/metadata/android/es-419/changelogs/${{ inputs.version_code }}.txt
+
+      - name: Publicar metadados da loja
+        run: |
+          if [ -n "${{ inputs.version_code }}" ]; then
+            fastlane supply \
+              --json_key google-service-account.json \
+              --package_name com.reactnativebible \
+              --metadata_path fastlane/metadata/android \
+              --track production \
+              --skip_upload_aab true \
+              --skip_upload_apk true \
+              --version_code ${{ inputs.version_code }}
+          else
+            fastlane supply \
+              --json_key google-service-account.json \
+              --package_name com.reactnativebible \
+              --metadata_path fastlane/metadata/android \
+              --track production \
+              --skip_upload_aab true \
+              --skip_upload_apk true \
+              --skip_upload_changelogs true
+          fi

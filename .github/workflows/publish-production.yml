@@ -1,0 +1,124 @@
+name: Publicar em Produção
+
+on:
+  workflow_dispatch:
+    inputs:
+      atualizar_metadados:
+        description: 'Atualizar também metadados da loja (screenshots/textos) depois de publicar?'
+        required: false
+        default: false
+        type: boolean
+      changelog_text:
+        description: 'Texto do changelog dessa versão (opcional)'
+        required: false
+        type: string
+
+jobs:
+  validate-secrets:
+    uses: ./.github/workflows/validate-secrets.yml
+    secrets: inherit
+
+  publish:
+    needs: validate-secrets
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      version_name: ${{ steps.bump.outputs.version_name }}
+      version_code: ${{ steps.bump.outputs.version_code }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Incrementar versão (ainda não commitada)
+        id: bump
+        run: node scripts/bump-version.js
+
+      - name: Gerar pasta android/ (prebuild)
+        run: npx expo prebuild --platform android
+
+      - name: Restaurar keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
+
+      - name: Aplicar patch no build.gradle
+        run: node scripts/patch-gradle.js
+
+      - name: Configurar memória do Gradle
+        run: |
+          echo "" >> android/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g" >> android/gradle.properties
+          echo "org.gradle.workers.max=1" >> android/gradle.properties
+
+      - name: Build AAB assinado (todas as arquiteturas)
+        run: |
+          cd android && ./gradlew bundleRelease \
+            -PMYAPP_UPLOAD_STORE_FILE=release.keystore \
+            -PMYAPP_UPLOAD_KEY_ALIAS="${{ secrets.ANDROID_KEY_ALIAS }}" \
+            -PMYAPP_UPLOAD_STORE_PASSWORD="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
+            -PMYAPP_UPLOAD_KEY_PASSWORD="${{ secrets.ANDROID_KEY_PASSWORD }}" \
+            -x lintVitalAnalyzeRelease \
+            --continue \
+            --stacktrace
+
+      - name: Instalar EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Restaurar Service Account Key do Google
+        run: |
+          cat > google-service-account.json << 'EOF'
+          ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          EOF
+
+      - name: Enviar para a Play Store (produção)
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          eas submit --platform android \
+            --path android/app/build/outputs/bundle/release/app-release.aab \
+            --profile production \
+            --non-interactive
+
+      - name: Commitar nova versão na master
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add app.json
+          git commit -m "ci: bump version to ${{ steps.bump.outputs.version_name }} [skip ci]"
+          git push origin master
+
+      - name: Sincronizar develop com master
+        run: |
+          git fetch origin develop
+          git checkout develop
+          git merge origin/master -m "ci: sync develop with master after version bump [skip ci]"
+          git push origin develop
+
+      - name: Criar e subir tag da versão publicada
+        run: |
+          git checkout master
+          git tag v${{ steps.bump.outputs.version_name }}
+          git push origin v${{ steps.bump.outputs.version_name }}
+
+  publish-metadata:
+    needs: publish
+    if: ${{ inputs.atualizar_metadados == true }}
+    uses: ./.github/workflows/publish-metadata.yml
+    with:
+      version_code: ${{ needs.publish.outputs.version_code }}
+      changelog_text: ${{ inputs.changelog_text }}
+    secrets: inherit

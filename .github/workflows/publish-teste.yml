@@ -1,0 +1,79 @@
+name: Publicar em Produção (TESTE)
+
+on:
+  workflow_dispatch:
+    inputs:
+      atualizar_metadados:
+        description: 'Atualizar também metadados da loja (screenshots/textos) depois de publicar?'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  validate-secrets:
+    uses: ./.github/workflows/validate-secrets.yml
+    secrets: inherit
+
+  publish:
+    needs: validate-secrets
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      version_name: ${{ steps.bump.outputs.version_name }}
+      version_code: ${{ steps.bump.outputs.version_code }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Incrementar versão (ainda não commitada)
+        id: bump
+        run: node scripts/bump-version.js
+
+      - name: SIMULADO Gerando bundle
+        run: |
+          echo "🔨 (simulado) Restaurando keystore..."
+          echo "🔨 (simulado) Configurando memória do Gradle..."
+          echo "🔨 (simulado) Buildando AAB assinado (./gradlew bundleRelease)..."
+          echo "✅ (simulado) Bundle gerado com sucesso: app-release.aab"
+
+      - name: SIMULADO Enviando para a Play Store
+        run: |
+          echo "🚀 (simulado) Restaurando Service Account Key..."
+          echo "🚀 (simulado) fastlane supply --track production --aab app-release.aab..."
+          echo "✅ (simulado) Enviado para produção com sucesso"
+
+      - name: Commitar nova versão na main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add android/app/build.gradle
+          git commit -m "ci: bump version to ${{ steps.bump.outputs.version_name }} [skip ci]"
+          git push origin main
+
+      - name: Criar e subir tag da versão publicada
+        run: |
+          git tag v${{ steps.bump.outputs.version_name }}
+          git push origin v${{ steps.bump.outputs.version_name }}
+
+  publish-metadata:
+    needs: publish
+    if: ${{ inputs.atualizar_metadados == true }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: SIMULADO Enviando metadados
+        run: |
+          echo "📦 (simulado) Instalando Fastlane..."
+          echo "📦 (simulado) Restaurando Service Account Key..."
+          echo "📦 (simulado) Gerando changelogs para versionCode ${{ needs.publish.outputs.version_code }}..."
+          echo "📦 (simulado) fastlane supply --track production..."
+          echo "✅ (simulado) Metadados publicados com sucesso"

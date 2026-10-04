@@ -56,15 +56,9 @@ jobs:
         id: bump
         run: node scripts/bump-version.js
 
-      - name: Gerar pasta android/ (prebuild)
-        run: npx expo prebuild --platform android
-
       - name: Restaurar keystore
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
-
-      - name: Aplicar patch no build.gradle
-        run: node scripts/patch-gradle.js
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > RNBibleKeystore.jks
 
       - name: Configurar memória do Gradle
         run: |
@@ -72,19 +66,18 @@ jobs:
           echo "org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g" >> android/gradle.properties
           echo "org.gradle.workers.max=1" >> android/gradle.properties
 
-      - name: Build AAB assinado (todas as arquiteturas)
+      - name: Build AAB assinado
         run: |
           cd android && ./gradlew bundleRelease \
-            -PMYAPP_UPLOAD_STORE_FILE=release.keystore \
-            -PMYAPP_UPLOAD_KEY_ALIAS="${{ secrets.ANDROID_KEY_ALIAS }}" \
-            -PMYAPP_UPLOAD_STORE_PASSWORD="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
-            -PMYAPP_UPLOAD_KEY_PASSWORD="${{ secrets.ANDROID_KEY_PASSWORD }}" \
+            -PRNBIBLE_UPLOAD_KEY_ALIAS="${{ secrets.ANDROID_KEY_ALIAS }}" \
+            -PRNBIBLE_UPLOAD_STORE_PASSWORD="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
+            -PRNBIBLE_UPLOAD_KEY_PASSWORD="${{ secrets.ANDROID_KEY_PASSWORD }}" \
             -x lintVitalAnalyzeRelease \
             --continue \
             --stacktrace
 
-      - name: Instalar EAS CLI
-        run: npm install -g eas-cli
+      - name: Instalar Fastlane
+        run: gem install fastlane
 
       - name: Restaurar Service Account Key do Google
         run: |
@@ -93,19 +86,21 @@ jobs:
           EOF
 
       - name: Enviar para a Play Store (produção)
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
-          eas submit --platform android \
-            --path android/app/build/outputs/bundle/release/app-release.aab \
-            --profile production \
-            --non-interactive
+          fastlane supply \
+            --json_key google-service-account.json \
+            --package_name com.reactnativebible \
+            --aab android/app/build/outputs/bundle/release/app-release.aab \
+            --track production \
+            --skip_upload_metadata true \
+            --skip_upload_screenshots true \
+            --skip_upload_changelogs true
 
-      - name: Commitar nova versão na master
+      - name: Commitar nova versão na main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add app.json
+          git add android/app/build.gradle
           git commit -m "ci: bump version to ${{ steps.bump.outputs.version_name }} [skip ci]"
           git push origin master
 

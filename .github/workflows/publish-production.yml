@@ -8,8 +8,16 @@ on:
         required: false
         default: false
         type: boolean
-      changelog_text:
-        description: 'Texto do changelog dessa versão (opcional)'
+      changelog_en:
+        description: 'Changelog em en-US (opcional)'
+        required: false
+        type: string
+      changelog_pt:
+        description: 'Changelog em pt-BR (opcional)'
+        required: false
+        type: string
+      changelog_es:
+        description: 'Changelog em es-419 (opcional)'
         required: false
         type: string
 
@@ -120,5 +128,7 @@ jobs:
     uses: ./.github/workflows/publish-metadata.yml
     with:
       version_code: ${{ needs.publish.outputs.version_code }}
-      changelog_text: ${{ inputs.changelog_text }}
+      changelog_en: ${{ inputs.changelog_en }}
+      changelog_pt: ${{ inputs.changelog_pt }}
+      changelog_es: ${{ inputs.changelog_es }}
     secrets: inherit

@@ -77,7 +77,7 @@ jobs:
             --stacktrace
 
       - name: Instalar Fastlane
-        run: gem install fastlane
+        run: sudo gem install fastlane
 
       - name: Restaurar Service Account Key do Google
         run: |

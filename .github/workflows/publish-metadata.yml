@@ -51,7 +51,7 @@ jobs:
           bundler-cache: true
 
       - name: Instalar Fastlane
-        run: gem install fastlane
+        run: sudo gem install fastlane
 
       - name: Restaurar Service Account Key do Google
         run: |
@@ -81,7 +81,7 @@ jobs:
             fastlane supply \
               --json_key google-service-account.json \
               --package_name com.reactnativebible \
-              --metadata_path fastlane/metadata/android \
+              --metadata_path metadata \
               --track production \
               --skip_upload_aab true \
               --skip_upload_apk true \
@@ -90,7 +90,7 @@ jobs:
             fastlane supply \
               --json_key google-service-account.json \
               --package_name com.reactnativebible \
-              --metadata_path fastlane/metadata/android \
+              --metadata_path metadata \
               --track production \
               --skip_upload_aab true \
               --skip_upload_apk true \

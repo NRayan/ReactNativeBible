@@ -23,7 +23,7 @@ export function SettingsRow({ children, onPress, small }: SettingsRowProps) {
 export function SettingsScreen() {
     const { toggleTheme, mode } = useThemeStore();
     const { language } = useLanguageStore();
-    const { handleLanguagePress, handleCloseApp, handleGithubPress, strings, appVersion } = useSettings();
+    const { handleLanguagePress, handleCloseApp, handleGithubPress, handleRateApp, storeUrl, strings, appVersion } = useSettings();
 
     return (
         <Box flex={1} bgColor="background">
@@ -57,14 +57,18 @@ export function SettingsScreen() {
                 <Box fullWidth maxW={size["max-content-width"]} gap={2}>
                     <Text variant="section-label">App</Text>
                     <Box bgColor="surface" fullWidth rounded="large" border>
-                        <SettingsRow onPress={()=>null}>
-                            <Box row align="center" gap={2} flex={1}>
-                                <IconTile icon="IconStar" bgColor="background"/>
-                                <Text>{strings.rateTheApp}</Text>
-                            </Box>
-                            <Icon name="IconChevronRight" size={16} color="text-disabled"/>
-                        </SettingsRow>
-                        <Separator />
+                        {storeUrl && (
+                            <>
+                                <SettingsRow onPress={handleRateApp}>
+                                    <Box row align="center" gap={2} flex={1}>
+                                        <IconTile icon="IconStar" bgColor="background"/>
+                                        <Text>{strings.rateTheApp}</Text>
+                                    </Box>
+                                    <Icon name="IconChevronRight" size={16} color="text-disabled"/>
+                                </SettingsRow>
+                                <Separator />
+                            </>
+                        )}
                         <SettingsRow onPress={handleCloseApp}>
                             <Box row align="center" gap={2} flex={1}>
                                 <IconTile icon="IconX" bgColor="background" color="danger"/>

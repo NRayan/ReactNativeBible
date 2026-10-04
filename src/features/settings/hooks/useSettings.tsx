@@ -1,10 +1,15 @@
 import { useModalStore } from "@stores/modal";
 import { LanguagePicker } from "../components/LanguagePicker";
 import { t } from "i18next";
-import { BackHandler, Linking } from "react-native";
+import { BackHandler, Linking, Platform } from "react-native";
 import { getVersion } from "react-native-device-info";
 
 const GITHUB_URL = "https://github.com/NRayan/ReactNativeBible";
+
+const STORE_URL = Platform.select({
+    ios: undefined,
+    android: "https://play.google.com/store/apps/details?id=com.reactnativebible",
+});
 
 export function useSettings()
 {
@@ -25,7 +30,13 @@ export function useSettings()
         Linking.openURL(GITHUB_URL);
     }
 
+    function handleRateApp()
+    {
+        if (STORE_URL) Linking.openURL(STORE_URL);
+    }
+
     return {
+        storeUrl: STORE_URL,
         strings: {
             title: t("settings.title"),
             preferences: t("settings.preferences"),
@@ -39,5 +50,6 @@ export function useSettings()
         handleLanguagePress,
         handleCloseApp,
         handleGithubPress,
+        handleRateApp,
     };
 }

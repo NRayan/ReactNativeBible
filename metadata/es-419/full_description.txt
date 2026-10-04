@@ -7,4 +7,3 @@ Quizzes — pon a prueba lo que aprendiste con preguntas de opción múltiple in
 Hecha para respetar tu tiempo y tus datos
 Sin cuenta. Sin inicio de sesión. Sin backend. Sin ningún tipo de analytics ni rastreo. Todo el contenido viene incluido en la app y funciona 100% offline — en el avión, en el metro, donde sea.
 Disponible en inglés, portugués y español.
-React Native Bible es open source. Contribuciones, correcciones y sugerencias son bienvenidas en GitHub.
